@@ -1,5 +1,3 @@
-// Appointment-related static data
-
 export interface Doctor {
   id: string;
   name: string;
@@ -40,14 +38,38 @@ export interface AppointmentFormData {
   };
 }
 
-// Static appointment data
 export const appointmentData: AppointmentFormData = {
   doctors: [
-    { id: '1', name: 'Dr. Yuvaraj', specialization: 'General Surgery', experience: '15+ years' },
-    { id: '2', name: 'Dr. Ankit', specialization: 'Dental Care', experience: '10+ years' },
-    { id: '3', name: 'Dr. Anurag', specialization: 'Wellness', experience: '12+ years' },
-    { id: '4', name: 'Dr. Priya', specialization: 'Mental Health', experience: '8+ years' },
-    { id: '5', name: 'Dr. Rajesh', specialization: 'Orthopedics', experience: '20+ years' }
+    {
+      id: '1',
+      name: 'Dr. Yuvaraj',
+      specialization: 'General Surgery',
+      experience: '15+ years',
+    },
+    {
+      id: '2',
+      name: 'Dr. Ankit',
+      specialization: 'Dental Care',
+      experience: '10+ years',
+    },
+    {
+      id: '3',
+      name: 'Dr. Anurag',
+      specialization: 'Wellness',
+      experience: '12+ years',
+    },
+    {
+      id: '4',
+      name: 'Dr. Priya',
+      specialization: 'Mental Health',
+      experience: '8+ years',
+    },
+    {
+      id: '5',
+      name: 'Dr. Rajesh',
+      specialization: 'Orthopedics',
+      experience: '20+ years',
+    },
   ],
 
   timeSlots: {
@@ -68,7 +90,7 @@ export const appointmentData: AppointmentFormData = {
       { time: '4:30 PM', available: false },
       { time: '5:00 PM', available: true },
       { time: '5:30 PM', available: true },
-    ]
+    ],
   },
 
   formLabels: {
@@ -86,20 +108,27 @@ export const appointmentData: AppointmentFormData = {
       title: 'Need Help?',
       phone: '+1 (555) 123-4567',
       email: 'appointments@clinic.com',
-      hours: 'Mon-Fri: 9AM-6PM'
-    }
-  }
+      hours: 'Mon-Fri: 9AM-6PM',
+    },
+  },
 };
 
-// Helper functions
 export const getAvailableTimeSlots = (timeSlots: TimeSlots): TimeSlot[] => {
-  return [...timeSlots.morning, ...timeSlots.afternoon].filter(slot => slot.available);
+  return [...timeSlots.morning, ...timeSlots.afternoon].filter(
+    slot => slot.available
+  );
 };
 
-export const getDoctorById = (doctors: Doctor[], id: string): Doctor | undefined => {
+export const getDoctorById = (
+  doctors: Doctor[],
+  id: string
+): Doctor | undefined => {
   return doctors.find(doctor => doctor.id === id);
 };
 
-export const getDoctorByName = (doctors: Doctor[], name: string): Doctor | undefined => {
+export const getDoctorByName = (
+  doctors: Doctor[],
+  name: string
+): Doctor | undefined => {
   return doctors.find(doctor => doctor.name === name);
 };

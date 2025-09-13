@@ -8,7 +8,6 @@ export default function HomePage() {
   const router = useRouter();
 
   useEffect(() => {
-    // Redirect to Udeti page
     router.push('/template/udeti-website');
   }, [router]);
 

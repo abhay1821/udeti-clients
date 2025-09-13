@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import {
   Box,
   Container,
@@ -10,7 +10,6 @@ import {
   CardMedia,
   IconButton,
   useTheme,
-  Chip,
 } from '@mui/material';
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 import { useClinic } from '@/contexts/ClinicContext';
@@ -30,29 +29,33 @@ const ServicesCarousel: React.FC<ServicesCarouselProps> = ({
 }) => {
   const theme = useTheme();
   const { getClinicById } = useClinic();
-  const [currentIndex, setCurrentIndex] = useState(0);
-  
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
   const clinic = clinicId ? getClinicById(clinicId) : null;
   const services = clinic?.services || [];
-  const displayServices = maxServices ? services.slice(0, maxServices) : services;
-  
-  // Show 4 services at once, slide by 1
-  const servicesPerView = 4;
-  const totalSlides = Math.max(1, displayServices.length - servicesPerView + 1);
-  const showNavigation = displayServices.length > servicesPerView;
+  const displayServices = maxServices
+    ? services.slice(0, maxServices)
+    : services;
 
-  const handlePrevious = () => {
-    setCurrentIndex((prev) => (prev === 0 ? totalSlides - 1 : prev - 1));
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = 320; // Width of one card + gap
+      scrollContainerRef.current.scrollBy({
+        left: -scrollAmount,
+        behavior: 'smooth',
+      });
+    }
   };
 
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev === totalSlides - 1 ? 0 : prev + 1));
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = 320; // Width of one card + gap
+      scrollContainerRef.current.scrollBy({
+        left: scrollAmount,
+        behavior: 'smooth',
+      });
+    }
   };
-
-  // Get services for current view
-  const startIndex = Math.min(currentIndex, displayServices.length - servicesPerView);
-  const endIndex = startIndex + servicesPerView;
-  const currentServices = displayServices.slice(startIndex, endIndex);
 
   if (displayServices.length === 0) {
     return null;
@@ -90,85 +93,85 @@ const ServicesCarousel: React.FC<ServicesCarouselProps> = ({
 
         {/* Carousel Container */}
         <Box sx={{ position: 'relative' }}>
-          {/* Services Grid */}
+          {/* Scrollable Services Container */}
           <Box
+            ref={scrollContainerRef}
             sx={{
               display: 'flex',
               gap: 3,
-              overflow: 'hidden',
+              overflowX: 'auto',
+              overflowY: 'hidden',
               pb: 2,
-              position: 'relative',
+              scrollBehavior: 'smooth',
+              '&::-webkit-scrollbar': {
+                display: 'none',
+              },
+              scrollbarWidth: 'none', // Firefox
+              msOverflowStyle: 'none', // IE and Edge
             }}
           >
-            <Box
-              sx={{
-                display: 'flex',
-                gap: 3,
-                transform: showNavigation ? `translateX(-${currentIndex * (100 / totalSlides)}%)` : 'none',
-                transition: 'transform 0.3s ease-in-out',
-                width: showNavigation ? `${totalSlides * 100}%` : '100%',
-              }}
-            >
-              {(showNavigation ? currentServices : displayServices).map((service, index) => (
-                <Card
-                  key={service.id}
+            {displayServices.map(service => (
+              <Card
+                key={service.id}
+                sx={{
+                  flex: '0 0 300px',
+                  minWidth: '300px',
+                  boxShadow: 2,
+                  borderRadius: 2,
+                  overflow: 'hidden',
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    boxShadow: 4,
+                    transform: 'translateY(-2px)',
+                  },
+                }}
+              >
+                {/* Service Image */}
+                <CardMedia
+                  component="img"
+                  height="200"
+                  image={service.image || '/images/service-placeholder.jpg'}
+                  alt={service.title}
                   sx={{
-                    flex: '0 0 calc(25% - 12px)',
-                    minWidth: { xs: '280px', sm: '320px', md: '350px' },
-                    boxShadow: 2,
-                    borderRadius: 2,
-                    overflow: 'hidden',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      boxShadow: 4,
-                      transform: 'translateY(-2px)',
-                    },
+                    objectFit: 'cover',
+                    height: '200px',
                   }}
-                >
-                  {/* Service Image */}
-                  <CardMedia
-                    component="img"
-                    height="200"
-                    image={service.image || '/images/service-placeholder.jpg'}
-                    alt={service.title}
+                />
+
+                {/* Service Content */}
+                <CardContent sx={{ p: 3 }}>
+                  <Typography
+                    variant="h6"
+                    component="h3"
                     sx={{
-                      objectFit: 'cover',
-                      height: '200px',
+                      fontWeight: 'bold',
+                      color: clinic?.primaryColor || theme.palette.primary.main,
+                      mb: 1.5,
+                      fontSize: { xs: '1.1rem', md: '1.25rem' },
                     }}
-                  />
+                  >
+                    {service.title}
+                  </Typography>
 
-                  {/* Service Content */}
-                  <CardContent sx={{ p: 3 }}>
-                    <Typography
-                      variant="h6"
-                      component="h3"
-                      sx={{
-                        fontWeight: 'bold',
-                        color: clinic?.primaryColor || theme.palette.primary.main,
-                        mb: 1.5,
-                        fontSize: { xs: '1.1rem', md: '1.25rem' },
-                      }}
-                    >
-                      {service.title}
-                    </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: 'text.secondary',
+                      mb: 2,
+                      lineHeight: 1.5,
+                      fontSize: '0.9rem',
+                      minHeight: '40px',
+                    }}
+                  >
+                    {service.description}
+                  </Typography>
 
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        color: 'text.secondary',
-                        mb: 2,
-                        lineHeight: 1.5,
-                        fontSize: '0.9rem',
-                        minHeight: '40px',
-                      }}
-                    >
-                      {service.description}
-                    </Typography>
-
-                    {/* Bullet Points */}
-                    {service.bulletPoints && (
-                      <Box sx={{ mt: 2 }}>
-                        {service.bulletPoints.slice(0, 4).map((point: string, pointIndex: number) => (
+                  {/* Bullet Points */}
+                  {service.bulletPoints && (
+                    <Box sx={{ mt: 2 }}>
+                      {service.bulletPoints
+                        .slice(0, 4)
+                        .map((point: string, pointIndex: number) => (
                           <Box
                             key={pointIndex}
                             sx={{
@@ -182,7 +185,9 @@ const ServicesCarousel: React.FC<ServicesCarouselProps> = ({
                                 width: 6,
                                 height: 6,
                                 borderRadius: '50%',
-                                backgroundColor: clinic?.primaryColor || theme.palette.primary.main,
+                                backgroundColor:
+                                  clinic?.primaryColor ||
+                                  theme.palette.primary.main,
                                 mr: 1.5,
                                 flexShrink: 0,
                               }}
@@ -199,78 +204,79 @@ const ServicesCarousel: React.FC<ServicesCarouselProps> = ({
                             </Typography>
                           </Box>
                         ))}
-                      </Box>
-                    )}
+                    </Box>
+                  )}
 
-                    {/* Service Icon */}
-                    {service.icon && (
-                      <Box
-                        sx={{
-                          fontSize: '2rem',
-                          textAlign: 'center',
-                          mt: 2,
-                        }}
-                      >
-                        {service.icon}
-                      </Box>
-                    )}
-                  </CardContent>
-                </Card>
-              ))}
-            </Box>
+                  {/* Service Icon */}
+                  {service.icon && (
+                    <Box
+                      sx={{
+                        fontSize: '2rem',
+                        textAlign: 'center',
+                        mt: 2,
+                      }}
+                    >
+                      {service.icon}
+                    </Box>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
           </Box>
 
-          {/* Navigation Controls - Only show if needed */}
-          {showNavigation && (
-            <Box
+          {/* Navigation Controls */}
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: 2,
+              mt: 3,
+              px: 2,
+            }}
+          >
+            {/* Previous Button */}
+            <IconButton
+              onClick={scrollLeft}
               sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                gap: 2,
-                mt: 3,
-                px: 2,
+                backgroundColor:
+                  clinic?.primaryColor || theme.palette.primary.main,
+                color: 'white',
+                '&:hover': {
+                  backgroundColor:
+                    clinic?.primaryColor || theme.palette.primary.main,
+                  opacity: 0.8,
+                },
+                transition: 'all 0.3s ease',
+                width: { xs: 40, sm: 48 },
+                height: { xs: 40, sm: 48 },
+                boxShadow: 2,
               }}
             >
-              {/* Previous Button */}
-              <IconButton
-                onClick={handlePrevious}
-                sx={{
-                  backgroundColor: clinic?.primaryColor || theme.palette.primary.main,
-                  color: 'white',
-                  '&:hover': {
-                    backgroundColor: clinic?.primaryColor || theme.palette.primary.main,
-                    opacity: 0.8,
-                  },
-                  transition: 'all 0.3s ease',
-                  width: { xs: 40, sm: 48 },
-                  height: { xs: 40, sm: 48 },
-                  boxShadow: 2,
-                }}
-              >
-                <ChevronLeft />
-              </IconButton>
+              <ChevronLeft />
+            </IconButton>
 
-              {/* Next Button */}
-              <IconButton
-                onClick={handleNext}
-                sx={{
-                  backgroundColor: clinic?.primaryColor || theme.palette.primary.main,
-                  color: 'white',
-                  '&:hover': {
-                    backgroundColor: clinic?.primaryColor || theme.palette.primary.main,
-                    opacity: 0.8,
-                  },
-                  transition: 'all 0.3s ease',
-                  width: { xs: 40, sm: 48 },
-                  height: { xs: 40, sm: 48 },
-                  boxShadow: 2,
-                }}
-              >
-                <ChevronRight />
-              </IconButton>
-            </Box>
-          )}
+            {/* Next Button */}
+            <IconButton
+              onClick={scrollRight}
+              sx={{
+                backgroundColor:
+                  clinic?.primaryColor || theme.palette.primary.main,
+                color: 'white',
+                '&:hover': {
+                  backgroundColor:
+                    clinic?.primaryColor || theme.palette.primary.main,
+                  opacity: 0.8,
+                },
+                transition: 'all 0.3s ease',
+                width: { xs: 40, sm: 48 },
+                height: { xs: 40, sm: 48 },
+                boxShadow: 2,
+              }}
+            >
+              <ChevronRight />
+            </IconButton>
+          </Box>
         </Box>
       </Container>
     </Box>

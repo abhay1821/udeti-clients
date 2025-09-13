@@ -1,8 +1,3 @@
-/**
- * Clinic Type Definitions
- * TypeScript interfaces for clinic data
- */
-
 export interface Doctor {
   id: string;
   name: string;
@@ -61,6 +56,16 @@ export interface Clinic {
   logo: string;
   primaryColor: string;
   secondaryColor: string;
+  theme?: {
+    heroBackground: string;
+    textColor?: string;
+    accentColor?: string;
+    buttonColor?: string;
+    footerBackground?: string;
+    labelColor?: string;
+    brownAccent?: string;
+    componentBackground?: string;
+  };
   hero: Hero;
   services: Service[];
   testimonials: Testimonial[];
@@ -70,9 +75,15 @@ export interface Clinic {
   doctors?: Doctor[];
 }
 
-export interface ClinicFilters {
-  search?: string;
-  specialization?: string;
-  page?: number;
-  pageSize?: number;
+export interface ClinicTheme {
+  heroBackground: string;
+  primaryColor: string;
+  secondaryColor: string;
+  textColor?: string;
+  accentColor?: string;
+  buttonColor?: string;
+  footerBackground?: string;
+  labelColor?: string;
+  brownAccent?: string;
+  componentBackground?: string;
 }
