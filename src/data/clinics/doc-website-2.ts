@@ -40,7 +40,7 @@ export const docWebsite2Data = {
       description:
         'Complete healthcare for children including vaccinations, growth monitoring, and development.',
       image:
-        'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=400&h=300&fit=crop&auto=format&q=80',
+        'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&h=300&fit=crop&auto=format&q=80',
       bulletPoints: [
         'Child Health Check-ups',
         'Vaccination Programs',
@@ -54,7 +54,7 @@ export const docWebsite2Data = {
       description:
         'Proactive healthcare focusing on disease prevention and early detection through screenings.',
       image:
-        'https://images.unsplash.com/photo-1606811841689-23dfddceeee3?w=400&h=300&fit=crop&auto=format&q=80',
+        'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop&auto=format&q=80',
       bulletPoints: [
         'Health Screenings',
         'Preventive Counseling',
@@ -68,7 +68,7 @@ export const docWebsite2Data = {
       description:
         'Urgent medical care for acute conditions, injuries, and emergencies.',
       image:
-        'https://images.unsplash.com/photo-1576091160550-2173dba0efed?w=400&h=300&fit=crop&auto=format&q=80',
+        'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&auto=format&q=80',
       bulletPoints: [
         'Emergency Consultations',
         'Acute Care Treatment',

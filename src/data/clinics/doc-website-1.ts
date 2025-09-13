@@ -26,7 +26,7 @@ export const docWebsite1Data = {
       description:
         'Regular cleanings, examinations, and preventive treatments to maintain optimal oral health.',
       image:
-        'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=400&h=300&fit=crop&auto=format&q=80',
+        'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&auto=format&q=80',
       bulletPoints: [
         'Professional Cleaning',
         'Oral Examinations',
@@ -40,7 +40,7 @@ export const docWebsite1Data = {
       description:
         'Expert restoration services including fillings, crowns, bridges, and root canal treatments.',
       image:
-        'https://images.unsplash.com/photo-1606811841689-23dfddceeee3?w=400&h=300&fit=crop&auto=format&q=80',
+        'https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=400&h=300&fit=crop&auto=format&q=80',
       bulletPoints: [
         'Dental Fillings',
         'Crowns & Bridges',
@@ -54,7 +54,7 @@ export const docWebsite1Data = {
       description:
         'Transform your smile with professional teeth whitening, veneers, and cosmetic procedures.',
       image:
-        'https://images.unsplash.com/photo-1606811841689-23dfddceeee3?w=400&h=300&fit=crop&auto=format&q=80',
+        'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&h=300&fit=crop&auto=format&q=80',
       bulletPoints: [
         'Teeth Whitening',
         'Porcelain Veneers',
@@ -68,7 +68,7 @@ export const docWebsite1Data = {
       description:
         'Straighten your teeth with traditional braces, clear aligners, and modern orthodontic solutions.',
       image:
-        'https://images.unsplash.com/photo-1606811841689-23dfddceeee3?w=400&h=300&fit=crop&auto=format&q=80',
+        'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop&auto=format&q=80',
       bulletPoints: [
         'Traditional Braces',
         'Clear Aligners',
@@ -82,7 +82,7 @@ export const docWebsite1Data = {
       description:
         'Specialized treatment for gum diseases and maintaining healthy gums and supporting structures.',
       image:
-        'https://images.unsplash.com/photo-1606811841689-23dfddceeee3?w=400&h=300&fit=crop&auto=format&q=80',
+        'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=300&fit=crop&auto=format&q=80',
       bulletPoints: [
         'Gum Disease Treatment',
         'Deep Cleaning',
@@ -96,7 +96,7 @@ export const docWebsite1Data = {
       description:
         'Advanced surgical procedures including extractions, wisdom tooth removal, and jaw surgery.',
       image:
-        'https://images.unsplash.com/photo-1606811841689-23dfddceeee3?w=400&h=300&fit=crop&auto=format&q=80',
+        'https://images.unsplash.com/photo-1551601651-2a8555f1a136?w=400&h=300&fit=crop&auto=format&q=80',
       bulletPoints: [
         'Tooth Extractions',
         'Wisdom Tooth Removal',
