@@ -118,10 +118,12 @@ export const docWebsite4Data = {
     hours: "Mon-Fri: 9AM-6PM, Sat: 10AM-4PM"
   },
   galleryImages: [
-    "https://images.unsplash.com/photo-1551601651-2a8555f1a136?w=800&h=600&fit=crop&auto=format&q=80",
-    "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=800&h=600&fit=crop&auto=format&q=80",
-    "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&h=600&fit=crop&auto=format&q=80",
-    "https://images.unsplash.com/photo-1576091160550-2173dba0efed?w=800&h=600&fit=crop&auto=format&q=80"
+    "/images/clinic-gallery/clinic-5.jpeg",
+    "/images/clinic-gallery/clinic-6.jpeg",
+    "/images/clinic-gallery/clinic-5.jpeg",
+    "/images/clinic-gallery/clinic-6.jpeg",
+
+
   ],
   social: {
     facebook: "https://facebook.com/wellnesshealth",

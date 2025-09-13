@@ -1,62 +1,8 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
+import { Clinic } from '@/types/Clinic';
 import allClinicsData from '@/data/clinics';
-
-interface Clinic {
-  id: string;
-  name: string;
-  tagline: string;
-  description: string;
-  logo: string;
-  primaryColor: string;
-  secondaryColor: string;
-  hero: {
-    title: string;
-    subtitle: string;
-    backgroundImage: string;
-    ctaText: string;
-    ctaLink: string;
-  };
-  services: Array<{
-    id: string;
-    title: string;
-    description: string;
-    icon: string;
-    image?: string;
-    bulletPoints?: string[];
-  }>;
-  testimonials: Array<{
-    id: number;
-    name: string;
-    role: string;
-    content: string;
-    rating: number;
-    image: string;
-  }>;
-  contact: {
-    phone: string;
-    email: string;
-    address: string;
-    hours: string;
-  };
-  galleryImages?: string[];
-  social: {
-    facebook: string;
-    twitter: string;
-    linkedin: string;
-    instagram: string;
-  };
-  doctors?: Array<{
-    id: string;
-    name: string;
-    specialization: string;
-    experience: string;
-    quote: string;
-    description: string;
-    image: string;
-  }>;
-}
 
 interface ClinicContextType {
   clinics: Clinic[];

@@ -1,15 +1,17 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Container,
   Typography,
   IconButton,
   useTheme,
+  CircularProgress,
 } from '@mui/material';
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 import { useClinic } from '@/contexts/ClinicContext';
+import { clinicGalleryImages } from '@/assets/images';
 
 interface ClinicGalleryProps {
   clinicId?: string;
@@ -27,30 +29,42 @@ const ClinicGallery: React.FC<ClinicGalleryProps> = ({
   const theme = useTheme();
   const { getClinicById } = useClinic();
   const [currentImage, setCurrentImage] = useState(0);
+  const [imageLoading, setImageLoading] = useState(true);
 
   const clinic = clinicId ? getClinicById(clinicId) : null;
-  const galleryImages = images || clinic?.galleryImages || [
-    'https://images.unsplash.com/photo-1551601651-2a8555f1a136?w=800&h=600&fit=crop&auto=format&q=80',
-    'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=800&h=600&fit=crop&auto=format&q=80',
-    'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&h=600&fit=crop&auto=format&q=80',
-    'https://images.unsplash.com/photo-1576091160550-2173dba0efed?w=800&h=600&fit=crop&auto=format&q=80',
-  ];
+  const galleryImages = images || clinic?.galleryImages || clinicGalleryImages;
+
+  // Handle initial image loading
+  useEffect(() => {
+    if (galleryImages.length > 0) {
+      setImageLoading(true);
+      // Small delay to ensure loading state is visible
+      const timer = setTimeout(() => {
+        setImageLoading(false);
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [galleryImages]);
 
   const handlePrevious = () => {
+    setImageLoading(true);
     setCurrentImage((prev) => (prev === 0 ? galleryImages.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
+    setImageLoading(true);
     setCurrentImage((prev) => (prev === galleryImages.length - 1 ? 0 : prev + 1));
   };
 
   const handleThumbnailClick = (index: number) => {
+    setImageLoading(true);
     setCurrentImage(index);
   };
 
   const handleDotClick = (index: number) => {
     setCurrentImage(index);
   };
+
 
   if (galleryImages.length === 0) {
     return null;
@@ -100,6 +114,19 @@ const ClinicGallery: React.FC<ClinicGalleryProps> = ({
               mx: 'auto',
             }}
           >
+            {imageLoading && (
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  zIndex: 1,
+                }}
+              >
+                <CircularProgress />
+              </Box>
+            )}
             <Box
               component="img"
               src={galleryImages[currentImage]}
@@ -109,12 +136,24 @@ const ClinicGallery: React.FC<ClinicGalleryProps> = ({
                 height: '100%',
                 objectFit: 'cover',
                 transition: 'opacity 0.3s ease',
+                opacity: imageLoading ? 0 : 1,
+              }}
+              onLoad={() => {
+                console.log('Image loaded successfully:', galleryImages[currentImage]);
+                setImageLoading(false);
+              }}
+              onError={(e) => {
+                console.error('Image failed to load:', galleryImages[currentImage]);
+                setImageLoading(false);
+                // Set a fallback image
+                e.currentTarget.src = clinicGalleryImages[0];
               }}
             />
 
             {/* Navigation Arrows - Overlaid on image */}
             <IconButton
               onClick={handlePrevious}
+              
               sx={{
                 position: 'absolute',
                 left: 16,

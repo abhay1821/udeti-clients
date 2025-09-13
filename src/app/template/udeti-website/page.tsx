@@ -13,7 +13,6 @@ import WhyUdetiSection from '@/components/templates/udeti/WhyUdetiSection';
 import { useClinic } from '@/contexts/ClinicContext';
 
 export default function UdetiTemplatePage() {
-  const theme = useTheme();
   const { getClinicById, setCurrentClinic } = useClinic();
   
   const clinicId = 'udeti-website';

@@ -1,19 +1,17 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { Box, Container, Typography, useTheme } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import Layout from '../../../components/layout/Layout';
 import ClinicGallery from '@/components/sections/ClinicGallery';
 import VerticalAppointmentSection from '@/components/templates/web4/VerticalAppointmentSection';
 import DetailedDoctorsSection from '@/components/templates/web4/DetailedDoctorsSection';
 import ServicesSection from '@/components/sections/ServicesSection';
 import TestimonialsSection from '@/components/sections/TestimonialsSection';
-import ContactSection from '@/components/sections/ContactSection';
 import StatsSection from '@/components/sections/StatsSection';
 import { useClinic } from '@/contexts/ClinicContext';
 
 export default function WellnessTemplatePage() {
-  const theme = useTheme();
   const { getClinicById, setCurrentClinic } = useClinic();
 
   const clinicId = 'doc-website-4';

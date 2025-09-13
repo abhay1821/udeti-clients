@@ -99,7 +99,7 @@ const UdetiMainSection: React.FC<UdetiMainSectionProps> = ({
       <Box
         sx={{
           py: { xs: 4, md: 6 },
-          minHeight: { xs: 'auto', md: '50vh' },
+          minHeight: '100vh',
           display: 'flex',
           alignItems: 'center',
         }}

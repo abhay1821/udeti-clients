@@ -1,19 +1,17 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { Box, Container, Typography, useTheme } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import Layout from '../../../components/layout/Layout';
 import HeroSection from '@/components/sections/HeroSection';
 import ServicesSection from '@/components/sections/ServicesSection';
 import TestimonialsSection from '@/components/sections/TestimonialsSection';
-import ContactSection from '@/components/sections/ContactSection';
 import StatsSection from '@/components/sections/StatsSection';
 import AppointmentSection from '@/components/sections/AppointmentSection';
 import DoctorsSection from '@/components/sections/DoctorsSection';
 import { useClinic } from '@/contexts/ClinicContext';
 
 export default function DentalTemplatePage() {
-  const theme = useTheme();
   const { getClinicById, setCurrentClinic } = useClinic();
   
   const clinicId = 'doc-website-1';

@@ -74,7 +74,7 @@ const WhyUdetiSection: React.FC = () => {
               mx: 'auto',
             }}
           >
-            Growing a practice in today's digital world comes with unique challenges
+            Growing a practice in today&apos;s digital world comes with unique challenges
           </Typography>
         </Box>
 

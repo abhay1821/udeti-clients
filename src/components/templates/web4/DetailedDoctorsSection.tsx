@@ -185,7 +185,7 @@ const DetailedDoctorsSection: React.FC<DetailedDoctorsSectionProps> = ({
                 <Box
                   component="img"
                   src={
-                    (currentDoctor as any).image ||
+                    (currentDoctor as { image?: string }).image ||
                     `https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=600&fit=crop&crop=face`
                   }
                   alt={currentDoctor.name}
@@ -327,13 +327,13 @@ const DetailedDoctorsSection: React.FC<DetailedDoctorsSectionProps> = ({
                         fontWeight: 500,
                       }}
                     >
-                      {(currentDoctor as any).education || 'Medical Degree'}
+                      {(currentDoctor as { education?: string }).education || 'Medical Degree'}
                     </Typography>
                     <Typography
                       variant="body2"
                       sx={{ opacity: 0.75, fontSize: '0.75rem' }}
                     >
-                      {(currentDoctor as any).institution ||
+                      {(currentDoctor as { institution?: string }).institution ||
                         'Medical Institute'}
                     </Typography>
                   </Box>
@@ -359,7 +359,7 @@ const DetailedDoctorsSection: React.FC<DetailedDoctorsSectionProps> = ({
                   </Box>
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.8 }}>
                     {(
-                      (currentDoctor as any).areasOfInterest || [
+                      (currentDoctor as { areasOfInterest?: string[] }).areasOfInterest || [
                         'General Practice',
                         'Patient Care',
                       ]
@@ -409,8 +409,8 @@ const DetailedDoctorsSection: React.FC<DetailedDoctorsSectionProps> = ({
                         fontSize: '0.8rem',
                     }}
                   >
-                    {(currentDoctor as any).about ||
-                      (currentDoctor as any).description ||
+                    {(currentDoctor as { about?: string; description?: string }).about ||
+                      (currentDoctor as { about?: string; description?: string }).description ||
                       'Experienced medical professional dedicated to providing quality healthcare.'}
                   </Typography>
                 </Box>

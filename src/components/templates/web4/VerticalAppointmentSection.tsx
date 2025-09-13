@@ -246,7 +246,7 @@ const VerticalAppointmentSection: React.FC<VerticalAppointmentSectionProps> = ({
                             fontSize: '0.9rem',
                           }}
                         >
-                          {(doctor as any).specialization}
+                          {(doctor as { specialization?: string }).specialization}
                         </Typography>
                       </Box>
                     }

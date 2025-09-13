@@ -10,7 +10,7 @@ export interface User {
   updatedAt: Date;
 }
 
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   success: boolean;
   data?: T;
   message?: string;
@@ -54,7 +54,7 @@ export interface TableColumn {
   label: string;
   minWidth?: number;
   align?: 'left' | 'right' | 'center';
-  format?: (value: any) => string;
+  format?: (value: unknown) => string;
 }
 
 export interface NotificationState {

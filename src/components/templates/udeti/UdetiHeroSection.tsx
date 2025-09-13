@@ -58,7 +58,7 @@ const UdetiHeroSection: React.FC = () => {
       sx={{
         py: { xs: 4, sm: 5, md: 6, lg: 4 },
         backgroundColor: '#f8fffe',
-        minHeight: { xs: 'auto', md: '60vh', lg: '50vh' },
+        minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
       }}

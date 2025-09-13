@@ -63,7 +63,7 @@ const PricingSection: React.FC = () => {
               fontSize: { xs: '1rem', md: '1.1rem' },
             }}
           >
-            Flexible pricing options to suit your clinic's needs
+            Flexible pricing options to suit your clinic&apos;s needs
           </Typography>
         </Box>
 

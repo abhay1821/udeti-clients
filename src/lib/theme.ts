@@ -56,7 +56,7 @@ export const getClinicTheme = (clinic: Clinic | null): ClinicTheme => {
     footerBackground: clinic.theme?.footerBackground || clinic.primaryColor,
     labelColor: clinic.theme?.labelColor || clinic.secondaryColor,
     brownAccent: clinic.theme?.brownAccent || '#BF8360',
-    componentBackground: (clinic as any).componentBackground || clinic.primaryColor,
+    componentBackground: (clinic as { componentBackground?: string }).componentBackground || clinic.primaryColor,
   };
 };
 

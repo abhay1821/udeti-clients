@@ -37,7 +37,7 @@ interface DataTableProps<T> {
   emptyMessage?: string;
 }
 
-function DataTable<T extends Record<string, any>>({
+function DataTable<T extends Record<string, unknown>>({
   data,
   columns,
   onEdit,
@@ -103,12 +103,24 @@ function DataTable<T extends Record<string, any>>({
       const aValue = a[orderBy];
       const bValue = b[orderBy];
 
-      if (aValue < bValue) {
-        return order === 'asc' ? -1 : 1;
+      // Handle string comparison
+      if (typeof aValue === 'string' && typeof bValue === 'string') {
+        const comparison = aValue.localeCompare(bValue);
+        return order === 'asc' ? comparison : -comparison;
       }
-      if (aValue > bValue) {
-        return order === 'asc' ? 1 : -1;
+
+      // Handle number comparison
+      if (typeof aValue === 'number' && typeof bValue === 'number') {
+        if (aValue < bValue) {
+          return order === 'asc' ? -1 : 1;
+        }
+        if (aValue > bValue) {
+          return order === 'asc' ? 1 : -1;
+        }
+        return 0;
       }
+
+      // Fallback for other types
       return 0;
     });
   }, [data, orderBy, order]);
@@ -175,7 +187,7 @@ function DataTable<T extends Record<string, any>>({
                     const value = row[column.id];
                     return (
                       <TableCell key={column.id} align={column.align}>
-                        {column.format ? column.format(value) : value}
+                        {column.format ? column.format(value) : String(value)}
                       </TableCell>
                     );
                   })}

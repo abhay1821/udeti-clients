@@ -9,11 +9,9 @@ import ServicesSection from '@/components/sections/ServicesSection';
 import TestimonialsSection from '@/components/sections/TestimonialsSection';
 import ContactSection from '@/components/sections/ContactSection';
 import { useClinic } from '@/contexts/ClinicContext';
-import { generateMetadata } from './metadata';
 
 export default function TemplatePage() {
   const params = useParams();
-  const theme = useTheme();
   const { getClinicById, setCurrentClinic } = useClinic();
   
   const clinicId = params?.id as string;

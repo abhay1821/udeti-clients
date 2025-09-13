@@ -11,11 +11,9 @@ import {
   CardContent,
   useTheme,
   useMediaQuery,
-  IconButton,
   Select,
   MenuItem,
   FormControl,
-  InputLabel,
 } from '@mui/material';
 import {
   AccessTime,
@@ -26,6 +24,7 @@ import {
   Email,
 } from '@mui/icons-material';
 import { useClinic } from '@/contexts/ClinicContext';
+import { appointmentData } from '@/data/appointmentData';
 
 interface AppointmentSectionProps {
   clinicId?: string;
@@ -45,34 +44,7 @@ const AppointmentSection: React.FC<AppointmentSectionProps> = ({ clinicId }) => 
   const [mobileNumber, setMobileNumber] = useState('');
   const [email, setEmail] = useState('');
 
-  const doctors = [
-    'Dr. Yuvaraj',
-    'Dr. Ankit',
-    'Dr. Anurag',
-    'Dr. Priya',
-    'Dr. Rajesh'
-  ];
-
-  const timeSlots = {
-    morning: [
-      { time: '9:00 AM', available: true },
-      { time: '9:30 AM', available: false },
-      { time: '10:00 AM', available: true },
-      { time: '10:30 AM', available: false },
-      { time: '11:00 AM', available: true },
-      { time: '11:30 AM', available: false },
-    ],
-    afternoon: [
-      { time: '2:00 PM', available: true },
-      { time: '2:30 PM', available: true },
-      { time: '3:00 PM', available: false },
-      { time: '3:30 PM', available: true },
-      { time: '4:00 PM', available: true },
-      { time: '4:30 PM', available: false },
-      { time: '5:00 PM', available: true },
-      { time: '5:30 PM', available: true },
-    ]
-  };
+  const { doctors, timeSlots, formLabels } = appointmentData;
 
   const handleTimeSlotClick = (time: string) => {
     setSelectedTime(time);
@@ -114,13 +86,13 @@ const AppointmentSection: React.FC<AppointmentSectionProps> = ({ clinicId }) => 
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <AccessTime sx={{ fontSize: '1.2rem' }} />
               <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                Clinic Hours: Monday - Saturday: 9:00 AM - 6:00 PM Sunday: Closed
+                {formLabels.contactInfo.hours}
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <Phone sx={{ fontSize: '1.2rem' }} />
               <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                Emergency: +91-9876543210
+                {formLabels.contactInfo.phone}
               </Typography>
             </Box>
           </Box>
@@ -174,10 +146,10 @@ const AppointmentSection: React.FC<AppointmentSectionProps> = ({ clinicId }) => 
                   mb: 1,
                 }}
               >
-                Book Your Appointment
+                {formLabels.title}
               </Typography>
               <Typography variant="body1" sx={{ color: '#666' }}>
-                Schedule your visit with our expert dentists
+                {formLabels.subtitle}
               </Typography>
             </Box>
 
@@ -188,7 +160,7 @@ const AppointmentSection: React.FC<AppointmentSectionProps> = ({ clinicId }) => 
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}>
                     <Person sx={{ color: '#666' }} />
                     <Typography variant="body2" sx={{ fontWeight: 500, color: '#333' }}>
-                      Select Doctor
+                      {formLabels.doctorLabel}
                     </Typography>
                   </Box>
                   <FormControl fullWidth>
@@ -212,8 +184,8 @@ const AppointmentSection: React.FC<AppointmentSectionProps> = ({ clinicId }) => 
                         Choose your preferred doctor
                       </MenuItem>
                       {doctors.map((doctor) => (
-                        <MenuItem key={doctor} value={doctor}>
-                          {doctor}
+                        <MenuItem key={doctor.id} value={doctor.name}>
+                          {doctor.name} - {doctor.specialization}
                         </MenuItem>
                       ))}
                     </Select>
@@ -225,7 +197,7 @@ const AppointmentSection: React.FC<AppointmentSectionProps> = ({ clinicId }) => 
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}>
                     <CalendarToday sx={{ color: '#666' }} />
                     <Typography variant="body2" sx={{ fontWeight: 500, color: '#333' }}>
-                      Select Date
+                      {formLabels.dateLabel}
                     </Typography>
                   </Box>
                   <TextField
@@ -255,7 +227,7 @@ const AppointmentSection: React.FC<AppointmentSectionProps> = ({ clinicId }) => 
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
                     <Schedule sx={{ color: '#666' }} />
                     <Typography variant="body2" sx={{ fontWeight: 500, color: '#333' }}>
-                      Select Time
+                      {formLabels.timeLabel}
                     </Typography>
                   </Box>
                   
@@ -361,7 +333,7 @@ const AppointmentSection: React.FC<AppointmentSectionProps> = ({ clinicId }) => 
                 {/* Full Name */}
                 <Box>
                   <Typography variant="body2" sx={{ fontWeight: 500, mb: 1, color: '#333' }}>
-                    Full Name
+                    {formLabels.fullNameLabel}
                   </Typography>
                   <TextField
                     fullWidth
@@ -390,7 +362,7 @@ const AppointmentSection: React.FC<AppointmentSectionProps> = ({ clinicId }) => 
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}>
                     <Phone sx={{ color: '#666' }} />
                     <Typography variant="body2" sx={{ fontWeight: 500, color: '#333' }}>
-                      Mobile Number
+                      {formLabels.mobileLabel}
                     </Typography>
                   </Box>
                   <TextField
@@ -425,7 +397,7 @@ const AppointmentSection: React.FC<AppointmentSectionProps> = ({ clinicId }) => 
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}>
                     <Email sx={{ color: '#666' }} />
                     <Typography variant="body2" sx={{ fontWeight: 500, color: '#333' }}>
-                      Email Address (Optional)
+                      {formLabels.emailLabel}
                     </Typography>
                   </Box>
                   <TextField
@@ -470,7 +442,7 @@ const AppointmentSection: React.FC<AppointmentSectionProps> = ({ clinicId }) => 
                       },
                     }}
                   >
-                    Book Appointment
+                    {formLabels.bookButton}
                   </Button>
                 </Box>
               </Box>
