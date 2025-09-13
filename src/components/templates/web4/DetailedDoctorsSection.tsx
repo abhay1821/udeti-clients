@@ -22,7 +22,13 @@ import {
   MedicalServices,
 } from '@mui/icons-material';
 import { useClinic } from '@/contexts/ClinicContext';
-import { getLabelColor, getAccentColor, getSecondaryColor, getComponentBackgroundColor, getPrimaryColor } from '@/lib/theme';
+import {
+  getLabelColor,
+  getAccentColor,
+  getSecondaryColor,
+  getComponentBackgroundColor,
+  getPrimaryColor,
+} from '@/lib/theme';
 
 interface DetailedDoctorsSectionProps {
   clinicId?: string;
@@ -59,7 +65,8 @@ const DetailedDoctorsSection: React.FC<DetailedDoctorsSectionProps> = ({
       ],
       about:
         'Dr. Ankit is a distinguished internal medicine specialist and the founder of our clinic. With over two decades of experience, he has dedicated his career to providing comprehensive healthcare with a focus on preventive medicine and patient education.',
-      image: '/images/doctors/doctor-1.jpg',
+      image:
+        'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=400&fit=crop&crop=face&auto=format&q=80',
     },
     {
       id: 'rajesh',
@@ -76,7 +83,8 @@ const DetailedDoctorsSection: React.FC<DetailedDoctorsSectionProps> = ({
       ],
       about:
         'Dr. Rajesh Kumar is our periodontics specialist with extensive experience in treating complex gum diseases. He is passionate about preventive care and uses the latest techniques in periodontal therapy and dental implantology.',
-      image: '/images/doctors/doctor-2.jpg',
+      image:
+        'https://images.unsplash.com/photo-1594824388855-888a0b4a0b4a?w=400&h=400&fit=crop&crop=face&auto=format&q=80',
     },
     {
       id: 'priya',
@@ -93,7 +101,8 @@ const DetailedDoctorsSection: React.FC<DetailedDoctorsSectionProps> = ({
       ],
       about:
         'Dr. Priya Sharma is a dedicated pediatrician known for her expertise in child healthcare. She specializes in preventive care, growth monitoring, and creating comprehensive healthcare plans for children of all ages.',
-      image: '/images/doctors/doctor-3.jpg',
+      image:
+        'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=400&fit=crop&crop=face&auto=format&q=80',
     },
   ];
 
@@ -186,12 +195,12 @@ const DetailedDoctorsSection: React.FC<DetailedDoctorsSectionProps> = ({
                   component="img"
                   src={
                     (currentDoctor as { image?: string }).image ||
-                    `https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=600&fit=crop&crop=face`
+                    `https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=600&fit=crop&crop=face`
                   }
                   alt={currentDoctor.name}
                   onError={e => {
                     const target = e.target as HTMLImageElement;
-                    target.src = `https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=600&fit=crop&crop=face`;
+                    target.src = `https://images.unsplash.com/photo-1594824388855-888a0b4a0b4a?w=400&h=600&fit=crop&crop=face`;
                   }}
                   sx={{
                     width: { xs: '100%', md: '260px' },
@@ -260,7 +269,9 @@ const DetailedDoctorsSection: React.FC<DetailedDoctorsSectionProps> = ({
                   {/* Specialty Chip */}
                   <Box
                     sx={{
-                      backgroundColor: getComponentBackgroundColor(clinic || null),
+                      backgroundColor: getComponentBackgroundColor(
+                        clinic || null
+                      ),
                       borderRadius: 2,
                       p: 2,
                       border: '1px solid rgba(255, 255, 255, 0.2)',
@@ -300,7 +311,9 @@ const DetailedDoctorsSection: React.FC<DetailedDoctorsSectionProps> = ({
                   {/* Education Chip */}
                   <Box
                     sx={{
-                      backgroundColor: getComponentBackgroundColor(clinic || null),
+                      backgroundColor: getComponentBackgroundColor(
+                        clinic || null
+                      ),
                       borderRadius: 2,
                       p: 2,
                       border: '1px solid rgba(255, 255, 255, 0.2)',
@@ -327,14 +340,15 @@ const DetailedDoctorsSection: React.FC<DetailedDoctorsSectionProps> = ({
                         fontWeight: 500,
                       }}
                     >
-                      {(currentDoctor as { education?: string }).education || 'Medical Degree'}
+                      {(currentDoctor as { education?: string }).education ||
+                        'Medical Degree'}
                     </Typography>
                     <Typography
                       variant="body2"
                       sx={{ opacity: 0.75, fontSize: '0.75rem' }}
                     >
-                      {(currentDoctor as { institution?: string }).institution ||
-                        'Medical Institute'}
+                      {(currentDoctor as { institution?: string })
+                        .institution || 'Medical Institute'}
                     </Typography>
                   </Box>
                 </Box>
@@ -342,7 +356,9 @@ const DetailedDoctorsSection: React.FC<DetailedDoctorsSectionProps> = ({
                 {/* Areas of Interest Chip */}
                 <Box
                   sx={{
-                    backgroundColor: getComponentBackgroundColor(clinic || null),
+                    backgroundColor: getComponentBackgroundColor(
+                      clinic || null
+                    ),
                     borderRadius: 2,
                     p: 2,
                     border: '1px solid rgba(255, 255, 255, 0.2)',
@@ -359,10 +375,8 @@ const DetailedDoctorsSection: React.FC<DetailedDoctorsSectionProps> = ({
                   </Box>
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.8 }}>
                     {(
-                      (currentDoctor as { areasOfInterest?: string[] }).areasOfInterest || [
-                        'General Practice',
-                        'Patient Care',
-                      ]
+                      (currentDoctor as { areasOfInterest?: string[] })
+                        .areasOfInterest || ['General Practice', 'Patient Care']
                     ).map((area: string, index: number) => (
                       <Chip
                         key={index}
@@ -385,7 +399,9 @@ const DetailedDoctorsSection: React.FC<DetailedDoctorsSectionProps> = ({
                 {/* About Chip */}
                 <Box
                   sx={{
-                    backgroundColor: getComponentBackgroundColor(clinic || null),
+                    backgroundColor: getComponentBackgroundColor(
+                      clinic || null
+                    ),
                     borderRadius: 2,
                     p: 2,
                     border: '1px solid rgba(255, 255, 255, 0.2)',
@@ -406,11 +422,17 @@ const DetailedDoctorsSection: React.FC<DetailedDoctorsSectionProps> = ({
                     sx={{
                       opacity: 0.85,
                       lineHeight: 1.4,
-                        fontSize: '0.8rem',
+                      fontSize: '0.8rem',
                     }}
                   >
-                    {(currentDoctor as { about?: string; description?: string }).about ||
-                      (currentDoctor as { about?: string; description?: string }).description ||
+                    {(currentDoctor as { about?: string; description?: string })
+                      .about ||
+                      (
+                        currentDoctor as {
+                          about?: string;
+                          description?: string;
+                        }
+                      ).description ||
                       'Experienced medical professional dedicated to providing quality healthcare.'}
                   </Typography>
                 </Box>

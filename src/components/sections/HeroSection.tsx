@@ -119,7 +119,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             >
               <Box
                 component="img"
-                src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=400&h=400&fit=crop&crop=face&auto=format&q=80"
+                src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=400&fit=crop&crop=face&auto=format&q=80"
                 alt="Professional Doctor"
                 sx={{
                   width: '100%',
