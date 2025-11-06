@@ -1,4 +1,4 @@
-'use client';
+// 'use client';
 
 import React, { useState } from 'react';
 import {
@@ -11,10 +11,7 @@ import {
   useTheme,
   useMediaQuery,
 } from '@mui/material';
-import {
-  ChevronLeft,
-  ChevronRight,
-} from '@mui/icons-material';
+import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 import { useClinic } from '@/contexts/ClinicContext';
 
 interface Doctor {
@@ -33,15 +30,15 @@ interface DoctorsSectionProps {
   subtitle?: string;
 }
 
-const DoctorsSection: React.FC<DoctorsSectionProps> = ({ 
-  clinicId, 
-  title = "Meet Your Dentists",
-  subtitle = "Our experienced team of dental professionals is committed to providing you with the highest quality care."
+const DoctorsSection: React.FC<DoctorsSectionProps> = ({
+  clinicId,
+  title = 'Meet Your Dentists',
+  subtitle = 'Our experienced team of dental professionals is committed to providing you with the highest quality care.',
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const { getClinicById } = useClinic();
-  
+
   const clinic = clinicId ? getClinicById(clinicId) : null;
   const [currentDoctor, setCurrentDoctor] = useState(0);
 
@@ -52,36 +49,45 @@ const DoctorsSection: React.FC<DoctorsSectionProps> = ({
       name: 'Dr. Rajesh Patel',
       specialization: 'Periodontics & Preventive Care',
       experience: '18+ Years',
-      quote: 'Prevention is the best medicine. My focus is on maintaining optimal oral health through preventive care and treating gum diseases with the latest periodontal techniques.',
-      description: 'Dr. Rajesh Patel is our periodontics specialist, focusing on gum health and preventive care. He has extensive experience in treating gum diseases and maintaining oral hygiene.',
-      image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=400&fit=crop&crop=face&auto=format&q=80'
+      quote:
+        'Prevention is the best medicine. My focus is on maintaining optimal oral health through preventive care and treating gum diseases with the latest periodontal techniques.',
+      description:
+        'Dr. Rajesh Patel is our periodontics specialist, focusing on gum health and preventive care. He has extensive experience in treating gum diseases and maintaining oral hygiene.',
+      image:
+        'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=400&fit=crop&crop=face&auto=format&q=80',
     },
     {
       id: '2',
       name: 'Dr. Anish Kumar',
       specialization: 'Chief Dentist & Oral Surgeon',
       experience: '20+ Years',
-      quote: 'Every smile deserves the finest care. My approach combines cutting-edge technology with compassionate treatment to ensure every patient leaves with confidence.',
-      description: 'Dr. Anish Kumar is the founder and chief dentist with over two decades of experience in comprehensive dental care. He specializes in oral surgery, dental implants, and complex restorative procedures.',
-      image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=400&fit=crop&crop=face&auto=format&q=80'
+      quote:
+        'Every smile deserves the finest care. My approach combines cutting-edge technology with compassionate treatment to ensure every patient leaves with confidence.',
+      description:
+        'Dr. Anish Kumar is the founder and chief dentist with over two decades of experience in comprehensive dental care. He specializes in oral surgery, dental implants, and complex restorative procedures.',
+      image:
+        'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=400&fit=crop&crop=face&auto=format&q=80',
     },
     {
       id: '3',
       name: 'Dr. Priya Sharma',
       specialization: 'Cosmetic Dentistry & Orthodontics',
       experience: '15+ Years',
-      quote: 'A beautiful smile is not just about aesthetics—it\'s about boosting your confidence and improving your quality of life through expert cosmetic and orthodontic care.',
-      description: 'Dr. Priya Sharma specializes in cosmetic dentistry and orthodontics, helping patients achieve their dream smiles through advanced techniques like invisible braces and porcelain veneers.',
-      image: 'https://images.unsplash.com/photo-1594824388855-888a0b4a0b4a?w=400&h=400&fit=crop&crop=face&auto=format&q=80'
-    }
+      quote:
+        "A beautiful smile is not just about aesthetics—it's about boosting your confidence and improving your quality of life through expert cosmetic and orthodontic care.",
+      description:
+        'Dr. Priya Sharma specializes in cosmetic dentistry and orthodontics, helping patients achieve their dream smiles through advanced techniques like invisible braces and porcelain veneers.',
+      image:
+        'https://images.unsplash.com/photo-1594824388855-888a0b4a0b4a?w=400&h=400&fit=crop&crop=face&auto=format&q=80',
+    },
   ];
 
   const handlePrevious = () => {
-    setCurrentDoctor((prev) => (prev === 0 ? doctors.length - 1 : prev - 1));
+    setCurrentDoctor(prev => (prev === 0 ? doctors.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
-    setCurrentDoctor((prev) => (prev === doctors.length - 1 ? 0 : prev + 1));
+    setCurrentDoctor(prev => (prev === doctors.length - 1 ? 0 : prev + 1));
   };
 
   const handleDotClick = (index: number) => {
@@ -242,10 +248,13 @@ const DoctorsSection: React.FC<DoctorsSectionProps> = ({
                       position: 'relative',
                       zIndex: 3,
                     }}
-                    onError={(e) => {
+                    onError={e => {
                       e.currentTarget.style.display = 'none';
                       // Show fallback image when main image fails to load
-                      const fallback = e.currentTarget.parentElement?.querySelector('.fallback-image') as HTMLElement;
+                      const fallback =
+                        e.currentTarget.parentElement?.querySelector(
+                          '.fallback-image'
+                        ) as HTMLElement;
                       if (fallback) {
                         fallback.style.display = 'block';
                       }
@@ -312,9 +321,10 @@ const DoctorsSection: React.FC<DoctorsSectionProps> = ({
                   width: 12,
                   height: 12,
                   borderRadius: '50%',
-                  backgroundColor: index === currentDoctor 
-                    ? (clinic?.primaryColor || '#1976d2') 
-                    : '#ddd',
+                  backgroundColor:
+                    index === currentDoctor
+                      ? clinic?.primaryColor || '#1976d2'
+                      : '#ddd',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
                   '&:hover': {
