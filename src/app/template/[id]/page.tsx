@@ -1,27 +1,49 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useParams } from 'next/navigation';
-import { Box, Container, Typography, useTheme } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import Layout from '../../../components/layout/Layout';
 import HeroSection from '@/components/sections/HeroSection';
 import ServicesSection from '@/components/sections/ServicesSection';
 import TestimonialsSection from '@/components/sections/TestimonialsSection';
 import ContactSection from '@/components/sections/ContactSection';
 import { useClinic } from '@/contexts/ClinicContext';
+import { useAbdmAuth } from '@/hooks/useAbdmAuth';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
 
 export default function TemplatePage() {
   const params = useParams();
-  const { getClinicById, setCurrentClinic } = useClinic();
-  
+  const { getClinicById } = useClinic();
+
+  // Initialize ABDM authentication
+  const { isLoading: isAuthLoading, error: authError } = useAbdmAuth();
+
   const clinicId = params?.id as string;
   const clinic = getClinicById(clinicId);
 
-  useEffect(() => {
-    if (clinicId) {
-      setCurrentClinic(clinicId);
-    }
-  }, [clinicId, setCurrentClinic]);
+  if (isAuthLoading) {
+    return (
+      <Layout>
+        <Container
+          maxWidth="lg"
+          sx={{
+            py: 8,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '50vh',
+          }}
+        >
+          <LoadingSpinner />
+        </Container>
+      </Layout>
+    );
+  }
+
+  if (authError) {
+    console.error('ABDM Authentication Error:', authError);
+  }
 
   if (!clinic) {
     return (

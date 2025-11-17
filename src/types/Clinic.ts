@@ -12,7 +12,7 @@ export interface Service {
   id: string;
   title: string;
   description: string;
-  icon: string;
+  icon?: string;
   image?: string;
   bulletPoints?: string[];
 }
@@ -46,6 +46,30 @@ export interface Hero {
   backgroundImage: string;
   ctaText: string;
   ctaLink: string;
+  secondaryCtaText?: string;
+  secondaryCtaLink?: string;
+  badgeText?: string;
+}
+
+export interface HeroBadge {
+  title: string;
+  description: string;
+}
+
+export interface HeroDoctorCard {
+  name: string;
+  title: string;
+  location: string;
+  image: string;
+  highlights: string[];
+}
+
+export interface ClinicAbout {
+  title: string;
+  description: string[];
+  image: string;
+  education: string[];
+  expertise: string[];
 }
 
 export interface Clinic {
@@ -67,9 +91,13 @@ export interface Clinic {
     componentBackground?: string;
   };
   hero: Hero;
+  heroBadge?: HeroBadge;
+  heroHighlights?: string[];
+  heroDoctorCard?: HeroDoctorCard;
   services: Service[];
   testimonials: Testimonial[];
   contact: Contact;
+  about?: ClinicAbout;
   galleryImages?: string[];
   social: Social;
   doctors?: Doctor[];

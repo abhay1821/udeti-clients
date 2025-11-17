@@ -6,21 +6,15 @@ import allClinicsData from '@/data/clinics';
 
 interface ClinicContextType {
   clinics: Clinic[];
-  currentClinic: Clinic | null;
-  setCurrentClinic: (clinicId: string) => void;
   getClinicById: (id: string) => Clinic | undefined;
 }
 
 const ClinicContext = createContext<ClinicContextType | undefined>(undefined);
 
-export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [clinics] = useState<Clinic[]>(allClinicsData as Clinic[]);
-  const [currentClinic, setCurrentClinicState] = useState<Clinic | null>(null);
-
-  const setCurrentClinic = (clinicId: string) => {
-    const clinic = clinics.find(c => c.id === clinicId);
-    setCurrentClinicState(clinic || null);
-  };
 
   const getClinicById = (id: string) => {
     return clinics.find(clinic => clinic.id === id);
@@ -30,8 +24,6 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     <ClinicContext.Provider
       value={{
         clinics,
-        currentClinic,
-        setCurrentClinic,
         getClinicById,
       }}
     >
