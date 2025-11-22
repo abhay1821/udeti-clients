@@ -31,7 +31,7 @@ const socials = [
   { icon: LinkedIn, key: 'linkedin' },
 ];
 
-export const DocWebsite9Footer: React.FC<DocWebsite9FooterProps> = ({
+const DocWebsite9FooterComponent: React.FC<DocWebsite9FooterProps> = ({
   clinic,
 }) => {
   return (
@@ -124,5 +124,12 @@ export const DocWebsite9Footer: React.FC<DocWebsite9FooterProps> = ({
     </Box>
   );
 };
+
+export const DocWebsite9Footer = React.memo(
+  DocWebsite9FooterComponent,
+  (prevProps, nextProps) => {
+    return prevProps.clinic.id === nextProps.clinic.id;
+  }
+);
 
 export default DocWebsite9Footer;

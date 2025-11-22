@@ -1,29 +1,53 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Box, Typography } from '@mui/material';
-import DocWebsite9Header from '@/components/templates/docWebsite9/DocWebsite9Header';
+import HeaderWithLogo from '@/components/headers/HeaderWithLogo';
+import HeaderWithoutLogo from '@/components/headers/HeaderWithoutLogo';
 import DocWebsite9HeroSection from '@/components/templates/docWebsite9/DocWebsite9HeroSection';
 import DocWebsite9AboutSection from '@/components/templates/docWebsite9/DocWebsite9AboutSection';
-import DocWebsite9ServicesSection from '@/components/templates/docWebsite9/DocWebsite9ServicesSection';
+import GridServicesSection from '@/components/services/GridServicesSection';
 import DocWebsite9AppointmentSection from '@/components/templates/docWebsite9/DocWebsite9AppointmentSection';
-import DocWebsite9TestimonialsSection from '@/components/templates/docWebsite9/DocWebsite9TestimonialsSection';
+import StandardTestimonialsSection from '@/components/sections/StandardTestimonialsSection';
 import DocWebsite9Footer from '@/components/templates/docWebsite9/DocWebsite9Footer';
-import { useClinic } from '@/contexts/ClinicContext';
-import { useAbdmAuth } from '@/hooks/useAbdmAuth';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
+import { useClinicData } from '@/hooks/useClinicData';
+import {
+  hasLogo,
+  hasServices,
+  hasAbout,
+  hasTestimonials,
+} from '@/utils/clinicValidation';
+import { CircularProgress } from '@mui/material';
 
 const DocWebsite9TemplatePage = () => {
-  const { getClinicById } = useClinic();
-
-  // Initialize ABDM authentication
-  const { isLoading: isAuthLoading, error: authError } = useAbdmAuth();
-
   const clinicId = 'doc-website-9';
-  const clinic = getClinicById(clinicId);
+  const { clinic, validation, isLoading } = useClinicData(clinicId);
 
-  // Show loading state while authenticating
-  if (isAuthLoading) {
+  // Call useMemo BEFORE any conditional returns to follow Rules of Hooks
+  const components = useMemo(() => {
+    if (!clinic) return [];
+    return [
+      hasLogo(clinic) ? (
+        <HeaderWithLogo key="header" clinic={clinic} />
+      ) : (
+        <HeaderWithoutLogo key="header" clinic={clinic} />
+      ),
+      <DocWebsite9HeroSection key="hero" clinic={clinic} />,
+      hasAbout(clinic) && (
+        <DocWebsite9AboutSection key="about" clinic={clinic} />
+      ),
+      hasServices(clinic) && (
+        <GridServicesSection key="services" clinic={clinic} />
+      ),
+      <DocWebsite9AppointmentSection key="appointment" clinic={clinic} />,
+      hasTestimonials(clinic) && (
+        <StandardTestimonialsSection key="testimonials" clinic={clinic} />
+      ),
+      <DocWebsite9Footer key="footer" clinic={clinic} />,
+    ].filter(Boolean);
+  }, [clinic]);
+
+  if (isLoading) {
     return (
       <Box
         sx={{
@@ -31,17 +55,35 @@ const DocWebsite9TemplatePage = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#FFFFFF',
+          backgroundColor: '#082B23',
         }}
       >
-        <LoadingSpinner />
+        <CircularProgress />
       </Box>
     );
   }
 
-  // Show error state if authentication fails (non-blocking, but logged)
-  if (authError) {
-    console.error('ABDM Authentication Error:', authError);
+  if (!validation.isValid) {
+    return (
+      <Box
+        sx={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#082B23',
+          p: 4,
+        }}
+      >
+        <Typography variant="h5" color="error" gutterBottom>
+          Invalid Clinic Data
+        </Typography>
+        <Typography variant="body1" color="error" sx={{ mt: 2 }}>
+          {validation.errors.join(', ')}
+        </Typography>
+      </Box>
+    );
   }
 
   if (!clinic) {
@@ -64,13 +106,7 @@ const DocWebsite9TemplatePage = () => {
 
   return (
     <Box sx={{ minHeight: '100vh', backgroundColor: '#FFFFFF' }}>
-      <DocWebsite9Header clinic={clinic} />
-      <DocWebsite9HeroSection clinic={clinic} />
-      <DocWebsite9AboutSection clinic={clinic} />
-      <DocWebsite9ServicesSection clinic={clinic} />
-      <DocWebsite9AppointmentSection clinic={clinic} />
-      <DocWebsite9TestimonialsSection clinic={clinic} />
-      <DocWebsite9Footer clinic={clinic} />
+      {components}
     </Box>
   );
 };

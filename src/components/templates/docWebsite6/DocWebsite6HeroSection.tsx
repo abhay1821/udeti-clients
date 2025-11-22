@@ -8,9 +8,9 @@ interface DocWebsite6HeroSectionProps {
   clinic: Clinic;
 }
 
-export const DocWebsite6HeroSection: React.FC<DocWebsite6HeroSectionProps> = ({
-  clinic,
-}) => {
+const DocWebsite6HeroSectionComponent: React.FC<
+  DocWebsite6HeroSectionProps
+> = ({ clinic }) => {
   const handleScroll = (selector: string) => {
     const target = document.querySelector(selector);
     if (target) {
@@ -124,7 +124,7 @@ export const DocWebsite6HeroSection: React.FC<DocWebsite6HeroSectionProps> = ({
           }}
         />
 
-        {clinic.heroBadge && (
+        {clinic.hero.badge && (
           <Box
             sx={{
               position: 'absolute',
@@ -160,10 +160,10 @@ export const DocWebsite6HeroSection: React.FC<DocWebsite6HeroSectionProps> = ({
             </Box>
             <Box>
               <Typography fontWeight={700} sx={{ color: '#101828' }}>
-                {clinic.heroBadge.title}
+                {clinic.hero.badge.title}
               </Typography>
               <Typography sx={{ color: '#6B7280', fontSize: '0.95rem' }}>
-                {clinic.heroBadge.description}
+                {clinic.hero.badge.description}
               </Typography>
             </Box>
           </Box>
@@ -172,5 +172,12 @@ export const DocWebsite6HeroSection: React.FC<DocWebsite6HeroSectionProps> = ({
     </Box>
   );
 };
+
+export const DocWebsite6HeroSection = React.memo(
+  DocWebsite6HeroSectionComponent,
+  (prevProps, nextProps) => {
+    return prevProps.clinic.id === nextProps.clinic.id;
+  }
+);
 
 export default DocWebsite6HeroSection;

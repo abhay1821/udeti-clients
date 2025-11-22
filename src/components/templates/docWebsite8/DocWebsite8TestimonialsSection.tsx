@@ -8,7 +8,7 @@ interface DocWebsite8TestimonialsSectionProps {
   clinic: Clinic;
 }
 
-export const DocWebsite8TestimonialsSection: React.FC<
+const DocWebsite8TestimonialsSectionComponent: React.FC<
   DocWebsite8TestimonialsSectionProps
 > = ({ clinic }) => {
   if (!clinic.testimonials?.length) {
@@ -102,5 +102,12 @@ export const DocWebsite8TestimonialsSection: React.FC<
     </Box>
   );
 };
+
+export const DocWebsite8TestimonialsSection = React.memo(
+  DocWebsite8TestimonialsSectionComponent,
+  (prevProps, nextProps) => {
+    return prevProps.clinic.id === nextProps.clinic.id;
+  }
+);
 
 export default DocWebsite8TestimonialsSection;

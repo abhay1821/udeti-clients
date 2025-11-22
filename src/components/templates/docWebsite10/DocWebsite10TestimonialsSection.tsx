@@ -9,7 +9,7 @@ interface DocWebsite10TestimonialsSectionProps {
   clinic: Clinic;
 }
 
-export const DocWebsite10TestimonialsSection: React.FC<
+const DocWebsite10TestimonialsSectionComponent: React.FC<
   DocWebsite10TestimonialsSectionProps
 > = ({ clinic }) => {
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -166,5 +166,12 @@ export const DocWebsite10TestimonialsSection: React.FC<
     </Box>
   );
 };
+
+export const DocWebsite10TestimonialsSection = React.memo(
+  DocWebsite10TestimonialsSectionComponent,
+  (prevProps, nextProps) => {
+    return prevProps.clinic.id === nextProps.clinic.id;
+  }
+);
 
 export default DocWebsite10TestimonialsSection;

@@ -49,6 +49,9 @@ export interface Hero {
   secondaryCtaText?: string;
   secondaryCtaLink?: string;
   badgeText?: string;
+  badge?: HeroBadge;
+  highlights?: string[];
+  doctorCard?: HeroDoctorCard;
 }
 
 export interface HeroBadge {
@@ -68,6 +71,7 @@ export interface ClinicAbout {
   title: string;
   description: string[];
   image: string;
+  yearsOfExperience?: string;
   education: string[];
   expertise: string[];
 }
@@ -78,22 +82,7 @@ export interface Clinic {
   tagline: string;
   description: string;
   logo: string;
-  primaryColor: string;
-  secondaryColor: string;
-  theme?: {
-    heroBackground: string;
-    textColor?: string;
-    accentColor?: string;
-    buttonColor?: string;
-    footerBackground?: string;
-    labelColor?: string;
-    brownAccent?: string;
-    componentBackground?: string;
-  };
   hero: Hero;
-  heroBadge?: HeroBadge;
-  heroHighlights?: string[];
-  heroDoctorCard?: HeroDoctorCard;
   services: Service[];
   testimonials: Testimonial[];
   contact: Contact;

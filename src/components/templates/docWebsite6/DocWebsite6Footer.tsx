@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import { Clinic } from '@/types/Clinic';
 import { Phone, Email, LocationOn, AccessTime } from '@mui/icons-material';
+import { useClinicTheme } from '@/hooks/useClinicTheme';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
@@ -28,9 +29,10 @@ const socialMap = [
   { icon: InstagramIcon, key: 'instagram' },
 ];
 
-export const DocWebsite6Footer: React.FC<DocWebsite6FooterProps> = ({
+const DocWebsite6FooterComponent: React.FC<DocWebsite6FooterProps> = ({
   clinic,
 }) => {
+  const theme = useClinicTheme(clinic.id);
   const handleAnchorNavigation = (selector: string) => {
     if (typeof window === 'undefined') return;
     const target = document.querySelector(selector);
@@ -41,13 +43,18 @@ export const DocWebsite6Footer: React.FC<DocWebsite6FooterProps> = ({
     }
   };
 
+  const footerBackground = theme.footerBackground;
+
+  const getFooterGradient = () => {
+    return footerBackground;
+  };
+
   return (
     <Box
       id="contact"
       component="footer"
       sx={{
-        background:
-          'linear-gradient(135deg, #11152C 0%, #1B2040 60%, #2F2F54 100%)',
+        background: getFooterGradient(),
         color: '#F8FAFC',
         pt: { xs: 6, md: 8 },
         pb: { xs: 4, md: 6 },
@@ -172,5 +179,12 @@ export const DocWebsite6Footer: React.FC<DocWebsite6FooterProps> = ({
     </Box>
   );
 };
+
+export const DocWebsite6Footer = React.memo(
+  DocWebsite6FooterComponent,
+  (prevProps, nextProps) => {
+    return prevProps.clinic.id === nextProps.clinic.id;
+  }
+);
 
 export default DocWebsite6Footer;

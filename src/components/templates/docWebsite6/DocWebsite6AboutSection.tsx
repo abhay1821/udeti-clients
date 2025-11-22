@@ -15,7 +15,7 @@ const aboutHighlights = [
   'Member, American College of Physicians',
 ];
 
-export const DocWebsite6AboutSection: React.FC<
+const DocWebsite6AboutSectionComponent: React.FC<
   DocWebsite6AboutSectionProps
 > = ({ clinic }) => {
   const paragraphs = [
@@ -123,5 +123,12 @@ export const DocWebsite6AboutSection: React.FC<
     </Box>
   );
 };
+
+export const DocWebsite6AboutSection = React.memo(
+  DocWebsite6AboutSectionComponent,
+  (prevProps, nextProps) => {
+    return prevProps.clinic.id === nextProps.clinic.id;
+  }
+);
 
 export default DocWebsite6AboutSection;

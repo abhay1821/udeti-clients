@@ -4,9 +4,7 @@ export const docWebsite10Data = {
   tagline: 'Single Visit Root Canal Expert',
   description:
     'Dr. Abhishek Somani provides painless, single-visit root canal treatments in HSR Layout using advanced microscopic and digital techniques.',
-  logo: '/images/logo-dental.png',
-  primaryColor: '#3B2A27',
-  secondaryColor: '#F4B285',
+  logo: '',
   hero: {
     title:
       'Trusted Single Visit Root Canal Specialist in HSR Layout, Bangalore!',
@@ -18,27 +16,28 @@ export const docWebsite10Data = {
     ctaLink: '#appointment',
     secondaryCtaText: 'Our Treatments',
     secondaryCtaLink: '#services',
-  },
-  heroBadge: {
-    title: 'B.D.S. · M.D.S. (Endodontist)',
-    description: 'ADCPI Certified (Australia)',
-  },
-  heroHighlights: [
-    'Single Visit Root Canal',
-    'Advanced Dental Care',
-    'Gentle & Painless Treatment',
-  ],
-  heroDoctorCard: {
-    name: 'Dr. Abhishek Somani',
-    title: 'Endodontist & Root Canal Specialist',
-    location: 'HSR Layout, Bangalore',
-    image:
-      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
+    badgeText: undefined,
+    badge: {
+      title: 'B.D.S. · M.D.S. (Endodontist)',
+      description: 'ADCPI Certified (Australia)',
+    },
     highlights: [
-      'Certified Endodontist (ADCPI, Australia)',
-      'Expert in Single Visit Root Canal Treatments',
-      'Microscopic & Digital Dentistry',
+      'Single Visit Root Canal',
+      'Advanced Dental Care',
+      'Gentle & Painless Treatment',
     ],
+    doctorCard: {
+      name: 'Dr. Abhishek Somani',
+      title: 'Endodontist & Root Canal Specialist',
+      location: 'HSR Layout, Bangalore',
+      image:
+        'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
+      highlights: [
+        'Certified Endodontist (ADCPI, Australia)',
+        'Expert in Single Visit Root Canal Treatments',
+        'Microscopic & Digital Dentistry',
+      ],
+    },
   },
   about: {
     title: 'About Dr. Abhishek Somani',
@@ -149,6 +148,7 @@ export const docWebsite10Data = {
     address: 'HSR Layout, Bangalore, India',
     hours: 'Mon-Sat: 9AM-8PM',
   },
+  galleryImages: [],
   social: {
     facebook: 'https://facebook.com',
     twitter: 'https://twitter.com',

@@ -10,42 +10,42 @@ import ServicesSection from '@/components/sections/ServicesSection';
 import TestimonialsSection from '@/components/sections/TestimonialsSection';
 import StatsSection from '@/components/sections/StatsSection';
 import { useClinic } from '@/contexts/ClinicContext';
-import { useAbdmAuth } from '@/hooks/useAbdmAuth';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
+// import { useAbdmAuth } from '@/hooks/useAbdmAuth';
+// import LoadingSpinner from '@/components/ui/LoadingSpinner';
 
 export default function SurgicalCenterTemplatePage() {
   const { getClinicById } = useClinic();
 
-  // Initialize ABDM authentication
-  const { isLoading: isAuthLoading, error: authError } = useAbdmAuth();
+  // ABDM Authentication commented out to prevent API calls
+  // const { isLoading: isAuthLoading, error: authError } = useAbdmAuth();
 
   const clinicId = 'doc-website-5';
   const clinic = getClinicById(clinicId);
 
-  // Show loading state while authenticating
-  if (isAuthLoading) {
-    return (
-      <Layout>
-        <Container
-          maxWidth="lg"
-          sx={{
-            py: 8,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: '50vh',
-          }}
-        >
-          <LoadingSpinner />
-        </Container>
-      </Layout>
-    );
-  }
+  // Loading state check commented out
+  // if (isAuthLoading) {
+  //   return (
+  //     <Layout>
+  //       <Container
+  //         maxWidth="lg"
+  //         sx={{
+  //           py: 8,
+  //           display: 'flex',
+  //           justifyContent: 'center',
+  //           alignItems: 'center',
+  //           minHeight: '50vh',
+  //         }}
+  //       >
+  //         <LoadingSpinner />
+  //       </Container>
+  //     </Layout>
+  //   );
+  // }
 
-  // Show error state if authentication fails (non-blocking, but logged)
-  if (authError) {
-    console.error('ABDM Authentication Error:', authError);
-  }
+  // Error state check commented out
+  // if (authError) {
+  //   console.error('ABDM Authentication Error:', authError);
+  // }
 
   if (!clinic) {
     return (

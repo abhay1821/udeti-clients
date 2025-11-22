@@ -4,13 +4,14 @@ import React, { useRef, useState, useCallback } from 'react';
 import { Avatar, Box, Rating, Typography } from '@mui/material';
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
 import { Clinic } from '@/types/Clinic';
+import { useClinicTheme } from '@/hooks/useClinicTheme';
 
-interface DocWebsite9TestimonialsSectionProps {
+interface StandardTestimonialsSectionProps {
   clinic: Clinic;
 }
 
-export const DocWebsite9TestimonialsSection: React.FC<
-  DocWebsite9TestimonialsSectionProps
+const StandardTestimonialsSectionComponent: React.FC<
+  StandardTestimonialsSectionProps
 > = ({ clinic }) => {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -39,16 +40,22 @@ export const DocWebsite9TestimonialsSection: React.FC<
     });
   };
 
+  const theme = useClinicTheme(clinic.id);
+
   if (!clinic.testimonials?.length) {
     return null;
   }
+  const backgroundColor = theme.componentBackground;
+  const accentColor = theme.accentColor;
+  const textColor = theme.textColor;
+  const cardTextColor = '#0C2D23';
 
   return (
     <Box
       id="testimonials"
       sx={{
-        backgroundColor: '#082B23',
-        color: '#FFFFFF',
+        backgroundColor: backgroundColor,
+        color: textColor,
         px: { xs: 2.5, md: 4 },
         py: { xs: 6, md: 8 },
       }}
@@ -56,10 +63,11 @@ export const DocWebsite9TestimonialsSection: React.FC<
       <Box sx={{ maxWidth: 1200, mx: 'auto', mb: 5, textAlign: 'center' }}>
         <Typography
           sx={{
-            color: '#F5A27E',
+            color: accentColor,
             letterSpacing: '0.2em',
             fontWeight: 600,
             mb: 1,
+            fontSize: '0.9rem',
           }}
         >
           TESTIMONIAL
@@ -83,6 +91,8 @@ export const DocWebsite9TestimonialsSection: React.FC<
           overflowX: 'auto',
           scrollSnapType: 'x mandatory',
           px: 1,
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
           '&::-webkit-scrollbar': { display: 'none' },
         }}
       >
@@ -94,15 +104,14 @@ export const DocWebsite9TestimonialsSection: React.FC<
               borderRadius: '20px',
               minHeight: 260,
               padding: 3,
-              color: '#0C2D23',
-              boxShadow: '0 20px 35px rgba(0,0,0,0.2)',
+              color: cardTextColor,
               display: 'flex',
               flexDirection: 'column',
               flex: { xs: '0 0 90%', md: '0 0 45%', lg: '0 0 32%' },
               scrollSnapAlign: 'center',
             }}
           >
-            <FormatQuoteIcon sx={{ color: '#F5A27E', fontSize: 36 }} />
+            <FormatQuoteIcon sx={{ color: accentColor, fontSize: 36 }} />
             <Typography
               sx={{
                 color: 'rgba(12,45,35,0.8)',
@@ -122,7 +131,15 @@ export const DocWebsite9TestimonialsSection: React.FC<
               }}
             >
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                <Avatar src={testimonial.image} alt={testimonial.name} />
+                <Avatar
+                  sx={{
+                    backgroundColor: accentColor,
+                    color: '#FFFFFF',
+                    fontWeight: 700,
+                  }}
+                >
+                  {testimonial.name.charAt(0).toUpperCase()}
+                </Avatar>
                 <Box>
                   <Typography fontWeight={700}>{testimonial.name}</Typography>
                   <Typography
@@ -135,7 +152,7 @@ export const DocWebsite9TestimonialsSection: React.FC<
               <Rating
                 value={testimonial.rating}
                 readOnly
-                sx={{ color: '#F5A27E' }}
+                sx={{ color: accentColor }}
               />
             </Box>
           </Box>
@@ -152,7 +169,7 @@ export const DocWebsite9TestimonialsSection: React.FC<
               height: 12,
               borderRadius: '50%',
               backgroundColor:
-                index === activeIndex ? '#F5A27E' : 'rgba(245,162,126,0.3)',
+                index === activeIndex ? accentColor : `${accentColor}4D`,
               cursor: 'pointer',
               transition: 'background-color 0.2s ease',
             }}
@@ -163,4 +180,11 @@ export const DocWebsite9TestimonialsSection: React.FC<
   );
 };
 
-export default DocWebsite9TestimonialsSection;
+export const StandardTestimonialsSection = React.memo(
+  StandardTestimonialsSectionComponent,
+  (prevProps, nextProps) => {
+    return prevProps.clinic.id === nextProps.clinic.id;
+  }
+);
+
+export default StandardTestimonialsSection;

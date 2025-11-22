@@ -4,15 +4,7 @@ export const docWebsite8Data = {
   tagline: 'Expert Care, Personalized for You',
   description:
     'ClinicFlow blends innovation with compassionate care, delivering advanced treatments and seamless patient experiences.',
-  logo: '/images/wellness-logo-4.png',
-  primaryColor: '#0C2D48',
-  secondaryColor: '#4DB7F8',
-  theme: {
-    heroBackground: '#E7F5FF',
-    textColor: '#0C2D48',
-    accentColor: '#4DB7F8',
-    buttonColor: '#4DB7F8',
-  },
+  logo: '',
   hero: {
     title: 'Expert Care, Personalized for You',
     subtitle:
@@ -21,6 +13,23 @@ export const docWebsite8Data = {
       'https://images.unsplash.com/photo-1504439468489-c8920d796a29?auto=format&fit=crop&w=1400&q=80',
     ctaText: 'Book an Appointment',
     ctaLink: '#appointment',
+    secondaryCtaText: undefined,
+    secondaryCtaLink: undefined,
+    badgeText: undefined,
+    badge: undefined,
+    highlights: undefined,
+    doctorCard: undefined,
+  },
+  about: {
+    title: 'About Dr. Evelyn Reed',
+    description: [
+      'ClinicFlow blends innovation with compassionate care, delivering advanced treatments and seamless patient experiences.',
+    ],
+    image:
+      'https://images.unsplash.com/photo-1504439468489-c8920d796a29?auto=format&fit=crop&w=1400&q=80',
+    yearsOfExperience: undefined,
+    education: [],
+    expertise: [],
   },
   services: [
     {

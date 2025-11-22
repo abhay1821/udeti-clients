@@ -31,7 +31,7 @@ const socialIcons = [
   { icon: Instagram, key: 'instagram' },
 ];
 
-export const DocWebsite8Footer: React.FC<DocWebsite8FooterProps> = ({
+const DocWebsite8FooterComponent: React.FC<DocWebsite8FooterProps> = ({
   clinic,
 }) => {
   return (
@@ -111,5 +111,12 @@ export const DocWebsite8Footer: React.FC<DocWebsite8FooterProps> = ({
     </Box>
   );
 };
+
+export const DocWebsite8Footer = React.memo(
+  DocWebsite8FooterComponent,
+  (prevProps, nextProps) => {
+    return prevProps.clinic.id === nextProps.clinic.id;
+  }
+);
 
 export default DocWebsite8Footer;

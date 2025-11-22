@@ -14,6 +14,7 @@ import {
 import { useClinic } from '@/contexts/ClinicContext';
 import ServicesCarousel from './ServicesCarousel';
 import ServicesSingleCard from './ServicesSingleCard';
+import { useClinicTheme } from '@/hooks/useClinicTheme';
 
 interface ServicesSectionProps {
   clinicId?: string;
@@ -30,13 +31,17 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
 }) => {
   const theme = useTheme();
   const { getClinicById } = useClinic();
-  
-  const clinic = clinicId ? getClinicById(clinicId) : null;
-  const services = clinic?.services || [];
-  const displayServices = maxServices ? services.slice(0, maxServices) : services;
 
-  // Use different layouts for different websites
-  const useCarousel = clinicId && ['doc-website-2', 'doc-website-4'].includes(clinicId);
+  const clinic = clinicId ? getClinicById(clinicId) : null;
+  const clinicTheme = useClinicTheme(clinicId || '');
+  const services = clinic?.services || [];
+  const displayServices = maxServices
+    ? services.slice(0, maxServices)
+    : services;
+
+  const useCarousel =
+    clinicId &&
+    ['doc-website-2', 'doc-website-4', 'doc-website-12'].includes(clinicId);
   const useSingleCard = clinicId === 'doc-website-5';
   const useGrid = clinicId === 'doc-website-1';
 
@@ -109,7 +114,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
               gap: 3,
             }}
           >
-            {displayServices.map((service) => (
+            {displayServices.map(service => (
               <Card
                 key={service.id}
                 sx={{
@@ -142,7 +147,8 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
                     component="h3"
                     sx={{
                       fontWeight: 'bold',
-                      color: clinic?.primaryColor || theme.palette.primary.main,
+                      color:
+                        clinicTheme?.buttonColor || theme.palette.primary.main,
                       mb: 1.5,
                       fontSize: { xs: '1.1rem', md: '1.25rem' },
                     }}
@@ -166,48 +172,55 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
                   {/* Bullet Points */}
                   {service.bulletPoints && (
                     <Box sx={{ mb: 3 }}>
-                      {service.bulletPoints.slice(0, 4).map((point: string, pointIndex: number) => (
-                        <Box
-                          key={pointIndex}
-                          sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            mb: 1,
-                          }}
-                        >
+                      {service.bulletPoints
+                        .slice(0, 4)
+                        .map((point: string, pointIndex: number) => (
                           <Box
+                            key={pointIndex}
                             sx={{
-                              width: 6,
-                              height: 6,
-                              borderRadius: '50%',
-                              backgroundColor: clinic?.primaryColor || theme.palette.primary.main,
-                              mr: 1.5,
-                              flexShrink: 0,
-                            }}
-                          />
-                          <Typography
-                            variant="body2"
-                            sx={{
-                              fontSize: '0.9rem',
-                              color: 'text.secondary',
-                              lineHeight: 1.4,
+                              display: 'flex',
+                              alignItems: 'center',
+                              mb: 1,
                             }}
                           >
-                            {point}
-                          </Typography>
-                        </Box>
-                      ))}
+                            <Box
+                              sx={{
+                                width: 6,
+                                height: 6,
+                                borderRadius: '50%',
+                                backgroundColor:
+                                  clinicTheme?.buttonColor ||
+                                  theme.palette.primary.main,
+                                mr: 1.5,
+                                flexShrink: 0,
+                              }}
+                            />
+                            <Typography
+                              variant="body2"
+                              sx={{
+                                fontSize: '0.9rem',
+                                color: 'text.secondary',
+                                lineHeight: 1.4,
+                              }}
+                            >
+                              {point}
+                            </Typography>
+                          </Box>
+                        ))}
                     </Box>
                   )}
 
-                  {/* Learn More Button */}
                   <Button
                     variant="outlined"
                     sx={{
-                      borderColor: clinic?.primaryColor || theme.palette.primary.main,
-                      color: clinic?.primaryColor || theme.palette.primary.main,
+                      borderColor:
+                        clinicTheme?.buttonColor || theme.palette.primary.main,
+                      color:
+                        clinicTheme?.buttonColor || theme.palette.primary.main,
                       '&:hover': {
-                        backgroundColor: clinic?.primaryColor || theme.palette.primary.main,
+                        backgroundColor:
+                          clinicTheme?.buttonColor ||
+                          theme.palette.primary.main,
                         color: 'white',
                       },
                       width: '100%',
@@ -235,7 +248,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
             gutterBottom
             sx={{
               fontWeight: 'bold',
-              color: clinic?.primaryColor || theme.palette.primary.main,
+              color: clinicTheme?.buttonColor || theme.palette.primary.main,
             }}
           >
             {title}
@@ -250,7 +263,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
         </Box>
 
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-          {displayServices.map((service) => (
+          {displayServices.map(service => (
             <Box key={service.id} sx={{ flex: '1 1 300px', minWidth: '300px' }}>
               <Card
                 sx={{
@@ -285,13 +298,14 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
                       width: '80px',
                       height: '80px',
                       borderRadius: '50%',
-                      backgroundColor: `${clinic?.primaryColor || theme.palette.primary.main}15`,
-                      color: clinic?.primaryColor || theme.palette.primary.main,
+                      backgroundColor: `${clinicTheme?.buttonColor || theme.palette.primary.main}15`,
+                      color:
+                        clinicTheme?.buttonColor || theme.palette.primary.main,
                     }}
                   >
                     {service.icon}
                   </Box>
-                  
+
                   <Typography
                     variant="h6"
                     component="h3"
@@ -304,7 +318,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
                   >
                     {service.title}
                   </Typography>
-                  
+
                   <Typography
                     variant="body2"
                     color="text.secondary"

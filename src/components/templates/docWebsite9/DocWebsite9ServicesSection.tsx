@@ -4,6 +4,7 @@ import React from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { Clinic } from '@/types/Clinic';
+import { useClinicTheme } from '@/hooks/useClinicTheme';
 
 interface DocWebsite9ServicesSectionProps {
   clinic: Clinic;
@@ -12,20 +13,33 @@ interface DocWebsite9ServicesSectionProps {
 export const DocWebsite9ServicesSection: React.FC<
   DocWebsite9ServicesSectionProps
 > = ({ clinic }) => {
+  const theme = useClinicTheme(clinic.id);
+
   if (!clinic.services?.length) {
     return null;
   }
+  const primaryColor = theme.buttonColor;
+  const backgroundColor = theme.componentBackground;
+  const textColor = theme.textColor;
+  const accentColor = theme.accentColor;
+
+  const hexToRgba = (hex: string, opacity: number) => {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+  };
 
   return (
     <Box
       id="services"
       sx={{
-        backgroundColor: '#FFF6F0',
-        color: '#0C2D23',
+        backgroundColor: backgroundColor,
+        color: textColor,
         px: { xs: 3, md: 5 },
         py: { xs: 6, md: 9 },
-        borderTop: '1px solid rgba(12,45,35,0.12)',
-        boxShadow: 'inset 0 20px 40px rgba(255,162,126,0.08)',
+        borderTop: `1px solid ${hexToRgba(textColor, 0.12)}`,
+        boxShadow: `inset 0 20px 40px ${hexToRgba(primaryColor, 0.08)}`,
       }}
     >
       <Box
@@ -41,7 +55,7 @@ export const DocWebsite9ServicesSection: React.FC<
         <Box>
           <Typography
             sx={{
-              color: '#F5A27E',
+              color: primaryColor,
               letterSpacing: '0.25em',
               fontWeight: 600,
               mb: 1,
@@ -55,15 +69,16 @@ export const DocWebsite9ServicesSection: React.FC<
               fontSize: { xs: '2.4rem', md: '2.8rem' },
               fontWeight: 800,
               mb: 3,
+              color: textColor,
             }}
           >
             We&apos;re Providing Best Services.
           </Typography>
-          <Typography sx={{ color: 'rgba(12,45,35,0.75)', lineHeight: 1.8 }}>
-            Evidence-based endocrinology and hormone care tailored to your body.
-            From thyroid and metabolic conditions to fertility and autoimmune
-            disorders, Dr. Tanvi creates personalized plans that fit your
-            lifestyle.
+          <Typography
+            sx={{ color: hexToRgba(textColor, 0.75), lineHeight: 1.8 }}
+          >
+            {clinic.description ||
+              'Comprehensive healthcare services tailored to your needs with advanced techniques and personalized treatment plans.'}
           </Typography>
         </Box>
 
@@ -82,21 +97,21 @@ export const DocWebsite9ServicesSection: React.FC<
             <Box
               key={service.id}
               sx={{
-                backgroundColor: '#FFF7F2',
-                border: '1px solid rgba(12,45,35,0.1)',
+                backgroundColor: '#FFFFFF',
+                border: `1px solid ${hexToRgba(textColor, 0.1)}`,
                 borderRadius: '18px',
                 display: 'flex',
                 flexDirection: 'column',
                 minHeight: 200,
                 transition: 'background-color 0.3s ease, color 0.3s ease',
                 '&:hover': {
-                  backgroundColor: '#F5A27E',
-                  color: '#0C2D23',
+                  backgroundColor: primaryColor,
+                  color: '#FFFFFF',
                 },
               }}
             >
               <Box sx={{ flex: 1, p: 3 }}>
-                <Typography fontWeight={700} sx={{ mb: 1 }}>
+                <Typography fontWeight={700} sx={{ mb: 1, color: 'inherit' }}>
                   {service.title}
                 </Typography>
                 <Typography sx={{ color: 'inherit', opacity: 0.8 }}>
@@ -105,8 +120,8 @@ export const DocWebsite9ServicesSection: React.FC<
               </Box>
               <Box
                 sx={{
-                  borderTop: '1px solid rgba(12,45,35,0.08)',
-                  backgroundColor: 'rgba(245,162,126,0.2)',
+                  borderTop: `1px solid ${hexToRgba(textColor, 0.08)}`,
+                  backgroundColor: hexToRgba(primaryColor, 0.2),
                   display: 'flex',
                   justifyContent: 'center',
                   p: 2,

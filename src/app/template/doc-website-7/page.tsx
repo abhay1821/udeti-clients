@@ -1,27 +1,53 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Box, Typography } from '@mui/material';
-import DocWebsite7Header from '@/components/templates/docWebsite7/DocWebsite7Header';
+import HeaderWithLogo from '@/components/headers/HeaderWithLogo';
+import HeaderWithoutLogo from '@/components/headers/HeaderWithoutLogo';
 import DocWebsite7HeroSection from '@/components/templates/docWebsite7/DocWebsite7HeroSection';
-import DocWebsite7ServicesSection from '@/components/templates/docWebsite7/DocWebsite7ServicesSection';
-import DocWebsite7GallerySection from '@/components/templates/docWebsite7/DocWebsite7GallerySection';
+import ImageCardServicesSection from '@/components/services/ImageCardServicesSection';
+import StandardGallerySection from '@/components/sections/StandardGallerySection';
 import DocWebsite7AppointmentSection from '@/components/templates/docWebsite7/DocWebsite7AppointmentSection';
 import DocWebsite7TestimonialsSection from '@/components/templates/docWebsite7/DocWebsite7TestimonialsSection';
 import DocWebsite7Footer from '@/components/templates/docWebsite7/DocWebsite7Footer';
-import { useClinic } from '@/contexts/ClinicContext';
-import { useAbdmAuth } from '@/hooks/useAbdmAuth';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
+import { useClinicData } from '@/hooks/useClinicData';
+import {
+  hasLogo,
+  hasServices,
+  hasGalleryImages,
+  hasTestimonials,
+} from '@/utils/clinicValidation';
+import { CircularProgress } from '@mui/material';
 
 const DocWebsite7TemplatePage = () => {
-  const { getClinicById } = useClinic();
-
-  const { isLoading: isAuthLoading, error: authError } = useAbdmAuth();
-
   const clinicId = 'doc-website-7';
-  const clinic = getClinicById(clinicId);
+  const { clinic, validation, isLoading } = useClinicData(clinicId);
 
-  if (isAuthLoading) {
+  // Call useMemo BEFORE any conditional returns to follow Rules of Hooks
+  const components = useMemo(() => {
+    if (!clinic) return [];
+    return [
+      hasLogo(clinic) ? (
+        <HeaderWithLogo key="header" clinic={clinic} />
+      ) : (
+        <HeaderWithoutLogo key="header" clinic={clinic} />
+      ),
+      <DocWebsite7HeroSection key="hero" clinic={clinic} />,
+      hasServices(clinic) && (
+        <ImageCardServicesSection key="services" clinic={clinic} />
+      ),
+      hasGalleryImages(clinic) && (
+        <StandardGallerySection key="gallery" clinic={clinic} />
+      ),
+      <DocWebsite7AppointmentSection key="appointment" clinic={clinic} />,
+      hasTestimonials(clinic) && (
+        <DocWebsite7TestimonialsSection key="testimonials" clinic={clinic} />
+      ),
+      <DocWebsite7Footer key="footer" clinic={clinic} />,
+    ].filter(Boolean);
+  }, [clinic]);
+
+  if (isLoading) {
     return (
       <Box
         sx={{
@@ -29,16 +55,35 @@ const DocWebsite7TemplatePage = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#F3F8F5',
+          backgroundColor: '#03130E',
         }}
       >
-        <LoadingSpinner />
+        <CircularProgress />
       </Box>
     );
   }
 
-  if (authError) {
-    console.error('ABDM Authentication Error:', authError);
+  if (!validation.isValid) {
+    return (
+      <Box
+        sx={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#03130E',
+          p: 4,
+        }}
+      >
+        <Typography variant="h5" color="error" gutterBottom>
+          Invalid Clinic Data
+        </Typography>
+        <Typography variant="body1" color="error" sx={{ mt: 2 }}>
+          {validation.errors.join(', ')}
+        </Typography>
+      </Box>
+    );
   }
 
   if (!clinic) {
@@ -61,13 +106,7 @@ const DocWebsite7TemplatePage = () => {
 
   return (
     <Box sx={{ minHeight: '100vh', backgroundColor: '#F3F8F5' }}>
-      <DocWebsite7Header clinic={clinic} />
-      <DocWebsite7HeroSection clinic={clinic} />
-      <DocWebsite7ServicesSection clinic={clinic} />
-      <DocWebsite7GallerySection clinic={clinic} />
-      <DocWebsite7AppointmentSection clinic={clinic} />
-      <DocWebsite7TestimonialsSection clinic={clinic} />
-      <DocWebsite7Footer clinic={clinic} />
+      {components}
     </Box>
   );
 };

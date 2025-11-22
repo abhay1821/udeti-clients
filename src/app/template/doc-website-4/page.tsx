@@ -10,42 +10,42 @@ import ServicesSection from '@/components/sections/ServicesSection';
 import TestimonialsSection from '@/components/sections/TestimonialsSection';
 import StatsSection from '@/components/sections/StatsSection';
 import { useClinic } from '@/contexts/ClinicContext';
-import { useAbdmAuth } from '@/hooks/useAbdmAuth';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
+// import { useAbdmAuth } from '@/hooks/useAbdmAuth';
+// import LoadingSpinner from '@/components/ui/LoadingSpinner';
 
 export default function WellnessTemplatePage() {
   const { getClinicById } = useClinic();
 
-  // Initialize ABDM authentication
-  const { isLoading: isAuthLoading, error: authError } = useAbdmAuth();
+  // ABDM Authentication commented out to prevent API calls
+  // const { isLoading: isAuthLoading, error: authError } = useAbdmAuth();
 
   const clinicId = 'doc-website-4';
   const clinic = getClinicById(clinicId);
 
-  // Show loading state while authenticating
-  if (isAuthLoading) {
-    return (
-      <Layout>
-        <Container
-          maxWidth="lg"
-          sx={{
-            py: 8,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: '50vh',
-          }}
-        >
-          <LoadingSpinner />
-        </Container>
-      </Layout>
-    );
-  }
+  // Loading state check commented out
+  // if (isAuthLoading) {
+  //   return (
+  //     <Layout>
+  //       <Container
+  //         maxWidth="lg"
+  //         sx={{
+  //           py: 8,
+  //           display: 'flex',
+  //           justifyContent: 'center',
+  //           alignItems: 'center',
+  //           minHeight: '50vh',
+  //         }}
+  //       >
+  //         <LoadingSpinner />
+  //       </Container>
+  //     </Layout>
+  //   );
+  // }
 
-  // Show error state if authentication fails (non-blocking, but logged)
-  if (authError) {
-    console.error('ABDM Authentication Error:', authError);
-  }
+  // Error state check commented out
+  // if (authError) {
+  //   console.error('ABDM Authentication Error:', authError);
+  // }
 
   if (!clinic) {
     return (
@@ -68,34 +68,28 @@ export default function WellnessTemplatePage() {
 
   return (
     <Layout clinicId={clinicId}>
-      {/* Clinic Gallery Section */}
       <ClinicGallery
         clinicId={clinicId}
         title="Our Clinic in Pics"
         subtitle="Take a virtual tour of our facility designed for your comfort and care"
       />
 
-      {/* Detailed Doctors Section */}
       <DetailedDoctorsSection
         clinicId={clinicId}
         title="Book Appointment With your Physician"
         subtitle="Our experienced team of medical professionals is committed to providing you with the highest quality care."
       />
 
-      {/* Appointment Section */}
       <VerticalAppointmentSection clinicId={clinicId} />
 
-      {/* Services Section */}
       <ServicesSection
         clinicId={clinicId}
         title="Wellness Services"
         subtitle="Comprehensive wellness programs designed for your unique needs"
       />
 
-      {/* Stats Section */}
       <StatsSection clinicId={clinicId} stats={wellnessStats} />
 
-      {/* Testimonials Section */}
       <TestimonialsSection
         clinicId={clinicId}
         title="Transformation Stories"

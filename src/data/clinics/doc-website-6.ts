@@ -4,15 +4,7 @@ export const docWebsite6Data = {
   tagline: 'Compassionate Care, Advanced Medicine',
   description:
     'Dr. Eleanor Vance provides personalized, evidence-based healthcare focused on helping you achieve long-term wellness goals with confidence.',
-  logo: '/images/wellness-logo-4.png',
-  primaryColor: '#5A54F5',
-  secondaryColor: '#1B1F3B',
-  theme: {
-    heroBackground: '#F6F7FB',
-    textColor: '#0A0E1A',
-    accentColor: '#CDD5FF',
-    buttonColor: '#5A54F5',
-  },
+  logo: '',
   hero: {
     title: 'Compassionate Care, Advanced Medicine',
     subtitle:
@@ -20,10 +12,25 @@ export const docWebsite6Data = {
     backgroundImage: '/images/doctors/doctor-1.jpg',
     ctaText: 'Book an Appointment',
     ctaLink: '/contact',
+    secondaryCtaText: undefined,
+    secondaryCtaLink: undefined,
+    badgeText: undefined,
+    badge: {
+      title: 'Board Certified',
+      description: 'Over 15 Years of Experience',
+    },
+    highlights: undefined,
+    doctorCard: undefined,
   },
-  heroBadge: {
-    title: 'Board Certified',
-    description: 'Over 15 Years of Experience',
+  about: {
+    title: 'About Dr. Eleanor Vance',
+    description: [
+      'Dr. Eleanor Vance provides personalized, evidence-based healthcare focused on helping you achieve long-term wellness goals with confidence.',
+    ],
+    image: '/images/doctors/doctor-1.jpg',
+    yearsOfExperience: undefined,
+    education: [],
+    expertise: [],
   },
   services: [
     {

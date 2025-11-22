@@ -11,40 +11,40 @@ import RequestCallbackForm from '@/components/sections/RequestCallbackForm';
 import PricingSection from '@/components/templates/udeti/PricingSection';
 import WhyUdetiSection from '@/components/templates/udeti/WhyUdetiSection';
 import { useClinic } from '@/contexts/ClinicContext';
-import { useAbdmAuth } from '@/hooks/useAbdmAuth';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
+// import { useAbdmAuth } from '@/hooks/useAbdmAuth';
+// import LoadingSpinner from '@/components/ui/LoadingSpinner';
 
 export default function UdetiTemplatePage() {
   const { getClinicById } = useClinic();
 
-  // Initialize ABDM authentication
-  const { isLoading: isAuthLoading, error: authError } = useAbdmAuth();
+  // ABDM Authentication commented out to prevent API calls
+  // const { isLoading: isAuthLoading, error: authError } = useAbdmAuth();
 
   const clinicId = 'udeti-website';
   const clinic = getClinicById(clinicId);
 
-  // Show loading state while authenticating
-  if (isAuthLoading) {
-    return (
-      <Box
-        sx={{
-          pt: '70px',
-          minHeight: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <UdetiHeader />
-        <LoadingSpinner />
-      </Box>
-    );
-  }
+  // Loading state check commented out
+  // if (isAuthLoading) {
+  //   return (
+  //     <Box
+  //       sx={{
+  //         pt: '70px',
+  //         minHeight: '100vh',
+  //         display: 'flex',
+  //         alignItems: 'center',
+  //         justifyContent: 'center',
+  //       }}
+  //     >
+  //       <UdetiHeader />
+  //       <LoadingSpinner />
+  //     </Box>
+  //   );
+  // }
 
-  // Show error state if authentication fails (non-blocking, but logged)
-  if (authError) {
-    console.error('ABDM Authentication Error:', authError);
-  }
+  // Error state check commented out
+  // if (authError) {
+  //   console.error('ABDM Authentication Error:', authError);
+  // }
 
   if (!clinic) {
     return (

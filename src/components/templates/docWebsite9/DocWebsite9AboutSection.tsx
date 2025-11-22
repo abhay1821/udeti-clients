@@ -9,7 +9,7 @@ interface DocWebsite9AboutSectionProps {
   clinic: Clinic;
 }
 
-export const DocWebsite9AboutSection: React.FC<
+const DocWebsite9AboutSectionComponent: React.FC<
   DocWebsite9AboutSectionProps
 > = ({ clinic }) => {
   const highlights = [
@@ -122,5 +122,12 @@ export const DocWebsite9AboutSection: React.FC<
     </Box>
   );
 };
+
+export const DocWebsite9AboutSection = React.memo(
+  DocWebsite9AboutSectionComponent,
+  (prevProps, nextProps) => {
+    return prevProps.clinic.id === nextProps.clinic.id;
+  }
+);
 
 export default DocWebsite9AboutSection;

@@ -14,9 +14,9 @@ const heroImages = [
   'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=800&q=80',
 ];
 
-export const DocWebsite9HeroSection: React.FC<DocWebsite9HeroSectionProps> = ({
-  clinic,
-}) => {
+const DocWebsite9HeroSectionComponent: React.FC<
+  DocWebsite9HeroSectionProps
+> = ({ clinic }) => {
   const scrollTo = (selector: string) => {
     const target = document.querySelector(selector);
     if (target) {
@@ -140,5 +140,12 @@ export const DocWebsite9HeroSection: React.FC<DocWebsite9HeroSectionProps> = ({
     </Box>
   );
 };
+
+export const DocWebsite9HeroSection = React.memo(
+  DocWebsite9HeroSectionComponent,
+  (prevProps, nextProps) => {
+    return prevProps.clinic.id === nextProps.clinic.id;
+  }
+);
 
 export default DocWebsite9HeroSection;

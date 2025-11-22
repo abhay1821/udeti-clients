@@ -3,23 +3,31 @@ export const docWebsite9Data = {
   name: 'Dr. Tanvi Mayur Patel',
   tagline: 'Top Endocrinologist in Mumbai',
   description:
-    'Live your life to the fullest — free from worries about Diabetes, Thyroid, PCOS, or Hormonal Imbalances. Experience science-backed, compassionate care with Dr. Tanvi Mayur Patel, Mumbai’s leading Endocrinologist and Hormone Specialist.',
-  logo: '/images/wellness-logo-4.png',
-  primaryColor: '#0B2D23',
-  secondaryColor: '#F5A27E',
-  theme: {
-    heroBackground: '#0B2D23',
-    textColor: '#FFFFFF',
-    accentColor: '#F5A27E',
-    buttonColor: '#F5A27E',
-  },
+    'Live your life to the fullest — free from worries about Diabetes, Thyroid, PCOS, or Hormonal Imbalances. Experience science-backed, compassionate care with Dr. Tanvi Mayur Patel, Mumbai leading Endocrinologist and Hormone Specialist.',
+  logo: '',
   hero: {
     title: 'Top 3 Endocrinologist in Mumbai*',
     subtitle:
-      'Live your life to the fullest — free from worries about Diabetes, Thyroid, PCOS, or Hormonal Imbalances. Experience science-backed, compassionate care with Dr. Tanvi Mayur Patel, Mumbai’s leading Endocrinologist and Hormone Specialist.',
+      'Live your life to the fullest — free from worries about Diabetes, Thyroid, PCOS, or Hormonal Imbalances. Experience science-backed, compassionate care with Dr. Tanvi Mayur Patel, Mumbai leading Endocrinologist and Hormone Specialist.',
     backgroundImage: '',
     ctaText: 'Read More',
     ctaLink: '#about',
+    secondaryCtaText: undefined,
+    secondaryCtaLink: undefined,
+    badgeText: undefined,
+    badge: undefined,
+    highlights: undefined,
+    doctorCard: undefined,
+  },
+  about: {
+    title: 'About Dr. Tanvi Mayur Patel',
+    description: [
+      'Live your life to the fullest — free from worries about Diabetes, Thyroid, PCOS, or Hormonal Imbalances. Experience science-backed, compassionate care with Dr. Tanvi Mayur Patel, Mumbai leading Endocrinologist and Hormone Specialist.',
+    ],
+    image: '',
+    yearsOfExperience: undefined,
+    education: [],
+    expertise: [],
   },
   services: [
     {

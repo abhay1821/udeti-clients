@@ -9,13 +9,13 @@ interface DocWebsite8AboutSectionProps {
   clinic: Clinic;
 }
 
-export const DocWebsite8AboutSection: React.FC<
+const DocWebsite8AboutSectionComponent: React.FC<
   DocWebsite8AboutSectionProps
 > = ({ clinic }) => {
+  const aboutData = clinic.about;
   const highlights = [
-    'MD, Stanford University',
-    'Board Certified in Internal Medicine',
-    'Member, American College of Physicians',
+    ...(aboutData?.education || []),
+    ...(aboutData?.expertise || []),
   ];
 
   return (
@@ -46,7 +46,11 @@ export const DocWebsite8AboutSection: React.FC<
         >
           <Box
             component="img"
-            src="https://images.unsplash.com/photo-1527613426441-4da17471b66d?auto=format&fit=crop&w=900&q=80"
+            src={
+              aboutData?.image ||
+              clinic.hero?.backgroundImage ||
+              'https://images.unsplash.com/photo-1527613426441-4da17471b66d?auto=format&fit=crop&w=900&q=80'
+            }
             alt={clinic.name}
             sx={{
               width: '100%',
@@ -77,41 +81,46 @@ export const DocWebsite8AboutSection: React.FC<
               mb: 2,
             }}
           >
-            Dr. Evelyn Reed, MD
+            {clinic.name}
           </Typography>
-          <Typography
-            sx={{ color: 'rgba(15,23,42,0.7)', lineHeight: 1.7, mb: 3 }}
-          >
-            With over 15 years of experience, Dr. Reed is committed to
-            delivering exceptional, evidence-based healthcare. She graduated
-            with honors from the Stanford University School of Medicine and
-            completed her residency at Johns Hopkins Hospital.
-          </Typography>
-          <Typography
-            sx={{ color: 'rgba(15,23,42,0.7)', lineHeight: 1.7, mb: 3 }}
-          >
-            Dr. Reed believes in a patient-centered approach, focusing on
-            building strong, trusting relationships. Her care philosophy is
-            rooted in empathy, communication, and empowering patients in their
-            health journey.
-          </Typography>
-          <Stack spacing={1.5}>
-            {highlights.map(item => (
-              <Stack
-                direction="row"
-                spacing={1.5}
-                alignItems="center"
-                key={item}
-              >
-                <CheckCircleIcon sx={{ color: '#34D399' }} />
-                <Typography fontWeight={600}>{item}</Typography>
-              </Stack>
-            ))}
-          </Stack>
+          {aboutData?.description && aboutData.description.length > 0 && (
+            <>
+              {aboutData.description.map((paragraph, index) => (
+                <Typography
+                  key={index}
+                  sx={{ color: 'rgba(15,23,42,0.7)', lineHeight: 1.7, mb: 3 }}
+                >
+                  {paragraph}
+                </Typography>
+              ))}
+            </>
+          )}
+          {highlights.length > 0 && (
+            <Stack spacing={1.5}>
+              {highlights.map((item, index) => (
+                <Stack
+                  direction="row"
+                  spacing={1.5}
+                  alignItems="center"
+                  key={index}
+                >
+                  <CheckCircleIcon sx={{ color: '#34D399' }} />
+                  <Typography fontWeight={600}>{item}</Typography>
+                </Stack>
+              ))}
+            </Stack>
+          )}
         </Box>
       </Box>
     </Box>
   );
 };
+
+export const DocWebsite8AboutSection = React.memo(
+  DocWebsite8AboutSectionComponent,
+  (prevProps, nextProps) => {
+    return prevProps.clinic.id === nextProps.clinic.id;
+  }
+);
 
 export default DocWebsite8AboutSection;

@@ -16,7 +16,7 @@ interface DocWebsite6TestimonialsSectionProps {
   clinic: Clinic;
 }
 
-export const DocWebsite6TestimonialsSection: React.FC<
+const DocWebsite6TestimonialsSectionComponent: React.FC<
   DocWebsite6TestimonialsSectionProps
 > = ({ clinic }) => {
   if (!clinic.testimonials?.length) return null;
@@ -142,5 +142,12 @@ export const DocWebsite6TestimonialsSection: React.FC<
     </Box>
   );
 };
+
+export const DocWebsite6TestimonialsSection = React.memo(
+  DocWebsite6TestimonialsSectionComponent,
+  (prevProps, nextProps) => {
+    return prevProps.clinic.id === nextProps.clinic.id;
+  }
+);
 
 export default DocWebsite6TestimonialsSection;

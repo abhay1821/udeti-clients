@@ -8,9 +8,9 @@ interface DocWebsite7HeroSectionProps {
   clinic: Clinic;
 }
 
-export const DocWebsite7HeroSection: React.FC<DocWebsite7HeroSectionProps> = ({
-  clinic,
-}) => {
+const DocWebsite7HeroSectionComponent: React.FC<
+  DocWebsite7HeroSectionProps
+> = ({ clinic }) => {
   const scrollTo = (selector: string) => {
     const target = document.querySelector(selector);
     if (target) {
@@ -116,5 +116,12 @@ export const DocWebsite7HeroSection: React.FC<DocWebsite7HeroSectionProps> = ({
     </Box>
   );
 };
+
+export const DocWebsite7HeroSection = React.memo(
+  DocWebsite7HeroSectionComponent,
+  (prevProps, nextProps) => {
+    return prevProps.clinic.id === nextProps.clinic.id;
+  }
+);
 
 export default DocWebsite7HeroSection;

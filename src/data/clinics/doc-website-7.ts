@@ -4,26 +4,33 @@ export const docWebsite7Data = {
   tagline: 'Personalized Care, Trusted Expertise',
   description:
     'Dr. Elara Vance combines years of expertise with a unique, patient-first philosophy to deliver deeply personal, advanced care.',
-  logo: '/images/wellness-logo-4.png',
-  primaryColor: '#0F2C20',
-  secondaryColor: '#19D08A',
-  theme: {
-    heroBackground: '#041A13',
-    textColor: '#F4FFF7',
-    accentColor: '#19D08A',
-    buttonColor: '#19D08A',
-  },
+  logo: '',
   hero: {
-    title: 'Compassionate Care,\nModern Medicine.',
+    title: 'Compassionate Care, Modern Medicine.',
     subtitle:
-      'Dr. Aarav Mehta combines years of expertise with a unique, patient-first philosophy to provide care that’s both advanced and deeply personal.',
+      'Dr. Aarav Mehta combines years of expertise with a unique, patient-first philosophy to provide care that is both advanced and deeply personal.',
     backgroundImage: '/images/doctors/doctor-2.webp',
     ctaText: 'Book an Appointment',
     ctaLink: '#appointment',
+    secondaryCtaText: undefined,
+    secondaryCtaLink: undefined,
+    badgeText: undefined,
+    badge: {
+      title: 'Trusted Care',
+      description: 'Board-Certified Physician',
+    },
+    highlights: undefined,
+    doctorCard: undefined,
   },
-  heroBadge: {
-    title: 'Trusted Care',
-    description: 'Board-Certified Physician',
+  about: {
+    title: 'About Dr. Aarav Mehta',
+    description: [
+      'Dr. Elara Vance combines years of expertise with a unique, patient-first philosophy to deliver deeply personal, advanced care.',
+    ],
+    image: '/images/doctors/doctor-2.webp',
+    yearsOfExperience: undefined,
+    education: [],
+    expertise: [],
   },
   services: [
     {
