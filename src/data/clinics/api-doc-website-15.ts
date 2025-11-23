@@ -2,6 +2,7 @@ export const apiDocWebsite15Data = {
   id: 'doc-website-15',
   name: 'Dr. Rajesh Kumar',
   tagline: 'Expert Medical Specialist',
+  themeType: 'doc-website-15',
   description:
     'Dr. Rajesh Kumar is a renowned medical specialist providing comprehensive healthcare services with advanced techniques and compassionate treatment.',
   logo: 'https://i.ytimg.com/vi/HJS5HvQzofI/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDfXAjo83e9m5lUrEq_RSqtilZyQw',

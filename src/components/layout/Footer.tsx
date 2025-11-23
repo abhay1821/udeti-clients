@@ -27,7 +27,7 @@ interface FooterProps {
 }
 
 const Footer: React.FC<FooterProps> = ({ clinicId }) => {
-  const { getClinicById } = useClinic();
+  const { getClinicById, theme } = useClinic();
   const clinic = clinicId ? getClinicById(clinicId) : null;
 
   const socialIcons = [
@@ -97,7 +97,7 @@ const Footer: React.FC<FooterProps> = ({ clinicId }) => {
                     height: 36,
                     '&:hover': {
                       color: 'white',
-                      backgroundColor: clinic?.primaryColor || 'primary.main',
+                      backgroundColor: theme?.primaryColor || 'primary.main',
                       transform: 'scale(1.1)',
                     },
                     transition: 'all 0.3s ease',

@@ -1,15 +1,20 @@
 'use client';
-
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useClinic } from '@/contexts/ClinicContext';
 import { Box, CircularProgress, Typography } from '@mui/material';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function HomePage() {
+  const context = useClinic();
   const router = useRouter();
+  // `
 
   useEffect(() => {
-    router.push('/template/udeti-website');
-  }, [router]);
+    console.log(context.theme);
+    if (context.theme) {
+      router.push(`/template/${context.theme}`);
+    }
+  }, [context.theme]);
 
   return (
     <Box
@@ -22,10 +27,14 @@ export default function HomePage() {
         gap: 2,
       }}
     >
-      <CircularProgress size={40} />
-      <Typography variant="body1" color="text.secondary">
-        Redirecting to Udeti...
-      </Typography>
+      {context.isLoading && (
+        <>
+          <CircularProgress size={40} />
+          <Typography variant="body1" color="text.secondary">
+            Redirecting to Udeti...
+          </Typography>
+        </>
+      )}
     </Box>
   );
 }

@@ -90,6 +90,10 @@ export interface Clinic {
   galleryImages?: string[];
   social: Social;
   doctors?: Doctor[];
+  themeType?: string;
+  primaryColor?: string;
+  secondaryColor?: string;
+  theme?: string | ClinicTheme;
 }
 
 export interface ClinicTheme {

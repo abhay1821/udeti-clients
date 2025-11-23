@@ -6,15 +6,15 @@ import React, {
   useState,
   useMemo,
   useCallback,
+  useEffect,
 } from 'react';
-import { Clinic } from '@/types/Clinic';
+import { Clinic, ClinicTheme } from '@/types/Clinic';
 import allClinicsData from '@/data/clinics';
 import {
   validateMandatoryFields,
   ValidationResult,
 } from '@/utils/clinicValidation';
-import { fetchClinicFromApi, isApiModeEnabled } from '@/services/clinicApi';
-
+import { isApiModeEnabled } from '@/services/clinicApi';
 export interface ValidatedClinic {
   clinic: Clinic | null;
   validation: ValidationResult;
@@ -26,6 +26,7 @@ interface ClinicContextType {
   getClinicById: (id: string) => Clinic | undefined;
   getValidatedClinic: (id: string) => Promise<ValidatedClinic>;
   isLoading: boolean;
+  theme: ClinicTheme | null;
 }
 
 const ClinicContext = createContext<ClinicContextType | undefined>(undefined);
@@ -37,6 +38,61 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const [isLoading, setIsLoading] = useState(false);
   const [loadingClinics, setLoadingClinics] = useState<Set<string>>(new Set());
+  const [theme, setTheme] = useState<ClinicTheme | null>(null);
+
+  // Fetch environment config and clinic data on mount
+  useEffect(() => {
+    const initializeClinic = async () => {
+      try {
+        setIsLoading(true);
+        sessionStorage.removeItem('clinicConfig');
+        sessionStorage.removeItem('doctorId');
+        // Step 1: Fetch env.json
+        const envResponse = await fetch('/assets/environment.json');
+        if (!envResponse.ok) {
+          throw new Error('Failed to fetch environment config');
+        }
+        const envData = await envResponse.json();
+
+        // Store in sessionStorage
+        sessionStorage.setItem('clinicConfig', JSON.stringify(envData));
+        sessionStorage.setItem('doctorId', envData.doctorId);
+
+        // Step 2: Fetch clinic data from API using doctorId
+        const clinicId = envData.doctorId;
+        const apiResponse = await fetch(`/api/clinics/${clinicId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          cache: 'no-store',
+        });
+
+        if (apiResponse.ok) {
+          const result = await apiResponse.json();
+
+          // If API returns theme, use it; otherwise use static
+          const clinicTheme = result.data?.theme || 'default';
+
+          sessionStorage.setItem('clinicTheme', JSON.stringify(clinicTheme));
+
+          // Apply theme to document
+          applyTheme(clinicTheme);
+        }
+      } catch (error) {
+        console.error('Error initializing clinic:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initializeClinic();
+  }, []);
+
+  const applyTheme = (clinicTheme: ClinicTheme) => {
+    console.log('Applying theme:', clinicTheme);
+    setTheme(clinicTheme);
+  };
 
   const getClinicById = useCallback(
     (id: string): Clinic | undefined => {
@@ -57,13 +113,37 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({
       setLoadingClinics(prev => new Set(prev).add(id));
       setIsLoading(true);
       try {
-        const clinic = await fetchClinicFromApi(id);
-        return clinic;
+        // Direct API call (not from router)
+        const response = await fetch(`/api/clinics/${id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          cache: 'no-store',
+        });
+
+        if (!response.ok) {
+          if (response.status === 404) {
+            return null;
+          }
+          throw new Error(
+            `API error: ${response.status} ${response.statusText}`
+          );
+        }
+
+        const result = await response.json();
+
+        if (result.success && result.data) {
+          return result.data;
+        }
+
+        return null;
       } catch (error) {
         console.error(`Error fetching clinic ${id} from API:`, error);
         return null;
       } finally {
         setIsLoading(false);
+
         setLoadingClinics(prev => {
           const next = new Set(prev);
           next.delete(id);
@@ -128,8 +208,9 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({
       getClinicById,
       getValidatedClinic,
       isLoading,
+      theme,
     }),
-    [clinics, getClinicById, getValidatedClinic, isLoading]
+    [clinics, getClinicById, getValidatedClinic, isLoading, theme]
   );
 
   return (
