@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useEffect } from 'react';
-import { Box, Container, Typography, useTheme } from '@mui/material';
+import React from 'react';
+import { Box, Container, Typography } from '@mui/material';
 import UdetiHeader from '../../../components/templates/udeti/UdetiHeader';
 import UdetiFooter from '../../../components/templates/udeti/UdetiFooter';
 import TestimonialsSection from '@/components/sections/TestimonialsSection';
@@ -11,16 +11,40 @@ import RequestCallbackForm from '@/components/sections/RequestCallbackForm';
 import PricingSection from '@/components/templates/udeti/PricingSection';
 import WhyUdetiSection from '@/components/templates/udeti/WhyUdetiSection';
 import { useClinic } from '@/contexts/ClinicContext';
+// import { useAbdmAuth } from '@/hooks/useAbdmAuth';
+// import LoadingSpinner from '@/components/ui/LoadingSpinner';
 
 export default function UdetiTemplatePage() {
-  const { getClinicById, setCurrentClinic } = useClinic();
-  
+  const { getClinicById } = useClinic();
+
+  // ABDM Authentication commented out to prevent API calls
+  // const { isLoading: isAuthLoading, error: authError } = useAbdmAuth();
+
   const clinicId = 'udeti-website';
   const clinic = getClinicById(clinicId);
 
-  useEffect(() => {
-    setCurrentClinic(clinicId);
-  }, [setCurrentClinic]);
+  // Loading state check commented out
+  // if (isAuthLoading) {
+  //   return (
+  //     <Box
+  //       sx={{
+  //         pt: '70px',
+  //         minHeight: '100vh',
+  //         display: 'flex',
+  //         alignItems: 'center',
+  //         justifyContent: 'center',
+  //       }}
+  //     >
+  //       <UdetiHeader />
+  //       <LoadingSpinner />
+  //     </Box>
+  //   );
+  // }
+
+  // Error state check commented out
+  // if (authError) {
+  //   console.error('ABDM Authentication Error:', authError);
+  // }
 
   if (!clinic) {
     return (
@@ -38,7 +62,7 @@ export default function UdetiTemplatePage() {
   return (
     <Box sx={{ pt: '70px' }}>
       <UdetiHeader />
-      
+
       {/* Udeti Hero Section */}
       <UdetiHeroSection />
 
@@ -55,7 +79,7 @@ export default function UdetiTemplatePage() {
       <UdetiMainSection />
 
       {/* Testimonials Section */}
-      <TestimonialsSection 
+      <TestimonialsSection
         clinicId={clinicId}
         title="Client Success Stories"
         subtitle="Hear from healthcare providers who have transformed their practice with our solutions"

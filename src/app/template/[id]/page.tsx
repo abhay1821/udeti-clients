@@ -1,27 +1,53 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useParams } from 'next/navigation';
-import { Box, Container, Typography, useTheme } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import Layout from '../../../components/layout/Layout';
 import HeroSection from '@/components/sections/HeroSection';
 import ServicesSection from '@/components/sections/ServicesSection';
 import TestimonialsSection from '@/components/sections/TestimonialsSection';
 import ContactSection from '@/components/sections/ContactSection';
 import { useClinic } from '@/contexts/ClinicContext';
+import { useClinicTheme } from '@/hooks/useClinicTheme';
+// import { useAbdmAuth } from '@/hooks/useAbdmAuth';
+// import LoadingSpinner from '@/components/ui/LoadingSpinner';
 
 export default function TemplatePage() {
   const params = useParams();
-  const { getClinicById, setCurrentClinic } = useClinic();
-  
+  const { getClinicById } = useClinic();
+
+  // ABDM Authentication commented out to prevent API calls
+  // const { isLoading: isAuthLoading, error: authError } = useAbdmAuth();
+
   const clinicId = params?.id as string;
   const clinic = getClinicById(clinicId);
+  const theme = useClinicTheme(clinicId || '');
 
-  useEffect(() => {
-    if (clinicId) {
-      setCurrentClinic(clinicId);
-    }
-  }, [clinicId, setCurrentClinic]);
+  // Loading state check commented out
+  // if (isAuthLoading) {
+  //   return (
+  //     <Layout>
+  //       <Container
+  //         maxWidth="lg"
+  //         sx={{
+  //           py: 8,
+  //           display: 'flex',
+  //           justifyContent: 'center',
+  //           alignItems: 'center',
+  //           minHeight: '50vh',
+  //         }}
+  //       >
+  //         <LoadingSpinner />
+  //       </Container>
+  //     </Layout>
+  //   );
+  // }
+
+  // Error state check commented out
+  // if (authError) {
+  //   console.error('ABDM Authentication Error:', authError);
+  // }
 
   if (!clinic) {
     return (
@@ -53,7 +79,7 @@ export default function TemplatePage() {
               gutterBottom
               sx={{
                 fontWeight: 'bold',
-                color: clinic.primaryColor,
+                color: theme?.buttonColor || '#1976d2',
               }}
             >
               About {clinic.name}

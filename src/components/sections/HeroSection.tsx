@@ -9,7 +9,7 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { useClinic } from '@/contexts/ClinicContext';
-import { getHeroBackgroundColor, getTextColor } from '@/lib/theme';
+import { useClinicTheme } from '@/hooks/useClinicTheme';
 
 interface HeroSectionProps {
   clinicId?: string;
@@ -32,6 +32,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
   const clinic = clinicId ? getClinicById(clinicId) : null;
   const hero = clinic?.hero;
+  const clinicTheme = useClinicTheme(clinicId || '');
 
   const title = customTitle || hero?.title || 'Welcome to Our Healthcare';
   const subtitle =
@@ -39,8 +40,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     hero?.subtitle ||
     'Quality healthcare services for you and your family';
 
-  const heroBackgroundColor = getHeroBackgroundColor(clinic || null);
-  const textColor = getTextColor(clinic || null);
+  const heroBackgroundColor = clinicTheme?.heroBackground || '#1F598C';
+  const textColor = clinicTheme?.textColor || 'white';
 
   return (
     <Box
@@ -112,7 +113,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                   left: 0,
                   right: 0,
                   bottom: 0,
-                  background: `linear-gradient(45deg, ${clinic?.primaryColor || '#1976d2'}20, ${clinic?.secondaryColor || '#42a5f5'}20)`,
+                  background: `linear-gradient(45deg, ${clinicTheme?.primaryColor || '#1976d2'}20, ${clinicTheme?.secondaryColor || '#42a5f5'}20)`,
                   zIndex: 1,
                 },
               }}
@@ -149,7 +150,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                   display: 'none', // Hidden by default
                   alignItems: 'center',
                   justifyContent: 'center',
-                  backgroundColor: clinic?.primaryColor || '#1976d2',
+                  backgroundColor: clinicTheme?.primaryColor || '#1976d2',
                   color: 'white',
                   fontSize: '2rem',
                   fontWeight: 'bold',

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Container, Typography } from '@mui/material';
 import Layout from '../../../components/layout/Layout';
 import HeroSection from '@/components/sections/HeroSection';
@@ -10,16 +10,42 @@ import StatsSection from '@/components/sections/StatsSection';
 import AppointmentSection from '@/components/sections/AppointmentSection';
 import DoctorsSection from '@/components/sections/DoctorsSection';
 import { useClinic } from '@/contexts/ClinicContext';
+// import { useAbdmAuth } from '@/hooks/useAbdmAuth';
+// import LoadingSpinner from '@/components/ui/LoadingSpinner';
 
 export default function DentalTemplatePage() {
-  const { getClinicById, setCurrentClinic } = useClinic();
-  
+  const { getClinicById } = useClinic();
+
+  // ABDM Authentication commented out to prevent API calls
+  // const { isLoading: isAuthLoading, error: authError } = useAbdmAuth();
+
   const clinicId = 'doc-website-1';
   const clinic = getClinicById(clinicId);
 
-  useEffect(() => {
-    setCurrentClinic(clinicId);
-  }, [setCurrentClinic]);
+  // Loading state check commented out
+  // if (isAuthLoading) {
+  //   return (
+  //     <Layout>
+  //       <Container
+  //         maxWidth="lg"
+  //         sx={{
+  //           py: 8,
+  //           display: 'flex',
+  //           justifyContent: 'center',
+  //           alignItems: 'center',
+  //           minHeight: '50vh',
+  //         }}
+  //       >
+  //         <LoadingSpinner />
+  //       </Container>
+  //     </Layout>
+  //   );
+  // }
+
+  // Error state check commented out
+  // if (authError) {
+  //   console.error('ABDM Authentication Error:', authError);
+  // }
 
   if (!clinic) {
     return (
@@ -43,7 +69,7 @@ export default function DentalTemplatePage() {
   return (
     <Layout clinicId={clinicId}>
       {/* Hero Section */}
-      <HeroSection 
+      <HeroSection
         clinicId={clinicId}
         customTitle="Your Smile, Our Priority"
         customSubtitle="Established in 2003, Dr. Yuvaraj Clinic has been serving the community with exceptional dental care, combining traditional values with modern technology."
@@ -51,38 +77,32 @@ export default function DentalTemplatePage() {
         customCtaLink="/appointment"
       />
 
-           {/* Appointment Section */}
-           <AppointmentSection clinicId={clinicId} />
+      {/* Appointment Section */}
+      <AppointmentSection clinicId={clinicId} />
 
-       {/* Doctors Section */}
-      <DoctorsSection 
+      {/* Doctors Section */}
+      <DoctorsSection
         clinicId={clinicId}
         title="Meet Your Dentists"
         subtitle="Our experienced team of dental professionals is committed to providing you with the highest quality care."
       />
 
-
       {/* Stats Section */}
       <StatsSection clinicId={clinicId} stats={dentalStats} />
 
-      
-
       {/* Services Section */}
-      <ServicesSection 
+      <ServicesSection
         clinicId={clinicId}
         title="Our Dental Services"
         subtitle="Comprehensive dental care for patients of all ages"
       />
 
       {/* Testimonials Section */}
-      <TestimonialsSection 
+      <TestimonialsSection
         clinicId={clinicId}
         title="What Our Patients Say"
         subtitle="Real stories from our satisfied patients"
       />
-
-
- 
     </Layout>
   );
 }

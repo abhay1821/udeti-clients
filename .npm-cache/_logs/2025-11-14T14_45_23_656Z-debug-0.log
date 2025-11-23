@@ -1,0 +1,19 @@
+0 verbose cli /usr/local/bin/node /usr/local/bin/npm
+1 info using npm@11.6.1
+2 info using node@v24.11.0
+3 silly config load:file:/usr/local/lib/node_modules/npm/npmrc
+4 silly config load:file:/Users/abhay/Desktop/Projects/udeti-clients/.npmrc
+5 silly config load:file:/Users/abhay/.npmrc
+6 silly config load:file:/usr/local/etc/npmrc
+7 verbose title npm run type-check
+8 verbose argv "run" "type-check"
+9 verbose logfile logs-max:10 dir:/Users/abhay/Desktop/Projects/udeti-clients/.npm-cache/_logs/2025-11-14T14_45_23_656Z-
+10 verbose logfile /Users/abhay/Desktop/Projects/udeti-clients/.npm-cache/_logs/2025-11-14T14_45_23_656Z-debug-0.log
+11 silly logfile done cleaning log files
+12 verbose cwd /Users/abhay/Desktop/Projects/udeti-clients
+13 verbose os Darwin 25.1.0
+14 verbose node v24.11.0
+15 verbose npm  v11.6.1
+16 verbose exit 1
+17 verbose code 1
+18 error A complete log of this run can be found in: /Users/abhay/Desktop/Projects/udeti-clients/.npm-cache/_logs/2025-11-14T14_45_23_656Z-debug-0.log

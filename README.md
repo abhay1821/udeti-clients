@@ -16,6 +16,7 @@ A production-level Next.js application built with TypeScript and Material-UI, fe
 - **Custom hooks** for common patterns
 - **Notification system** with context API
 - **Data table** with sorting and pagination
+- **ABDM Integration** with client credentials authentication
 
 ## 📁 Project Structure
 
@@ -62,29 +63,33 @@ src/
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
 
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone <repository-url>
 cd udeti-clients
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Set up environment variables:
+
 ```bash
 cp .env.example .env.local
 # Edit .env.local with your configuration
 ```
 
 4. Run the development server:
+
 ```bash
 npm run dev
 ```
@@ -132,6 +137,7 @@ The application uses Material-UI theming system with a custom theme configuratio
 - **useApi**: API call management with loading states
 - **useDebounce**: Debounced value hook
 - **useLocalStorage**: Local storage state management
+- **useAbdmAuth**: ABDM authentication hook for client credentials grant type
 
 ## 🔧 Configuration
 
@@ -164,6 +170,41 @@ npm run start
 ### Environment Variables
 
 Make sure to set up the following environment variables for production:
+
+**ABDM API Configuration** (Required for all templates):
+
+**⚠️ IMPORTANT: For security, sensitive credentials are stored server-side only (NOT `NEXT_PUBLIC_*`)**
+
+**Server-Side Only (Secure - Recommended):**
+
+- `ABDM_ENDPOINT` - ABDM API endpoint URL (default: https://dev.abdm.gov.in/api/hiecm/gateway/v3/sessions)
+- `ABDM_CLIENT_ID` - Your ABDM client ID
+- `ABDM_CLIENT_SECRET` - Your ABDM client secret (⚠️ NEVER use NEXT*PUBLIC* prefix for secrets!)
+- `ABDM_GRANT_TYPE` - Grant type (default: client_credentials)
+- `ABDM_CM_ID` - CM ID (default: sbx for sandbox, prod for production)
+
+**Legacy Support (Fallback - Less Secure):**
+
+- `NEXT_PUBLIC_ABDM_ENDPOINT` - Fallback if `ABDM_ENDPOINT` not set
+- `NEXT_PUBLIC_ABDM_CLIENT_ID` - Fallback if `ABDM_CLIENT_ID` not set
+- `NEXT_PUBLIC_ABDM_CLIENT_SECRET` - Fallback if `ABDM_CLIENT_SECRET` not set (⚠️ Not recommended)
+- `NEXT_PUBLIC_ABDM_GRANT_TYPE` - Grant type (default: client_credentials)
+- `NEXT_PUBLIC_ABDM_CM_ID` - CM ID (default: sbx)
+
+**Example .env.local file (Secure):**
+
+```env
+# ✅ Recommended: Server-side only (secure)
+ABDM_ENDPOINT=https://dev.abdm.gov.in/api/hiecm/gateway/v3/sessions
+ABDM_CLIENT_ID=SBXID_009206
+ABDM_CLIENT_SECRET=your-client-secret-here
+ABDM_GRANT_TYPE=client_credentials
+ABDM_CM_ID=sbx
+```
+
+**Security Note:** See `SECURITY.md` for details on how authentication is secured using httpOnly cookies and server-side API routes. Tokens and credentials are never exposed to the browser.
+
+**Other Environment Variables:**
 
 - `NEXT_PUBLIC_APP_NAME`
 - `NEXT_PUBLIC_APP_VERSION`
