@@ -27,6 +27,11 @@ interface ClinicContextType {
   getValidatedClinic: (id: string) => Promise<ValidatedClinic>;
   isLoading: boolean;
   theme: ClinicTheme | null;
+  doctorId: string | null;
+  clinicData: Clinic | null;
+  clinicValidation: ValidationResult | null;
+  apiDataFetched: boolean;
+  apiDataInvalid: boolean;
 }
 
 const ClinicContext = createContext<ClinicContextType | undefined>(undefined);
@@ -39,27 +44,42 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [loadingClinics, setLoadingClinics] = useState<Set<string>>(new Set());
   const [theme, setTheme] = useState<ClinicTheme | null>(null);
+  const [doctorId, setDoctorId] = useState<string | null>(null);
+  const [clinicData, setClinicData] = useState<Clinic | null>(null);
+  const [clinicValidation, setClinicValidation] =
+    useState<ValidationResult | null>(null);
+  const [apiDataFetched, setApiDataFetched] = useState(false); // Track if API fetch is complete
+  const [apiDataInvalid, setApiDataInvalid] = useState(false); // Track if API data failed validation
 
-  // Fetch environment config and clinic data on mount
   useEffect(() => {
     const initializeClinic = async () => {
       try {
         setIsLoading(true);
-        sessionStorage.removeItem('clinicConfig');
-        sessionStorage.removeItem('doctorId');
-        // Step 1: Fetch env.json
-        const envResponse = await fetch('/assets/environment.json');
-        if (!envResponse.ok) {
-          throw new Error('Failed to fetch environment config');
+        // sessionStorage.removeItem('clinicConfig');
+        // sessionStorage.removeItem('doctorId');
+        // const envResponse = await fetch('/assets/environment.json');
+        // if (!envResponse.ok) {
+        //   setApiDataFetched(true);
+        //   throw new Error('Failed to fetch environment config');
+        // }
+        // const envData = await envResponse.json();
+
+        // sessionStorage.setItem('clinicConfig', JSON.stringify(envData));
+        // sessionStorage.setItem('doctorId', envData.doctorId);
+
+        // const clinicId = envData.doctorId;
+        const clinicId = process.env.NEXT_PUBLIC_DOCTOR_ID;
+
+        if (!clinicId) {
+          console.log('No NEXT_PUBLIC_DOCTOR_ID set - using dummy data');
+          setApiDataFetched(true);
+          return;
         }
-        const envData = await envResponse.json();
 
-        // Store in sessionStorage
-        sessionStorage.setItem('clinicConfig', JSON.stringify(envData));
-        sessionStorage.setItem('doctorId', envData.doctorId);
+        sessionStorage.setItem('doctorId', clinicId);
 
-        // Step 2: Fetch clinic data from API using doctorId
-        const clinicId = envData.doctorId;
+        setDoctorId(clinicId);
+
         const apiResponse = await fetch(`/api/clinics/${clinicId}`, {
           method: 'GET',
           headers: {
@@ -70,19 +90,41 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({
 
         if (apiResponse.ok) {
           const result = await apiResponse.json();
+          const clinic = result.data;
+          console.log('clinic', clinic);
 
-          // If API returns theme, use it; otherwise use static
-          const clinicTheme = result.data?.theme || 'default';
+          if (clinic) {
+            const validation = validateMandatoryFields(clinic);
+            setClinicValidation(validation);
 
-          sessionStorage.setItem('clinicTheme', JSON.stringify(clinicTheme));
+            if (validation.isValid) {
+              setClinicData(clinic);
+              setApiDataInvalid(false);
+            } else {
+              console.error('API clinic data is invalid:', validation.errors);
+              console.warn(
+                '⚠️ API data invalid - showing error UI. NOT using dummy data as fallback.'
+              );
+              setClinicData(null);
+              setApiDataInvalid(true);
+            }
 
-          // Apply theme to document
-          applyTheme(clinicTheme);
+            const clinicTheme = clinic.theme || 'default';
+            sessionStorage.setItem('clinicTheme', JSON.stringify(clinicTheme));
+
+            // Apply theme to document
+            applyTheme(clinicTheme);
+          }
+        } else {
+          setApiDataFetched(true);
+          setApiDataInvalid(false);
         }
       } catch (error) {
         console.error('Error initializing clinic:', error);
+        setApiDataFetched(true);
       } finally {
         setIsLoading(false);
+        setApiDataFetched(true);
       }
     };
 
@@ -209,8 +251,24 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({
       getValidatedClinic,
       isLoading,
       theme,
+      doctorId,
+      clinicData,
+      clinicValidation,
+      apiDataFetched,
+      apiDataInvalid,
     }),
-    [clinics, getClinicById, getValidatedClinic, isLoading, theme]
+    [
+      clinics,
+      getClinicById,
+      getValidatedClinic,
+      isLoading,
+      theme,
+      doctorId,
+      clinicData,
+      clinicValidation,
+      apiDataFetched,
+      apiDataInvalid,
+    ]
   );
 
   return (

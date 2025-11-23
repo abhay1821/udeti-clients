@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Box, Button, Typography, Stack } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { CalendarToday } from '@mui/icons-material';
 import { Clinic } from '@/types/Clinic';
 import { useClinicTheme } from '@/hooks/useClinicTheme';

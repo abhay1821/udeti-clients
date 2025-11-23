@@ -10,7 +10,7 @@ import AppointmentBookingSection from '@/components/sections/AppointmentBookingS
 import DocWebsite6Footer from '@/components/templates/docWebsite6/DocWebsite6Footer';
 import StandardTestimonialsSection from '@/components/sections/StandardTestimonialsSection';
 import FloatingAppointmentButton from '@/components/ui/FloatingAppointmentButton';
-import { useClinicData } from '@/hooks/useClinicData';
+import { useClinicDataFromContext } from '@/hooks/useClinicDataFromContext';
 import {
   hasLogo,
   hasServices,
@@ -19,8 +19,10 @@ import {
 import { CircularProgress } from '@mui/material';
 
 const DocWebsite15TemplatePage = () => {
-  const clinicId = 'doc-website-15';
-  const { clinic, validation, isLoading } = useClinicData(clinicId);
+  // Uses API data from context if available (already fetched)
+  // Otherwise fetches dummy data using template name
+  const { clinic, validation, isLoading } =
+    useClinicDataFromContext('doc-website-15');
 
   const components = useMemo(() => {
     if (!clinic) return [];

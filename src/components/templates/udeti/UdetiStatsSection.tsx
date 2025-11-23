@@ -1,21 +1,8 @@
 'use client';
 
 import React from 'react';
-import {
-  Box,
-  Container,
-  Typography,
-  Card,
-  CardContent,
-  useTheme,
-  useMediaQuery,
-} from '@mui/material';
-import {
-  TrendingUp,
-  Business,
-  Description,
-  Star,
-} from '@mui/icons-material';
+import { Box, Container, Typography, Card, CardContent } from '@mui/material';
+import { TrendingUp, Business, Description, Star } from '@mui/icons-material';
 
 interface UdetiStatsSectionProps {
   title?: string;
@@ -56,15 +43,16 @@ const UdetiStatsSection: React.FC<UdetiStatsSectionProps> = ({
     },
   ],
 }) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
   const getIcon = (iconType: string) => {
     const iconProps = {
       sx: {
         fontSize: { xs: 24, md: 28 },
-        color: iconType === 'trending' ? '#FFA726' : 
-               iconType === 'star' ? '#FFD700' : '#333333',
+        color:
+          iconType === 'trending'
+            ? '#FFA726'
+            : iconType === 'star'
+              ? '#FFD700'
+              : '#333333',
       },
     };
 
@@ -120,7 +108,7 @@ const UdetiStatsSection: React.FC<UdetiStatsSectionProps> = ({
             mx: { xs: 'auto', sm: 0 },
           }}
         >
-          {stats.map((stat) => (
+          {stats.map(stat => (
             <Card
               key={stat.id}
               sx={{

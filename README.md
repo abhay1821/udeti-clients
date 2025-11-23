@@ -191,6 +191,12 @@ Make sure to set up the following environment variables for production:
 - `NEXT_PUBLIC_ABDM_GRANT_TYPE` - Grant type (default: client_credentials)
 - `NEXT_PUBLIC_ABDM_CM_ID` - CM ID (default: sbx)
 
+**Doctor/Clinic Configuration (Client-Side):**
+
+- `NEXT_PUBLIC_DOCTOR_ID` - Doctor ID to fetch clinic data from API (e.g., `9043890123`)
+  - If not set, the app will use dummy data for all templates
+  - This determines which doctor's data to fetch from `/api/clinics/[id]`
+
 **Example .env.local file (Secure):**
 
 ```env
@@ -200,6 +206,9 @@ ABDM_CLIENT_ID=SBXID_009206
 ABDM_CLIENT_SECRET=your-client-secret-here
 ABDM_GRANT_TYPE=client_credentials
 ABDM_CM_ID=sbx
+
+# Doctor/Clinic Configuration
+NEXT_PUBLIC_DOCTOR_ID=9043890123
 ```
 
 **Security Note:** See `SECURITY.md` for details on how authentication is secured using httpOnly cookies and server-side API routes. Tokens and credentials are never exposed to the browser.

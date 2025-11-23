@@ -9,7 +9,7 @@ export const apiDocWebsite3Data = {
     title: "Caring for Your Child's Health",
     subtitle:
       'Dr. Neha Kapoor provides compassionate pediatric care with focus on child development, immunization, and preventive health measures.',
-    backgroundImage: '/images/doctors/doctor-4.jpg',
+    backgroundImage: '/images/doctors/doctor-1.jpg',
     ctaText: 'Book Appointment',
     ctaLink: '#appointment',
     secondaryCtaText: 'Our Services',
@@ -27,7 +27,7 @@ export const apiDocWebsite3Data = {
       name: 'Dr. Neha Kapoor',
       title: 'Pediatrician',
       location: 'Whitefield, Bangalore',
-      image: '/images/doctors/doctor-4.jpg',
+      image: '/images/doctors/doctor-1.jpg',
       highlights: [
         'M.B.B.S. · M.D. Pediatrics',
         'Child Development Specialist',
@@ -41,7 +41,7 @@ export const apiDocWebsite3Data = {
       'Dr. Neha Kapoor is a dedicated pediatrician with extensive experience in treating children from newborns to adolescents.',
       'With a warm and caring approach, Dr. Kapoor ensures that every child receives personalized care and parents get proper guidance for optimal child health.',
     ],
-    image: '/images/doctors/doctor-4.jpg',
+    image: '/images/doctors/doctor-1.jpg',
     yearsOfExperience: '10+',
     education: ['M.B.B.S.', 'M.D. Pediatrics'],
     expertise: ['Child Development', 'Immunization', 'Pediatric Nutrition'],

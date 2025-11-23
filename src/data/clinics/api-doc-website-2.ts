@@ -9,7 +9,7 @@ export const apiDocWebsite2Data = {
     title: 'Get Back in Motion',
     subtitle:
       'Dr. Vikram Patel provides comprehensive orthopedic care with advanced surgical techniques and rehabilitation programs for optimal recovery.',
-    backgroundImage: '/images/doctors/doctor-3.jpg',
+    backgroundImage: '/images/doctors/doctor-1.jpg',
     ctaText: 'Schedule Appointment',
     ctaLink: '#appointment',
     secondaryCtaText: 'Learn More',
@@ -27,7 +27,7 @@ export const apiDocWebsite2Data = {
       name: 'Dr. Vikram Patel',
       title: 'Orthopedic Surgeon',
       location: 'Indiranagar, Bangalore',
-      image: '/images/doctors/doctor-3.jpg',
+      image: '/images/doctors/doctor-1.jpg',
       highlights: [
         'M.B.B.S. · M.S. Orthopedics',
         'Sports Medicine Specialist',
@@ -41,7 +41,7 @@ export const apiDocWebsite2Data = {
       'Dr. Vikram Patel is a renowned orthopedic surgeon with extensive experience in treating complex orthopedic conditions and sports injuries.',
       'With expertise in minimally invasive techniques and arthroscopic surgery, Dr. Patel ensures faster recovery and better outcomes for his patients.',
     ],
-    image: '/images/doctors/doctor-3.jpg',
+    image: '/images/doctors/doctor-1.jpg',
     yearsOfExperience: '18+',
     education: ['M.B.B.S.', 'M.S. Orthopedics'],
     expertise: ['Joint Replacement', 'Sports Injuries', 'Arthroscopic Surgery'],
@@ -138,10 +138,10 @@ export const apiDocWebsite2Data = {
     hours: 'Mon-Fri: 9AM-5PM, Sat: 9AM-1PM',
   },
   galleryImages: [
-    '/images/clinic-gallery/clinic-7.jpeg',
-    '/images/clinic-gallery/clinic-8.jpeg',
-    '/images/clinic-gallery/clinic-9.jpeg',
-    '/images/clinic-gallery/clinic-10.jpeg',
+    '/images/clinic-gallery/clinic-5.jpeg',
+    '/images/clinic-gallery/clinic-6.jpeg',
+    '/images/clinic-gallery/clinic-5.jpeg',
+    '/images/clinic-gallery/clinic-6.jpeg',
   ],
   social: {
     facebook: 'https://facebook.com',
@@ -149,5 +149,5 @@ export const apiDocWebsite2Data = {
     linkedin: 'https://linkedin.com',
     instagram: 'https://instagram.com',
   },
-  theme: 'doc-website-13',
+  theme: 'doc-website-14',
 };

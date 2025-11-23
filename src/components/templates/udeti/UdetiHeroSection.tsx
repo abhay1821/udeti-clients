@@ -22,23 +22,23 @@ import {
 import { heroData } from '@/data/heroData';
 
 const UdetiHeroSection: React.FC = () => {
-  const { title, subtitle, slides, navigation } = heroData;
+  const { title, subtitle, slides } = heroData;
   const [currentSlide, setCurrentSlide] = useState(0);
-  
+
   const currentSlideData = slides[currentSlide];
-  
+
   const handlePrevious = () => {
-    setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+    setCurrentSlide(prev => (prev === 0 ? slides.length - 1 : prev - 1));
   };
-  
+
   const handleNext = () => {
-    setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+    setCurrentSlide(prev => (prev === slides.length - 1 ? 0 : prev + 1));
   };
-  
+
   const handleDotClick = (index: number) => {
     setCurrentSlide(index);
   };
-  
+
   const getSectionIcon = (iconName: string) => {
     switch (iconName) {
       case 'language':
@@ -86,7 +86,12 @@ const UdetiHeroSection: React.FC = () => {
           <Typography
             variant="h6"
             sx={{
-              fontSize: { xs: '1rem', sm: '1.1rem', md: '1.15rem', lg: '1.1rem' },
+              fontSize: {
+                xs: '1rem',
+                sm: '1.1rem',
+                md: '1.15rem',
+                lg: '1.1rem',
+              },
               color: '#5a6c7d',
               maxWidth: '600px',
               mx: 'auto',
@@ -119,7 +124,8 @@ const UdetiHeroSection: React.FC = () => {
               {/* Left Side - Main Feature */}
               <Box
                 sx={{
-                  background: 'linear-gradient(135deg, #1976d2 0%, #1565c0 100%)',
+                  background:
+                    'linear-gradient(135deg, #1976d2 0%, #1565c0 100%)',
                   p: { xs: 3, sm: 4, md: 4, lg: 3.5 },
                   color: 'white',
                   position: 'relative',
@@ -265,7 +271,7 @@ const UdetiHeroSection: React.FC = () => {
 
                 {/* Features List */}
                 <Box sx={{ mb: 4 }}>
-                  {currentSlideData.features.map((feature) => (
+                  {currentSlideData.features.map(feature => (
                     <Box
                       key={feature.id}
                       sx={{
@@ -345,11 +351,13 @@ const UdetiHeroSection: React.FC = () => {
                   width: 8,
                   height: 8,
                   borderRadius: '50%',
-                  backgroundColor: index === currentSlide ? '#4caf50' : '#e0e0e0',
+                  backgroundColor:
+                    index === currentSlide ? '#4caf50' : '#e0e0e0',
                   transition: 'all 0.3s ease',
                   cursor: 'pointer',
                   '&:hover': {
-                    backgroundColor: index === currentSlide ? '#4caf50' : '#bdbdbd',
+                    backgroundColor:
+                      index === currentSlide ? '#4caf50' : '#bdbdbd',
                   },
                 }}
               />

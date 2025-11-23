@@ -7,11 +7,8 @@ import {
   Typography,
   Card,
   CardContent,
-  Avatar,
   Chip,
   IconButton,
-  useTheme,
-  useMediaQuery,
 } from '@mui/material';
 import {
   ArrowBackIos,
@@ -23,9 +20,7 @@ import {
 } from '@mui/icons-material';
 import { useClinic } from '@/contexts/ClinicContext';
 import {
-  getLabelColor,
   getAccentColor,
-  getSecondaryColor,
   getComponentBackgroundColor,
   getPrimaryColor,
 } from '@/lib/theme';
@@ -41,8 +36,6 @@ const DetailedDoctorsSection: React.FC<DetailedDoctorsSectionProps> = ({
   title = 'Meet Your Doctors',
   subtitle = 'Our experienced team of medical professionals is committed to providing you with the highest quality care.',
 }) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const { getClinicById } = useClinic();
   const [currentDoctorIndex, setCurrentDoctorIndex] = useState(0);
 

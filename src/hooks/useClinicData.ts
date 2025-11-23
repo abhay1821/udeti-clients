@@ -21,6 +21,11 @@ export const useClinicData = (clinicId: string) => {
   useEffect(() => {
     if (!isClient) return;
 
+    if (!clinicId || clinicId.trim() === '') {
+      setIsLoadingData(false);
+      return;
+    }
+
     let isMounted = true;
 
     const loadClinic = async () => {

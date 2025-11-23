@@ -11,7 +11,7 @@ import StandardGallerySection from '@/components/sections/StandardGallerySection
 import StandardTestimonialsSection from '@/components/sections/StandardTestimonialsSection';
 import DocWebsite6Footer from '@/components/templates/docWebsite6/DocWebsite6Footer';
 import FloatingAppointmentButton from '@/components/ui/FloatingAppointmentButton';
-import { useClinicData } from '@/hooks/useClinicData';
+import { useClinicDataFromContext } from '@/hooks/useClinicDataFromContext';
 import {
   hasLogo,
   hasServices,
@@ -20,8 +20,10 @@ import {
 } from '@/utils/clinicValidation';
 
 const DocWebsite14TemplatePage = () => {
-  const clinicId = 'doc-website-14';
-  const { clinic, validation, isLoading } = useClinicData(clinicId);
+  // Uses API data from context if available (already fetched)
+  // Otherwise fetches dummy data using template name
+  const { clinic, validation, isLoading } =
+    useClinicDataFromContext('doc-website-14');
 
   // Call useMemo BEFORE any conditional returns to follow Rules of Hooks
   const components = useMemo(() => {

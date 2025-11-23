@@ -21,7 +21,6 @@ export const DocWebsite9ServicesSection: React.FC<
   const primaryColor = theme.buttonColor;
   const backgroundColor = theme.componentBackground;
   const textColor = theme.textColor;
-  const accentColor = theme.accentColor;
 
   const hexToRgba = (hex: string, opacity: number) => {
     const r = parseInt(hex.slice(1, 3), 16);

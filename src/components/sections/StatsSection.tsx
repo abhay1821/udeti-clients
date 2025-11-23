@@ -1,19 +1,8 @@
 'use client';
 
 import React from 'react';
-import {
-  Box,
-  Container,
-  Typography,
-  useTheme,
-  useMediaQuery,
-} from '@mui/material';
-import {
-  EmojiEvents,
-  People,
-  Favorite,
-  Star,
-} from '@mui/icons-material';
+import { Box, Typography, useTheme, useMediaQuery } from '@mui/material';
+import { EmojiEvents, People, Favorite, Star } from '@mui/icons-material';
 import { useClinic } from '@/contexts/ClinicContext';
 
 interface Stat {
@@ -29,16 +18,16 @@ interface StatsSectionProps {
   subtitle?: string;
 }
 
-const StatsSection: React.FC<StatsSectionProps> = ({ 
-  clinicId, 
+const StatsSection: React.FC<StatsSectionProps> = ({
+  clinicId,
   stats,
   title,
-  subtitle 
+  subtitle,
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const { getClinicById } = useClinic();
-  
+
   const clinic = clinicId ? getClinicById(clinicId) : null;
 
   // Default stats if none provided
@@ -46,23 +35,23 @@ const StatsSection: React.FC<StatsSectionProps> = ({
     {
       number: '20+',
       label: 'Years of Experience',
-      icon: 'award'
+      icon: 'award',
     },
     {
       number: '10,000+',
       label: 'Patients Treated',
-      icon: 'people'
+      icon: 'people',
     },
     {
       number: '100+',
       label: 'Health Camps Conducted',
-      icon: 'heart'
+      icon: 'heart',
     },
     {
       number: '4.9/5',
       label: 'Patient Rating',
-      icon: 'star'
-    }
+      icon: 'star',
+    },
   ];
 
   const statsToShow = stats || defaultStats;
@@ -128,10 +117,10 @@ const StatsSection: React.FC<StatsSectionProps> = ({
       <Box
         sx={{
           display: 'grid',
-          gridTemplateColumns: { 
-            xs: 'repeat(2, 1fr)', 
-            sm: 'repeat(2, 1fr)', 
-            md: 'repeat(4, 1fr)' 
+          gridTemplateColumns: {
+            xs: 'repeat(2, 1fr)',
+            sm: 'repeat(2, 1fr)',
+            md: 'repeat(4, 1fr)',
           },
           gap: { xs: 2, md: 3 },
           textAlign: 'center',
@@ -148,9 +137,9 @@ const StatsSection: React.FC<StatsSectionProps> = ({
               gap: 2,
               p: { xs: 2, md: 3 },
               borderRadius: 2,
-            //   backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              //   backgroundColor: 'rgba(255, 255, 255, 0.1)',
               backdropFilter: 'blur(10px)',
-            //   border: '1px solid rgba(255, 255, 255, 0.2)',
+              //   border: '1px solid rgba(255, 255, 255, 0.2)',
               transition: 'all 0.3s ease',
               '&:hover': {
                 transform: 'translateY(-4px)',

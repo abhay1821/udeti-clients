@@ -24,11 +24,6 @@ export const MapWithDirections: React.FC<MapWithDirectionsProps> = ({
     window.open(mapsUrl, '_blank');
   };
 
-  const getHeight = () => {
-    if (typeof height === 'number') return height;
-    return height.md || height.sm || height.xs || 300;
-  };
-
   return (
     <Box>
       <Box
