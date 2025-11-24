@@ -81,7 +81,6 @@ const Footer: React.FC<FooterProps> = ({ clinicId }) => {
               {clinic?.description || 'Providing quality healthcare services'}
             </Typography>
 
-            {/* Social Media Icons */}
             <Box sx={{ display: 'flex', gap: 1.5 }}>
               {socialIcons.map(({ icon: Icon, href, label }) => (
                 <IconButton

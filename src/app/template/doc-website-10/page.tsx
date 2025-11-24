@@ -7,7 +7,7 @@ import HeaderWithLogo from '@/components/headers/HeaderWithLogo';
 import HeaderWithoutLogo from '@/components/headers/HeaderWithoutLogo';
 import StandardAboutSection from '@/components/sections/StandardAboutSection';
 import DocWebsite10HeroSection from '@/components/templates/docWebsite10/DocWebsite10HeroSection';
-import CircularImageServicesSection from '@/components/services/CircularImageServicesSection';
+import CircularImageServicesSection from '@/components/sections/CircularImageServicesSection';
 import DocWebsite10AppointmentSection from '@/components/templates/docWebsite10/DocWebsite10AppointmentSection';
 import DocWebsite10TestimonialsSection from '@/components/templates/docWebsite10/DocWebsite10TestimonialsSection';
 import DocWebsite10Footer from '@/components/templates/docWebsite10/DocWebsite10Footer';

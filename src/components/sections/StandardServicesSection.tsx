@@ -26,7 +26,7 @@ const iconMap: Record<string, React.ReactNode> = {
 const StandardServicesSectionComponent: React.FC<
   StandardServicesSectionProps
 > = ({ clinic }) => {
-  const services = clinic.services;
+  const services = clinic.services ?? [];
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const theme = useClinicTheme(clinic.id);
 
@@ -202,12 +202,13 @@ const StandardServicesSectionComponent: React.FC<
             gap: { xs: 2.5, md: 3 },
           }}
         >
-          {services.map(service => (
+          {services?.map(service => (
             <ServiceCard key={service.id} service={service} />
           ))}
         </Box>
 
         <Box
+          suppressHydrationWarning
           sx={{
             display: { xs: 'none', lg: 'block' },
             position: 'relative',
@@ -228,7 +229,7 @@ const StandardServicesSectionComponent: React.FC<
               pb: 2,
             }}
           >
-            {services.map(service => (
+            {services?.map(service => (
               <ServiceCard key={service.id} service={service} />
             ))}
           </Box>

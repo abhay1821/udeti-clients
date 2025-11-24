@@ -5,7 +5,7 @@ import { Box, Typography, CircularProgress } from '@mui/material';
 import HeaderWithLogo from '@/components/headers/HeaderWithLogo';
 import HeaderWithoutLogo from '@/components/headers/HeaderWithoutLogo';
 import DocWebsite10HeroSection from '@/components/templates/docWebsite10/DocWebsite10HeroSection';
-import StandardServicesSection from '@/components/services/StandardServicesSection';
+import StandardServicesSection from '@/components/sections/StandardServicesSection';
 import AppointmentBookingSection from '@/components/sections/AppointmentBookingSection';
 import StandardGallerySection from '@/components/sections/StandardGallerySection';
 import StandardTestimonialsSection from '@/components/sections/StandardTestimonialsSection';

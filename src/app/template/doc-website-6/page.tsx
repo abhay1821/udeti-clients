@@ -4,7 +4,7 @@ import React, { useMemo } from 'react';
 import { Box, Typography } from '@mui/material';
 import HeaderWithLogo from '@/components/headers/HeaderWithLogo';
 import HeaderWithoutLogo from '@/components/headers/HeaderWithoutLogo';
-import StandardServicesSection from '@/components/services/StandardServicesSection';
+import StandardServicesSection from '@/components/sections/StandardServicesSection';
 import DocWebsite6HeroSection from '@/components/templates/docWebsite6/DocWebsite6HeroSection';
 import DocWebsite6AboutSection from '@/components/templates/docWebsite6/DocWebsite6AboutSection';
 import DocWebsite6AppointmentSection from '@/components/templates/docWebsite6/DocWebsite6AppointmentSection';

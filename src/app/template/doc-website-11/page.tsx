@@ -4,7 +4,7 @@ import React, { useMemo } from 'react';
 import { Box, Typography } from '@mui/material';
 import HeaderWithLogo from '@/components/headers/HeaderWithLogo';
 import HeaderWithoutLogo from '@/components/headers/HeaderWithoutLogo';
-import StandardServicesSection from '@/components/services/StandardServicesSection';
+import StandardServicesSection from '@/components/sections/StandardServicesSection';
 import StandardAboutSection from '@/components/sections/StandardAboutSection';
 import StandardGallerySection from '@/components/sections/StandardGallerySection';
 import StandardTestimonialsSection from '@/components/sections/StandardTestimonialsSection';

@@ -5,7 +5,7 @@ import { Box, Typography } from '@mui/material';
 import HeaderWithLogo from '@/components/headers/HeaderWithLogo';
 import HeaderWithoutLogo from '@/components/headers/HeaderWithoutLogo';
 import DocWebsite13HeroSection from '@/components/templates/docWebsite13/DocWebsite13HeroSection';
-import StandardServicesSection from '@/components/services/StandardServicesSection';
+import StandardServicesSection from '@/components/sections/StandardServicesSection';
 import StandardTestimonialsSection from '@/components/sections/StandardTestimonialsSection';
 import DocWebsite6Footer from '@/components/templates/docWebsite6/DocWebsite6Footer';
 import DocWebsite8AboutSection from '@/components/templates/docWebsite8/DocWebsite8AboutSection';

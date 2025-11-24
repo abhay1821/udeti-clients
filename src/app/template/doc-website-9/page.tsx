@@ -6,7 +6,7 @@ import HeaderWithLogo from '@/components/headers/HeaderWithLogo';
 import HeaderWithoutLogo from '@/components/headers/HeaderWithoutLogo';
 import DocWebsite9HeroSection from '@/components/templates/docWebsite9/DocWebsite9HeroSection';
 import DocWebsite9AboutSection from '@/components/templates/docWebsite9/DocWebsite9AboutSection';
-import GridServicesSection from '@/components/services/GridServicesSection';
+import GridServicesSection from '@/components/sections/GridServicesSection';
 import DocWebsite9AppointmentSection from '@/components/templates/docWebsite9/DocWebsite9AppointmentSection';
 import StandardTestimonialsSection from '@/components/sections/StandardTestimonialsSection';
 import DocWebsite9Footer from '@/components/templates/docWebsite9/DocWebsite9Footer';

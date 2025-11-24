@@ -137,10 +137,10 @@ export const apiDocWebsite1Data = {
     hours: 'Mon-Sat: 10AM-6PM',
   },
   galleryImages: [
-    '/images/clinic-gallery/clinic-1.jpeg',
-    '/images/clinic-gallery/clinic-2.jpeg',
-    '/images/clinic-gallery/clinic-3.jpeg',
-    '/images/clinic-gallery/clinic-4.jpeg',
+    '/images/clinic-gallery/clinic-5.jpeg',
+    '/images/clinic-gallery/clinic-6.jpeg',
+    '/images/clinic-gallery/clinic-5.jpeg',
+    '/images/clinic-gallery/clinic-6.jpeg',
   ],
   social: {
     facebook: 'https://facebook.com',
