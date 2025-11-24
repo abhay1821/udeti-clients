@@ -20,12 +20,9 @@ import {
 } from '@/utils/clinicValidation';
 
 const DocWebsite14TemplatePage = () => {
-  // Uses API data from context if available (already fetched)
-  // Otherwise fetches dummy data using template name
   const { clinic, validation, isLoading } =
     useClinicDataFromContext('doc-website-14');
 
-  // Call useMemo BEFORE any conditional returns to follow Rules of Hooks
   const components = useMemo(() => {
     if (!clinic) return [];
     return [

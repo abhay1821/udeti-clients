@@ -11,7 +11,7 @@ import StandardTestimonialsSection from '@/components/sections/StandardTestimoni
 import StandardFooter from '@/components/sections/StandardFooter';
 import DocWebsite11HeroSection from '@/components/templates/docWebsite11/DocWebsite11HeroSection';
 import DocWebsite11AppointmentSection from '@/components/templates/docWebsite11/DocWebsite11AppointmentSection';
-import { useClinicData } from '@/hooks/useClinicData';
+import { useClinicDataFromContext } from '@/hooks/useClinicDataFromContext';
 import {
   hasLogo,
   hasServices,
@@ -22,8 +22,8 @@ import {
 import { CircularProgress } from '@mui/material';
 
 const DocWebsite11TemplatePage = () => {
-  const clinicId = 'doc-website-11';
-  const { clinic, validation, isLoading } = useClinicData(clinicId);
+  const { clinic, validation, isLoading } =
+    useClinicDataFromContext('doc-website-11');
 
   const components = useMemo(() => {
     if (!clinic) return [];

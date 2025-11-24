@@ -5,16 +5,15 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 export default function HomePage() {
-  const context = useClinic();
+  const { theme, isLoading } = useClinic();
   const router = useRouter();
-  // `
 
   useEffect(() => {
-    console.log(context.theme);
-    if (context.theme) {
-      router.push(`/template/${context.theme}`);
+    console.log(theme);
+    if (theme) {
+      router.push(`/template/${theme}`);
     }
-  }, [context.theme]);
+  }, [theme]);
 
   return (
     <Box
@@ -27,7 +26,7 @@ export default function HomePage() {
         gap: 2,
       }}
     >
-      {context.isLoading && (
+      {isLoading && (
         <>
           <CircularProgress size={40} />
           <Typography variant="body1" color="text.secondary">

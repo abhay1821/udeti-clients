@@ -19,8 +19,6 @@ import {
 import { CircularProgress } from '@mui/material';
 
 const DocWebsite15TemplatePage = () => {
-  // Uses API data from context if available (already fetched)
-  // Otherwise fetches dummy data using template name
   const { clinic, validation, isLoading } =
     useClinicDataFromContext('doc-website-15');
 

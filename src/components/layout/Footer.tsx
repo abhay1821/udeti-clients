@@ -21,14 +21,16 @@ import {
 } from '@mui/icons-material';
 import { useClinic } from '@/contexts/ClinicContext';
 import { getFooterBackgroundColor } from '@/lib/theme';
+import { useClinicTheme } from '@/hooks/useClinicTheme';
 
 interface FooterProps {
   clinicId?: string;
 }
 
 const Footer: React.FC<FooterProps> = ({ clinicId }) => {
-  const { getClinicById, theme } = useClinic();
+  const { getClinicById } = useClinic();
   const clinic = clinicId ? getClinicById(clinicId) : null;
+  const theme = useClinicTheme(clinicId || clinic?.id || 'default');
 
   const socialIcons = [
     { icon: Facebook, href: clinic?.social?.facebook, label: 'Facebook' },

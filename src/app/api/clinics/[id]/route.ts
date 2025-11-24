@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { ClinicApiResponse } from '@/services/clinicApi';
 import { apiDocWebsite15Data } from '@/data/clinics/api-doc-website-15';
 import { apiDocWebsite1Data } from '@/data/clinics/api-doc-website-1';
 import { apiDocWebsite2Data } from '@/data/clinics/api-doc-website-2';
 import { apiDocWebsite3Data } from '@/data/clinics/api-doc-website-3';
 import { Clinic } from '@/types/Clinic';
+
+interface ClinicApiResponse {
+  success: boolean;
+  data?: Clinic;
+  error?: string;
+}
 
 export async function GET(
   request: NextRequest,
@@ -14,14 +19,14 @@ export async function GET(
     const { id } = await params;
     const clinicId = id;
 
-    if (clinicId === '9043890435') {
+    if (clinicId === 'localhost:3000') {
       const response: ClinicApiResponse = {
         success: true,
         data: apiDocWebsite1Data as Clinic,
       };
 
       return NextResponse.json(response, { status: 200 });
-    } else if (clinicId === '9043890123') {
+    } else if (clinicId === 'localhost:3001') {
       const response: ClinicApiResponse = {
         success: true,
         data: apiDocWebsite2Data as Clinic,

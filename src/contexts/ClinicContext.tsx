@@ -8,13 +8,12 @@ import React, {
   useCallback,
   useEffect,
 } from 'react';
-import { Clinic, ClinicTheme } from '@/types/Clinic';
+import { Clinic } from '@/types/Clinic';
 import allClinicsData from '@/data/clinics';
 import {
   validateMandatoryFields,
   ValidationResult,
 } from '@/utils/clinicValidation';
-import { isApiModeEnabled } from '@/services/clinicApi';
 export interface ValidatedClinic {
   clinic: Clinic | null;
   validation: ValidationResult;
@@ -22,12 +21,10 @@ export interface ValidatedClinic {
 }
 
 interface ClinicContextType {
-  clinics: Clinic[];
   getClinicById: (id: string) => Clinic | undefined;
   getValidatedClinic: (id: string) => Promise<ValidatedClinic>;
   isLoading: boolean;
-  theme: ClinicTheme | null;
-  doctorId: string | null;
+  theme: string | null;
   clinicData: Clinic | null;
   clinicValidation: ValidationResult | null;
   apiDataFetched: boolean;
@@ -42,14 +39,12 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({
   const dummyClinics = useMemo(() => allClinicsData as Clinic[], []);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [loadingClinics, setLoadingClinics] = useState<Set<string>>(new Set());
-  const [theme, setTheme] = useState<ClinicTheme | null>(null);
-  const [doctorId, setDoctorId] = useState<string | null>(null);
+  const [theme, setTheme] = useState<string | null>(null); // Template name for redirect
   const [clinicData, setClinicData] = useState<Clinic | null>(null);
   const [clinicValidation, setClinicValidation] =
     useState<ValidationResult | null>(null);
-  const [apiDataFetched, setApiDataFetched] = useState(false); // Track if API fetch is complete
-  const [apiDataInvalid, setApiDataInvalid] = useState(false); // Track if API data failed validation
+  const [apiDataFetched, setApiDataFetched] = useState(false);
+  const [apiDataInvalid, setApiDataInvalid] = useState(false);
 
   useEffect(() => {
     const initializeClinic = async () => {
@@ -68,17 +63,14 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({
         // sessionStorage.setItem('doctorId', envData.doctorId);
 
         // const clinicId = envData.doctorId;
-        const clinicId = process.env.NEXT_PUBLIC_DOCTOR_ID;
+        // const clinicId = process.env.NEXT_PUBLIC_DOCTOR_ID;
+
+        const clinicId = window.location.host;
 
         if (!clinicId) {
-          console.log('No NEXT_PUBLIC_DOCTOR_ID set - using dummy data');
           setApiDataFetched(true);
           return;
         }
-
-        sessionStorage.setItem('doctorId', clinicId);
-
-        setDoctorId(clinicId);
 
         const apiResponse = await fetch(`/api/clinics/${clinicId}`, {
           method: 'GET',
@@ -94,26 +86,27 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({
           console.log('clinic', clinic);
 
           if (clinic) {
+            const clinicTheme =
+              typeof clinic.theme === 'string' ? clinic.theme : 'default';
+            sessionStorage.setItem('clinicTheme', JSON.stringify(clinicTheme));
+            setTheme(clinicTheme);
+
             const validation = validateMandatoryFields(clinic);
             setClinicValidation(validation);
 
             if (validation.isValid) {
               setClinicData(clinic);
               setApiDataInvalid(false);
+              setApiDataFetched(true);
             } else {
               console.error('API clinic data is invalid:', validation.errors);
-              console.warn(
-                '⚠️ API data invalid - showing error UI. NOT using dummy data as fallback.'
-              );
               setClinicData(null);
               setApiDataInvalid(true);
+              setApiDataFetched(true);
             }
-
-            const clinicTheme = clinic.theme || 'default';
-            sessionStorage.setItem('clinicTheme', JSON.stringify(clinicTheme));
-
-            // Apply theme to document
-            applyTheme(clinicTheme);
+          } else {
+            setApiDataFetched(true);
+            setApiDataInvalid(false);
           }
         } else {
           setApiDataFetched(true);
@@ -122,19 +115,14 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({
       } catch (error) {
         console.error('Error initializing clinic:', error);
         setApiDataFetched(true);
+        setApiDataInvalid(false);
       } finally {
         setIsLoading(false);
-        setApiDataFetched(true);
       }
     };
 
     initializeClinic();
   }, []);
-
-  const applyTheme = (clinicTheme: ClinicTheme) => {
-    console.log('Applying theme:', clinicTheme);
-    setTheme(clinicTheme);
-  };
 
   const getClinicById = useCallback(
     (id: string): Clinic | undefined => {
@@ -143,93 +131,9 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({
     [dummyClinics]
   );
 
-  const fetchClinicById = useCallback(
-    async (id: string): Promise<Clinic | null> => {
-      if (!isApiModeEnabled()) {
-        return null;
-      }
-
-      if (loadingClinics.has(id)) {
-        return null;
-      }
-      setLoadingClinics(prev => new Set(prev).add(id));
-      setIsLoading(true);
-      try {
-        // Direct API call (not from router)
-        const response = await fetch(`/api/clinics/${id}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          cache: 'no-store',
-        });
-
-        if (!response.ok) {
-          if (response.status === 404) {
-            return null;
-          }
-          throw new Error(
-            `API error: ${response.status} ${response.statusText}`
-          );
-        }
-
-        const result = await response.json();
-
-        if (result.success && result.data) {
-          return result.data;
-        }
-
-        return null;
-      } catch (error) {
-        console.error(`Error fetching clinic ${id} from API:`, error);
-        return null;
-      } finally {
-        setIsLoading(false);
-
-        setLoadingClinics(prev => {
-          const next = new Set(prev);
-          next.delete(id);
-          return next;
-        });
-      }
-    },
-    [loadingClinics]
-  );
-
   const getValidatedClinic = useCallback(
     async (id: string): Promise<ValidatedClinic> => {
-      let clinic: Clinic | undefined | null = null;
-      let source: 'api' | 'dummy' = 'dummy';
-
-      if (isApiModeEnabled()) {
-        clinic = await fetchClinicById(id);
-
-        if (clinic) {
-          source = 'api';
-          const validation = validateMandatoryFields(clinic);
-
-          if (validation.isValid) {
-            return {
-              clinic,
-              validation,
-              source,
-            };
-          }
-
-          console.error(
-            `API data for clinic ${id} is invalid:`,
-            validation.errors
-          );
-
-          return {
-            clinic: null,
-            validation,
-            source,
-          };
-        }
-      }
-
-      clinic = dummyClinics.find(c => c.id === id);
+      const clinic = getClinicById(id);
       const validation = validateMandatoryFields(clinic);
 
       return {
@@ -238,32 +142,25 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({
         source: 'dummy',
       };
     },
-    [dummyClinics, fetchClinicById]
+    [getClinicById]
   );
-
-  // Return dummy clinics by default (templates can opt-in to API per-template)
-  const clinics = useMemo(() => dummyClinics, [dummyClinics]);
 
   const value = useMemo(
     () => ({
-      clinics,
       getClinicById,
       getValidatedClinic,
       isLoading,
       theme,
-      doctorId,
       clinicData,
       clinicValidation,
       apiDataFetched,
       apiDataInvalid,
     }),
     [
-      clinics,
       getClinicById,
       getValidatedClinic,
       isLoading,
       theme,
-      doctorId,
       clinicData,
       clinicValidation,
       apiDataFetched,

@@ -1,12 +1,12 @@
 export const apiDocWebsite1Data = {
-  id: '9043890435',
+  id: 'localhost:3000',
   name: 'Dr. Priya Sharma',
   tagline: 'Dermatology & Aesthetic Specialist',
   description:
     'Dr. Priya Sharma is a leading dermatologist specializing in skin care, aesthetic treatments, and advanced dermatological procedures with a focus on natural results.',
   logo: 'https://i.ytimg.com/vi/HJS5HvQzofI/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDfXAjo83e9m5lUrEq_RSqtilZyQw',
   hero: {
-    title: 'Your Skin, Our Expertise',
+    title: 'Your Skin, Our Expertise  ',
     subtitle:
       'Dr. Priya Sharma offers comprehensive dermatological care with cutting-edge treatments and personalized skincare solutions for all skin types.',
     backgroundImage: '/images/doctors/doctor-2.webp',
@@ -148,5 +148,5 @@ export const apiDocWebsite1Data = {
     linkedin: 'https://linkedin.com',
     instagram: 'https://instagram.com',
   },
-  theme: 'doc-website-15',
+  theme: 'doc-website-11',
 };
