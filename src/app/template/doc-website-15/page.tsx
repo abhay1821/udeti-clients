@@ -5,22 +5,22 @@ import { Box, Typography } from '@mui/material';
 import HeaderWithLogo from '@/components/headers/HeaderWithLogo';
 import HeaderWithoutLogo from '@/components/headers/HeaderWithoutLogo';
 import DocWebsite15HeroSection from '@/components/templates/docWebsite15/DocWebsite15HeroSection';
-import GridServicesSection from '@/components/services/GridServicesSection';
 import AppointmentBookingSection from '@/components/sections/AppointmentBookingSection';
 import DocWebsite6Footer from '@/components/templates/docWebsite6/DocWebsite6Footer';
 import StandardTestimonialsSection from '@/components/sections/StandardTestimonialsSection';
 import FloatingAppointmentButton from '@/components/ui/FloatingAppointmentButton';
-import { useClinicData } from '@/hooks/useClinicData';
+import { useClinicDataFromContext } from '@/hooks/useClinicDataFromContext';
 import {
   hasLogo,
   hasServices,
   hasTestimonials,
 } from '@/utils/clinicValidation';
 import { CircularProgress } from '@mui/material';
+import GridServicesSection from '@/components/sections/GridServicesSection';
 
 const DocWebsite15TemplatePage = () => {
-  const clinicId = 'doc-website-15';
-  const { clinic, validation, isLoading } = useClinicData(clinicId);
+  const { clinic, validation, isLoading } =
+    useClinicDataFromContext('doc-website-15');
 
   const components = useMemo(() => {
     if (!clinic) return [];

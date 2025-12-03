@@ -5,13 +5,13 @@ import { Box, Typography } from '@mui/material';
 import HeaderWithLogo from '@/components/headers/HeaderWithLogo';
 import HeaderWithoutLogo from '@/components/headers/HeaderWithoutLogo';
 import DocWebsite13HeroSection from '@/components/templates/docWebsite13/DocWebsite13HeroSection';
-import StandardServicesSection from '@/components/services/StandardServicesSection';
+import StandardServicesSection from '@/components/sections/StandardServicesSection';
 import StandardTestimonialsSection from '@/components/sections/StandardTestimonialsSection';
 import DocWebsite6Footer from '@/components/templates/docWebsite6/DocWebsite6Footer';
 import DocWebsite8AboutSection from '@/components/templates/docWebsite8/DocWebsite8AboutSection';
 import AppointmentBookingSection from '@/components/sections/AppointmentBookingSection';
 import FloatingAppointmentButton from '@/components/ui/FloatingAppointmentButton';
-import { useClinicData } from '@/hooks/useClinicData';
+import { useClinicDataFromContext } from '@/hooks/useClinicDataFromContext';
 import {
   hasLogo,
   hasServices,
@@ -21,10 +21,9 @@ import {
 import { CircularProgress } from '@mui/material';
 
 const DocWebsite13TemplatePage = () => {
-  const clinicId = 'doc-website-13';
-  const { clinic, validation, isLoading } = useClinicData(clinicId);
+  const { clinic, validation, isLoading } =
+    useClinicDataFromContext('doc-website-13');
 
-  // Call useMemo BEFORE any conditional returns to follow Rules of Hooks
   const components = useMemo(() => {
     if (!clinic) return [];
     return [

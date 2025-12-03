@@ -6,6 +6,7 @@ import React, {
   useState,
   useMemo,
   useCallback,
+  useEffect,
 } from 'react';
 import { Clinic } from '@/types/Clinic';
 import allClinicsData from '@/data/clinics';
@@ -13,8 +14,7 @@ import {
   validateMandatoryFields,
   ValidationResult,
 } from '@/utils/clinicValidation';
-import { fetchClinicFromApi, isApiModeEnabled } from '@/services/clinicApi';
-
+import axiosInstance from '@/lib/axios';
 export interface ValidatedClinic {
   clinic: Clinic | null;
   validation: ValidationResult;
@@ -22,10 +22,14 @@ export interface ValidatedClinic {
 }
 
 interface ClinicContextType {
-  clinics: Clinic[];
   getClinicById: (id: string) => Clinic | undefined;
   getValidatedClinic: (id: string) => Promise<ValidatedClinic>;
   isLoading: boolean;
+  theme: string | null;
+  clinicData: Clinic | null;
+  clinicValidation: ValidationResult | null;
+  apiDataFetched: boolean;
+  apiDataInvalid: boolean;
 }
 
 const ClinicContext = createContext<ClinicContextType | undefined>(undefined);
@@ -36,7 +40,86 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({
   const dummyClinics = useMemo(() => allClinicsData as Clinic[], []);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [loadingClinics, setLoadingClinics] = useState<Set<string>>(new Set());
+  const [theme, setTheme] = useState<string | null>(null); // Template name for redirect
+  const [clinicData, setClinicData] = useState<Clinic | null>(null);
+  const [clinicValidation, setClinicValidation] =
+    useState<ValidationResult | null>(null);
+  const [apiDataFetched, setApiDataFetched] = useState(false);
+  const [apiDataInvalid, setApiDataInvalid] = useState(false);
+
+  useEffect(() => {
+    const initializeClinic = async () => {
+      try {
+        setIsLoading(true);
+        // sessionStorage.removeItem('clinicConfig');
+        // sessionStorage.removeItem('doctorId');
+        // const envResponse = await fetch('/assets/environment.json');
+        // if (!envResponse.ok) {
+        //   setApiDataFetched(true);
+        //   throw new Error('Failed to fetch environment config');
+        // }
+        // const envData = await envResponse.json();
+
+        // sessionStorage.setItem('clinicConfig', JSON.stringify(envData));
+        // sessionStorage.setItem('doctorId', envData.doctorId);
+
+        // const clinicId = envData.doctorId;
+        // const clinicId = process.env.NEXT_PUBLIC_DOCTOR_ID;
+
+        const clinicId = window.location.host;
+
+        if (!clinicId) {
+          setApiDataFetched(true);
+          return;
+        }
+
+        const apiResponse = await axiosInstance.get(
+          `/api/clinics/${clinicId}`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+
+        const result = apiResponse.data;
+        const clinic = result.data;
+        console.log('clinic', clinic);
+
+        if (clinic) {
+          const clinicTheme =
+            typeof clinic.theme === 'string' ? clinic.theme : 'default';
+          sessionStorage.setItem('clinicTheme', JSON.stringify(clinicTheme));
+          setTheme(clinicTheme);
+
+          const validation = validateMandatoryFields(clinic);
+          setClinicValidation(validation);
+
+          if (validation.isValid) {
+            setClinicData(clinic);
+            setApiDataInvalid(false);
+            setApiDataFetched(true);
+          } else {
+            console.error('API clinic data is invalid:', validation.errors);
+            setClinicData(null);
+            setApiDataInvalid(true);
+            setApiDataFetched(true);
+          }
+        } else {
+          setApiDataFetched(true);
+          setApiDataInvalid(false);
+        }
+      } catch (error) {
+        console.error('Error initializing clinic:', error);
+        setApiDataFetched(true);
+        setApiDataInvalid(false);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initializeClinic();
+  }, []);
 
   const getClinicById = useCallback(
     (id: string): Clinic | undefined => {
@@ -45,69 +128,9 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({
     [dummyClinics]
   );
 
-  const fetchClinicById = useCallback(
-    async (id: string): Promise<Clinic | null> => {
-      if (!isApiModeEnabled()) {
-        return null;
-      }
-
-      if (loadingClinics.has(id)) {
-        return null;
-      }
-      setLoadingClinics(prev => new Set(prev).add(id));
-      setIsLoading(true);
-      try {
-        const clinic = await fetchClinicFromApi(id);
-        return clinic;
-      } catch (error) {
-        console.error(`Error fetching clinic ${id} from API:`, error);
-        return null;
-      } finally {
-        setIsLoading(false);
-        setLoadingClinics(prev => {
-          const next = new Set(prev);
-          next.delete(id);
-          return next;
-        });
-      }
-    },
-    [loadingClinics]
-  );
-
   const getValidatedClinic = useCallback(
     async (id: string): Promise<ValidatedClinic> => {
-      let clinic: Clinic | undefined | null = null;
-      let source: 'api' | 'dummy' = 'dummy';
-
-      if (isApiModeEnabled()) {
-        clinic = await fetchClinicById(id);
-
-        if (clinic) {
-          source = 'api';
-          const validation = validateMandatoryFields(clinic);
-
-          if (validation.isValid) {
-            return {
-              clinic,
-              validation,
-              source,
-            };
-          }
-
-          console.error(
-            `API data for clinic ${id} is invalid:`,
-            validation.errors
-          );
-
-          return {
-            clinic: null,
-            validation,
-            source,
-          };
-        }
-      }
-
-      clinic = dummyClinics.find(c => c.id === id);
+      const clinic = getClinicById(id);
       const validation = validateMandatoryFields(clinic);
 
       return {
@@ -116,20 +139,30 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({
         source: 'dummy',
       };
     },
-    [dummyClinics, fetchClinicById]
+    [getClinicById]
   );
-
-  // Return dummy clinics by default (templates can opt-in to API per-template)
-  const clinics = useMemo(() => dummyClinics, [dummyClinics]);
 
   const value = useMemo(
     () => ({
-      clinics,
       getClinicById,
       getValidatedClinic,
       isLoading,
+      theme,
+      clinicData,
+      clinicValidation,
+      apiDataFetched,
+      apiDataInvalid,
     }),
-    [clinics, getClinicById, getValidatedClinic, isLoading]
+    [
+      getClinicById,
+      getValidatedClinic,
+      isLoading,
+      theme,
+      clinicData,
+      clinicValidation,
+      apiDataFetched,
+      apiDataInvalid,
+    ]
   );
 
   return (

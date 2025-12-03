@@ -1,37 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
+import { sessionStore } from '@/lib/sessionStore';
+import { getTokenExpiration } from '@/utils/tokenValidation';
 
 export type AbdmSession = {
   accessToken: string;
-  expiresIn: number;
   tokenType: string;
-  createdAt: number;
 };
 
-const ABDM_SESSION_COOKIE = 'abdm_session';
+const ABDM_SESSION_COOKIE = 'abdm_session_id';
 
-export async function POST(request: NextRequest) {
+export async function POST() {
   try {
-    const existingSessionCookie = request.cookies.get(ABDM_SESSION_COOKIE);
-
-    if (existingSessionCookie?.value) {
-      try {
-        const session: AbdmSession = JSON.parse(existingSessionCookie.value);
-        const now = Date.now();
-        const expiresAt = session.createdAt + session.expiresIn * 1000;
-
-        if (expiresAt - now > 60000) {
-          return NextResponse.json({
-            success: true,
-            session,
-            fromCache: true,
-          });
-        }
-      } catch {
-        // Ignore parsing errors
-      }
-    }
-
     const endPoint =
       process.env.ABDM_ENDPOINT || process.env.NEXT_PUBLIC_ABDM_ENDPOINT;
     const clientId =
@@ -90,6 +70,7 @@ export async function POST(request: NextRequest) {
     }
 
     const data = await response.json();
+
     if (!data?.accessToken) {
       return NextResponse.json(
         {
@@ -99,34 +80,42 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
+    const sessionId = uuidv4();
 
-    const session: AbdmSession = {
+    const expiresAt = getTokenExpiration(data.accessToken);
+
+    if (!expiresAt) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Failed to decode token expiration time',
+        },
+        { status: 500 }
+      );
+    }
+
+    sessionStore.set(sessionId, {
       accessToken: data.accessToken,
-      expiresIn: data.expiresIn ?? 1200,
       tokenType: data.tokenType ?? 'bearer',
+      expiresAt,
       createdAt: Date.now(),
-    };
-
-    const expiresAt = new Date(session.createdAt + session.expiresIn * 1000);
+    });
 
     const response_data = NextResponse.json({
       success: true,
-      session: {
-        expiresIn: session.expiresIn,
-        tokenType: session.tokenType,
-        createdAt: session.createdAt,
-      },
-      fromCache: false,
+      token: data.accessToken,
+      tokenType: data.tokenType ?? 'bearer',
+      sessionId,
+      data,
     });
 
     response_data.cookies.set({
       name: ABDM_SESSION_COOKIE,
-      value: JSON.stringify(session),
+      value: sessionId,
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      expires: expiresAt,
+      sameSite: 'strict',
       path: '/',
+      expires: new Date(expiresAt),
     });
 
     return response_data;
@@ -145,57 +134,26 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET(request: NextRequest) {
+export async function DELETE(request: NextRequest) {
   try {
-    const sessionCookie = request.cookies.get(ABDM_SESSION_COOKIE);
+    const sessionId = request.cookies.get(ABDM_SESSION_COOKIE)?.value;
 
-    if (!sessionCookie?.value) {
-      return NextResponse.json({
-        success: false,
-        session: null,
-      });
+    if (sessionId) {
+      sessionStore.delete(sessionId);
     }
 
-    try {
-      const session: AbdmSession = JSON.parse(sessionCookie.value);
-
-      const now = Date.now();
-      const expiresAt = session.createdAt + session.expiresIn * 1000;
-
-      if (expiresAt - now > 60000) {
-        return NextResponse.json({
-          success: true,
-          session: {
-            expiresIn: session.expiresIn,
-            tokenType: session.tokenType,
-            createdAt: session.createdAt,
-          },
-        });
-      }
-
-      return NextResponse.json({
-        success: false,
-        session: null,
-      });
-    } catch {
-      return NextResponse.json({
-        success: false,
-        session: null,
-      });
-    }
+    const response = NextResponse.json({ success: true });
+    response.cookies.delete(ABDM_SESSION_COOKIE);
+    return response;
   } catch (error) {
+    console.error('Error during session deletion:', error);
     return NextResponse.json(
       {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to get session',
+        error:
+          error instanceof Error ? error.message : 'Failed to delete session',
       },
       { status: 500 }
     );
   }
-}
-
-export async function DELETE() {
-  const response = NextResponse.json({ success: true });
-  response.cookies.delete(ABDM_SESSION_COOKIE);
-  return response;
 }

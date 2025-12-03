@@ -10,7 +10,7 @@ import DocWebsite6Footer from '@/components/templates/docWebsite6/DocWebsite6Foo
 import DocWebsite8AboutSection from '@/components/templates/docWebsite8/DocWebsite8AboutSection';
 import DocWebsite12AppointmentSection from '@/components/templates/docWebsite12/DocWebsite12AppointmentSection';
 import DocWebsite12HeroSection from '@/components/templates/docWebsite12/DocWebsite12HeroSection';
-import { useClinicData } from '@/hooks/useClinicData';
+import { useClinicDataFromContext } from '@/hooks/useClinicDataFromContext';
 import {
   hasLogo,
   hasServices,
@@ -20,8 +20,8 @@ import {
 import { CircularProgress } from '@mui/material';
 
 const DocWebsite12TemplatePage = () => {
-  const clinicId = 'doc-website-12';
-  const { clinic, validation, isLoading } = useClinicData(clinicId);
+  const { clinic, validation, isLoading } =
+    useClinicDataFromContext('doc-website-12');
 
   // Call useMemo BEFORE any conditional returns to follow Rules of Hooks
   const components = useMemo(() => {
@@ -36,7 +36,7 @@ const DocWebsite12TemplatePage = () => {
       hasServices(clinic) && (
         <Box key="services" sx={{ mt: { xs: '100px', sm: '70px' } }}>
           <ServicesSection
-            clinicId={clinicId}
+            clinicId={clinic.id || 'doc-website-12'}
             title="Our Services"
             subtitle="Comprehensive dental care services for the whole family with advanced techniques and personalized treatment"
           />
@@ -51,7 +51,7 @@ const DocWebsite12TemplatePage = () => {
       ),
       <DocWebsite6Footer key="footer" clinic={clinic} />,
     ].filter(Boolean);
-  }, [clinic, clinicId]);
+  }, [clinic]);
 
   if (isLoading) {
     return (

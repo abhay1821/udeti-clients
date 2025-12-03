@@ -48,23 +48,17 @@ const ClinicGallery: React.FC<ClinicGalleryProps> = ({
 
   const handlePrevious = () => {
     setImageLoading(true);
-    setCurrentImage((prev) => (prev === 0 ? galleryImages.length - 1 : prev - 1));
+    setCurrentImage(prev => (prev === 0 ? galleryImages.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
     setImageLoading(true);
-    setCurrentImage((prev) => (prev === galleryImages.length - 1 ? 0 : prev + 1));
-  };
-
-  const handleThumbnailClick = (index: number) => {
-    setImageLoading(true);
-    setCurrentImage(index);
+    setCurrentImage(prev => (prev === galleryImages.length - 1 ? 0 : prev + 1));
   };
 
   const handleDotClick = (index: number) => {
     setCurrentImage(index);
   };
-
 
   if (galleryImages.length === 0) {
     return null;
@@ -90,8 +84,8 @@ const ClinicGallery: React.FC<ClinicGalleryProps> = ({
           <Typography
             variant="h6"
             color="text.secondary"
-            sx={{ 
-              maxWidth: '600px', 
+            sx={{
+              maxWidth: '600px',
               mx: 'auto',
               fontSize: { xs: '1rem', md: '1.1rem' },
             }}
@@ -139,11 +133,17 @@ const ClinicGallery: React.FC<ClinicGalleryProps> = ({
                 opacity: imageLoading ? 0 : 1,
               }}
               onLoad={() => {
-                console.log('Image loaded successfully:', galleryImages[currentImage]);
+                console.log(
+                  'Image loaded successfully:',
+                  galleryImages[currentImage]
+                );
                 setImageLoading(false);
               }}
-              onError={(e) => {
-                console.error('Image failed to load:', galleryImages[currentImage]);
+              onError={e => {
+                console.error(
+                  'Image failed to load:',
+                  galleryImages[currentImage]
+                );
                 setImageLoading(false);
                 // Set a fallback image
                 e.currentTarget.src = clinicGalleryImages[0];
@@ -153,7 +153,6 @@ const ClinicGallery: React.FC<ClinicGalleryProps> = ({
             {/* Navigation Arrows - Overlaid on image */}
             <IconButton
               onClick={handlePrevious}
-              
               sx={{
                 position: 'absolute',
                 left: 16,
@@ -193,10 +192,10 @@ const ClinicGallery: React.FC<ClinicGalleryProps> = ({
             </IconButton>
           </Box>
 
-        
-
           {/* Indicator Dots */}
-          <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1, mt: 2 }}>
+          <Box
+            sx={{ display: 'flex', justifyContent: 'center', gap: 1, mt: 2 }}
+          >
             {galleryImages.map((_: string, index: number) => (
               <Box
                 key={index}
@@ -205,13 +204,15 @@ const ClinicGallery: React.FC<ClinicGalleryProps> = ({
                   width: { xs: 8, sm: 10 },
                   height: { xs: 8, sm: 10 },
                   borderRadius: '50%',
-                  backgroundColor: index === currentImage
-                    ? (clinic?.primaryColor || theme.palette.primary.main)
-                    : '#ddd',
+                  backgroundColor:
+                    index === currentImage
+                      ? clinic?.primaryColor || theme.palette.primary.main
+                      : '#ddd',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
                   '&:hover': {
-                    backgroundColor: clinic?.primaryColor || theme.palette.primary.main,
+                    backgroundColor:
+                      clinic?.primaryColor || theme.palette.primary.main,
                     opacity: 0.7,
                   },
                 }}

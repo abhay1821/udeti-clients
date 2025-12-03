@@ -221,12 +221,25 @@ export const DocWebsite11AppointmentSection: React.FC<
                         }))
                       }
                       required
+                      disabled={
+                        !clinic.services ||
+                        !Array.isArray(clinic.services) ||
+                        clinic.services.length === 0
+                      }
                     >
-                      {clinic.services.map(service => (
-                        <MenuItem key={service.id} value={service.id}>
-                          {service.title}
+                      {clinic.services &&
+                      Array.isArray(clinic.services) &&
+                      clinic.services.length > 0 ? (
+                        clinic.services.map(service => (
+                          <MenuItem key={service.id} value={service.id}>
+                            {service.title}
+                          </MenuItem>
+                        ))
+                      ) : (
+                        <MenuItem value="" disabled>
+                          No services available
                         </MenuItem>
-                      ))}
+                      )}
                     </TextField>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                       <Box

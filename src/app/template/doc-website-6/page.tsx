@@ -4,13 +4,13 @@ import React, { useMemo } from 'react';
 import { Box, Typography } from '@mui/material';
 import HeaderWithLogo from '@/components/headers/HeaderWithLogo';
 import HeaderWithoutLogo from '@/components/headers/HeaderWithoutLogo';
-import StandardServicesSection from '@/components/services/StandardServicesSection';
+import StandardServicesSection from '@/components/sections/StandardServicesSection';
 import DocWebsite6HeroSection from '@/components/templates/docWebsite6/DocWebsite6HeroSection';
 import DocWebsite6AboutSection from '@/components/templates/docWebsite6/DocWebsite6AboutSection';
 import DocWebsite6AppointmentSection from '@/components/templates/docWebsite6/DocWebsite6AppointmentSection';
 import DocWebsite6TestimonialsSection from '@/components/templates/docWebsite6/DocWebsite6TestimonialsSection';
 import DocWebsite6Footer from '@/components/templates/docWebsite6/DocWebsite6Footer';
-import { useClinicData } from '@/hooks/useClinicData';
+import { useClinicDataFromContext } from '@/hooks/useClinicDataFromContext';
 import {
   hasLogo,
   hasServices,
@@ -20,8 +20,8 @@ import {
 import { CircularProgress } from '@mui/material';
 
 const DocWebsite6TemplatePage = () => {
-  const clinicId = 'doc-website-6';
-  const { clinic, validation, isLoading } = useClinicData(clinicId);
+  const { clinic, validation, isLoading } =
+    useClinicDataFromContext('doc-website-6');
 
   // Call useMemo BEFORE any conditional returns to follow Rules of Hooks
   const components = useMemo(() => {

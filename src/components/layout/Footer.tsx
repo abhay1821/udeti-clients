@@ -21,6 +21,7 @@ import {
 } from '@mui/icons-material';
 import { useClinic } from '@/contexts/ClinicContext';
 import { getFooterBackgroundColor } from '@/lib/theme';
+import { useClinicTheme } from '@/hooks/useClinicTheme';
 
 interface FooterProps {
   clinicId?: string;
@@ -29,6 +30,7 @@ interface FooterProps {
 const Footer: React.FC<FooterProps> = ({ clinicId }) => {
   const { getClinicById } = useClinic();
   const clinic = clinicId ? getClinicById(clinicId) : null;
+  const theme = useClinicTheme(clinicId || clinic?.id || 'default');
 
   const socialIcons = [
     { icon: Facebook, href: clinic?.social?.facebook, label: 'Facebook' },
@@ -79,7 +81,6 @@ const Footer: React.FC<FooterProps> = ({ clinicId }) => {
               {clinic?.description || 'Providing quality healthcare services'}
             </Typography>
 
-            {/* Social Media Icons */}
             <Box sx={{ display: 'flex', gap: 1.5 }}>
               {socialIcons.map(({ icon: Icon, href, label }) => (
                 <IconButton
@@ -97,7 +98,7 @@ const Footer: React.FC<FooterProps> = ({ clinicId }) => {
                     height: 36,
                     '&:hover': {
                       color: 'white',
-                      backgroundColor: clinic?.primaryColor || 'primary.main',
+                      backgroundColor: theme?.primaryColor || 'primary.main',
                       transform: 'scale(1.1)',
                     },
                     transition: 'all 0.3s ease',

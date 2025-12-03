@@ -23,8 +23,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   clinicId,
   customTitle,
   customSubtitle,
-  customCtaText,
-  customCtaLink,
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));

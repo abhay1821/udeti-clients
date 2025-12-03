@@ -11,16 +11,18 @@ export const getClinicTheme = (clinic: Clinic | null): ClinicTheme => {
     };
   }
 
+  const themeObj = typeof clinic.theme === 'object' ? clinic.theme : null;
+
   return {
-    heroBackground: clinic.theme?.heroBackground || clinic.primaryColor,
+    heroBackground: themeObj?.heroBackground || clinic.primaryColor,
     primaryColor: clinic.primaryColor,
     secondaryColor: clinic.secondaryColor,
-    textColor: clinic.theme?.textColor || 'white',
-    accentColor: clinic.theme?.accentColor || clinic.secondaryColor,
-    buttonColor: clinic.theme?.buttonColor || '#424242',
-    footerBackground: clinic.theme?.footerBackground || clinic.primaryColor,
-    labelColor: clinic.theme?.labelColor || clinic.secondaryColor,
-    brownAccent: clinic.theme?.brownAccent || '#BF8360',
+    textColor: themeObj?.textColor || 'white',
+    accentColor: themeObj?.accentColor || clinic.secondaryColor,
+    buttonColor: themeObj?.buttonColor || '#424242',
+    footerBackground: themeObj?.footerBackground || clinic.primaryColor,
+    labelColor: themeObj?.labelColor || clinic.secondaryColor,
+    brownAccent: themeObj?.brownAccent || '#BF8360',
     componentBackground:
       (clinic as { componentBackground?: string }).componentBackground ||
       clinic.primaryColor,

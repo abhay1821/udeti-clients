@@ -167,6 +167,20 @@ const DocWebsite10HeroSectionComponent: React.FC<
               component="img"
               src={doctorCard?.image || clinic.hero.backgroundImage}
               alt={doctorCard?.name || clinic.name}
+              onError={e => {
+                console.error(
+                  'Failed to load doctor image:',
+                  doctorCard?.image || clinic.hero.backgroundImage
+                );
+                // Fallback to a placeholder or hide
+                e.currentTarget.style.display = 'none';
+              }}
+              onLoad={() => {
+                console.log(
+                  'Doctor image loaded successfully:',
+                  doctorCard?.image || clinic.hero.backgroundImage
+                );
+              }}
               sx={{
                 width: { xs: 90, md: 110, lg: 130, xl: 150 },
                 height: { xs: 90, md: 110, lg: 130, xl: 150 },

@@ -1,20 +1,12 @@
+import { clearTokenCache } from '@/lib/axios';
 export type AbdmSession = {
   accessToken?: string;
-  expiresIn: number;
   tokenType: string;
-  createdAt: number;
-};
-
-type AuthResponse = {
-  success: boolean;
-  session: AbdmSession | null;
-  fromCache?: boolean;
-  error?: string;
 };
 
 export const getStoredSession = async (): Promise<AbdmSession | null> => {
   try {
-    const response = await fetch('/api/abdm/auth', {
+    const response = await fetch('/api/auth/token', {
       method: 'GET',
       credentials: 'include',
     });
@@ -23,10 +15,13 @@ export const getStoredSession = async (): Promise<AbdmSession | null> => {
       return null;
     }
 
-    const data: AuthResponse = await response.json();
+    const data = await response.json();
 
-    if (data.success && data.session) {
-      return data.session;
+    if (data.success && data.token) {
+      return {
+        accessToken: data.token,
+        tokenType: data.tokenType || 'bearer',
+      };
     }
 
     return null;
@@ -38,7 +33,7 @@ export const getStoredSession = async (): Promise<AbdmSession | null> => {
 
 export const handleAuth = async (): Promise<AbdmSession | null> => {
   try {
-    const response = await fetch('/api/abdm/auth', {
+    const authResponse = await fetch('/api/abdm/auth', {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -46,18 +41,21 @@ export const handleAuth = async (): Promise<AbdmSession | null> => {
       },
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
+    if (!authResponse.ok) {
+      const errorData = await authResponse.json();
       throw new Error(errorData.error || 'Authentication failed');
     }
 
-    const data: AuthResponse = await response.json();
+    const authData = await authResponse.json();
 
-    if (data.success && data.session) {
-      return data.session;
+    if (!authData.success || !authData.token) {
+      throw new Error(authData.error || 'Authentication failed');
     }
 
-    throw new Error(data.error || 'Authentication failed');
+    return {
+      accessToken: authData.token,
+      tokenType: authData.tokenType || 'bearer',
+    };
   } catch (error) {
     console.error('Error during ABDM authentication:', error);
     throw error;
@@ -66,6 +64,10 @@ export const handleAuth = async (): Promise<AbdmSession | null> => {
 
 export const clearSession = async (): Promise<void> => {
   try {
+    // Clear client-side token cache
+    clearTokenCache();
+
+    // Clear server-side session
     await fetch('/api/abdm/auth', {
       method: 'DELETE',
       credentials: 'include',

@@ -13,6 +13,9 @@ import { docWebsite12Data } from './doc-website-12';
 import { docWebsite13Data } from './doc-website-13';
 import { docWebsite14Data } from './doc-website-14';
 import { docWebsite15Data } from './doc-website-15';
+import { apiDocWebsite1Data } from './api-doc-website-1';
+import { apiDocWebsite2Data } from './api-doc-website-2';
+import { apiDocWebsite3Data } from './api-doc-website-3';
 
 export const allClinicsData = [
   udetiWebsiteData,
@@ -30,6 +33,9 @@ export const allClinicsData = [
   docWebsite13Data,
   docWebsite14Data,
   docWebsite15Data,
+  apiDocWebsite1Data,
+  apiDocWebsite2Data,
+  apiDocWebsite3Data,
 ];
 
 export {
@@ -48,4 +54,7 @@ export {
   docWebsite13Data,
   docWebsite14Data,
   docWebsite15Data,
+  apiDocWebsite1Data,
+  apiDocWebsite2Data,
+  apiDocWebsite3Data,
 };

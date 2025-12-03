@@ -80,6 +80,14 @@ const StandardGallerySectionComponent: React.FC<
               component="img"
               src={image}
               alt={`Clinic gallery ${index + 1}`}
+              onError={e => {
+                console.error('Failed to load image:', image);
+                // Set a placeholder or hide the image
+                e.currentTarget.style.display = 'none';
+              }}
+              onLoad={() => {
+                console.log('Image loaded successfully:', image);
+              }}
               sx={{
                 width: '100%',
                 height: { xs: 200, sm: 250, md: 300, lg: 350 },
