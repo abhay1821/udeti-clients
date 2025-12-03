@@ -10,6 +10,7 @@ import TestimonialsSection from '@/components/sections/TestimonialsSection';
 import ContactSection from '@/components/sections/ContactSection';
 import { useClinic } from '@/contexts/ClinicContext';
 import { useClinicTheme } from '@/hooks/useClinicTheme';
+import NotFound from '@/app/not-found';
 // import { useAbdmAuth } from '@/hooks/useAbdmAuth';
 // import LoadingSpinner from '@/components/ui/LoadingSpinner';
 
@@ -51,16 +52,17 @@ export default function TemplatePage() {
 
   if (!clinic) {
     return (
-      <Layout>
-        <Container maxWidth="lg" sx={{ py: 8, textAlign: 'center' }}>
-          <Typography variant="h4" color="error">
-            Template not found
-          </Typography>
-          <Typography variant="body1" sx={{ mt: 2 }}>
-            The requested template does not exist.
-          </Typography>
-        </Container>
-      </Layout>
+      // <Layout>
+      //   <Container maxWidth="lg" sx={{ py: 8, textAlign: 'center' }}>
+      //     <Typography variant="h4" color="error">
+      //       Template not found
+      //     </Typography>
+      //     <Typography variant="body1" sx={{ mt: 2 }}>
+      //       The requested template does not exist.
+      //     </Typography>
+      //   </Container>
+      // </Layout>
+      <NotFound />
     );
   }
 

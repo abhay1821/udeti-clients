@@ -2,7 +2,7 @@
 
 import React, { useMemo } from 'react';
 import { Box, Typography } from '@mui/material';
-import { useClinicData } from '@/hooks/useClinicData';
+import { useClinicDataFromContext } from '@/hooks/useClinicDataFromContext';
 import HeaderWithLogo from '@/components/headers/HeaderWithLogo';
 import HeaderWithoutLogo from '@/components/headers/HeaderWithoutLogo';
 import StandardAboutSection from '@/components/sections/StandardAboutSection';
@@ -20,8 +20,8 @@ import {
 import { CircularProgress } from '@mui/material';
 
 const DocWebsite10TemplatePage = () => {
-  const clinicId = 'doc-website-10';
-  const { clinic, validation, isLoading } = useClinicData(clinicId);
+  const { clinic, validation, isLoading } =
+    useClinicDataFromContext('doc-website-10');
 
   // Call useMemo BEFORE any conditional returns to follow Rules of Hooks
   const components = useMemo(() => {

@@ -1,7 +1,7 @@
 'use client';
 
 import { useClinic } from '@/contexts/ClinicContext';
-import { useClinicData } from './useClinicData';
+import { validateMandatoryFields } from '@/utils/clinicValidation';
 
 export const useClinicDataFromContext = (templateName: string) => {
   const {
@@ -10,6 +10,7 @@ export const useClinicDataFromContext = (templateName: string) => {
     isLoading: contextLoading,
     apiDataFetched,
     apiDataInvalid,
+    getClinicById,
   } = useClinic();
 
   const apiTheme =
@@ -28,19 +29,19 @@ export const useClinicDataFromContext = (templateName: string) => {
   const shouldFetchDummy =
     !hasValidApiData && !shouldShowError && apiDataFetched;
 
-  const {
-    clinic: dummyClinic,
-    validation: dummyValidation,
-    isLoading: dummyLoading,
-  } = useClinicData(shouldFetchDummy ? templateName : '');
+  // Get dummy clinic directly from context using getClinicById
+  const dummyClinic = shouldFetchDummy
+    ? getClinicById(templateName)
+    : undefined;
+  const dummyValidation = dummyClinic
+    ? validateMandatoryFields(dummyClinic)
+    : { isValid: false, errors: [] };
 
   const isLoading =
-    contextLoading ||
-    (!apiDataFetched && apiThemeMatchesTemplate) ||
-    (!hasValidApiData && !shouldShowError && shouldFetchDummy && dummyLoading);
+    contextLoading || (!apiDataFetched && apiThemeMatchesTemplate);
 
   if (shouldShowError) {
-    console.warn('🚨 API data invalid - showing error instead of dummy data:', {
+    console.warn(' API data invalid - showing error instead of dummy data:', {
       shouldShowError,
       apiDataFetched,
       apiDataInvalid,
@@ -63,7 +64,7 @@ export const useClinicDataFromContext = (templateName: string) => {
     clinic: hasValidApiData
       ? clinicData
       : shouldFetchDummy
-        ? dummyClinic
+        ? dummyClinic || null
         : null,
     validation: hasValidApiData
       ? clinicValidation || { isValid: false, errors: [] }

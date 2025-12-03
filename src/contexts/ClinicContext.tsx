@@ -14,6 +14,7 @@ import {
   validateMandatoryFields,
   ValidationResult,
 } from '@/utils/clinicValidation';
+import axiosInstance from '@/lib/axios';
 export interface ValidatedClinic {
   clinic: Clinic | null;
   validation: ValidationResult;
@@ -72,41 +73,37 @@ export const ClinicProvider: React.FC<{ children: React.ReactNode }> = ({
           return;
         }
 
-        const apiResponse = await fetch(`/api/clinics/${clinicId}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          cache: 'no-store',
-        });
+        const apiResponse = await axiosInstance.get(
+          `/api/clinics/${clinicId}`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
 
-        if (apiResponse.ok) {
-          const result = await apiResponse.json();
-          const clinic = result.data;
-          console.log('clinic', clinic);
+        const result = apiResponse.data;
+        const clinic = result.data;
+        console.log('clinic', clinic);
 
-          if (clinic) {
-            const clinicTheme =
-              typeof clinic.theme === 'string' ? clinic.theme : 'default';
-            sessionStorage.setItem('clinicTheme', JSON.stringify(clinicTheme));
-            setTheme(clinicTheme);
+        if (clinic) {
+          const clinicTheme =
+            typeof clinic.theme === 'string' ? clinic.theme : 'default';
+          sessionStorage.setItem('clinicTheme', JSON.stringify(clinicTheme));
+          setTheme(clinicTheme);
 
-            const validation = validateMandatoryFields(clinic);
-            setClinicValidation(validation);
+          const validation = validateMandatoryFields(clinic);
+          setClinicValidation(validation);
 
-            if (validation.isValid) {
-              setClinicData(clinic);
-              setApiDataInvalid(false);
-              setApiDataFetched(true);
-            } else {
-              console.error('API clinic data is invalid:', validation.errors);
-              setClinicData(null);
-              setApiDataInvalid(true);
-              setApiDataFetched(true);
-            }
-          } else {
-            setApiDataFetched(true);
+          if (validation.isValid) {
+            setClinicData(clinic);
             setApiDataInvalid(false);
+            setApiDataFetched(true);
+          } else {
+            console.error('API clinic data is invalid:', validation.errors);
+            setClinicData(null);
+            setApiDataInvalid(true);
+            setApiDataFetched(true);
           }
         } else {
           setApiDataFetched(true);

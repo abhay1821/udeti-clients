@@ -33,7 +33,9 @@ export async function GET(
       };
 
       return NextResponse.json(response, { status: 200 });
-    } else if (clinicId === '9043890431') {
+    } else if (
+      clinicId === 'udeti-clients-hcloak2rj-abhay1821s-projects.vercel.app'
+    ) {
       const response: ClinicApiResponse = {
         success: true,
         data: apiDocWebsite3Data as Clinic,

@@ -10,7 +10,7 @@ import GridServicesSection from '@/components/sections/GridServicesSection';
 import DocWebsite9AppointmentSection from '@/components/templates/docWebsite9/DocWebsite9AppointmentSection';
 import StandardTestimonialsSection from '@/components/sections/StandardTestimonialsSection';
 import DocWebsite9Footer from '@/components/templates/docWebsite9/DocWebsite9Footer';
-import { useClinicData } from '@/hooks/useClinicData';
+import { useClinicDataFromContext } from '@/hooks/useClinicDataFromContext';
 import {
   hasLogo,
   hasServices,
@@ -20,8 +20,8 @@ import {
 import { CircularProgress } from '@mui/material';
 
 const DocWebsite9TemplatePage = () => {
-  const clinicId = 'doc-website-9';
-  const { clinic, validation, isLoading } = useClinicData(clinicId);
+  const { clinic, validation, isLoading } =
+    useClinicDataFromContext('doc-website-9');
 
   // Call useMemo BEFORE any conditional returns to follow Rules of Hooks
   const components = useMemo(() => {
